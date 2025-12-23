@@ -81,15 +81,15 @@ public class SampleAutoPathing extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(20.919605077574047, 121.8617771509168, Math.toRadians(144));
-    private final Pose shootPose = new Pose(48.13540197461213, 95.2552891396333, Math.toRadians(135));
+    private final Pose shootPose = new Pose(48.13540197461213, 95.2552891396333, Math.toRadians(130));
     private final Pose lineIntake1Pose = new Pose(47.93229901269393, 83.88152327221438, Math.toRadians(0));
     private final Pose intake1Pose = new Pose(14.82651622002821, 83.88152327221438, Math.toRadians(0));
     private final Pose lineIntake2Pose = new Pose(48.33850493653032, 67.22708039492244, Math.toRadians(15));
     private final Pose intake2Pose = new Pose(8.32722143864598, 53.41607898448519, Math.toRadians(0));
-    private final Pose shootPose2 = new Pose(48.54160789844852, 58.89985895627645, Math.toRadians(135));
+    private final Pose shootPose2 = new Pose(48.54160789844852, 58.89985895627645, Math.toRadians(130));
     private final Pose lineIntake3Pose = new Pose(48.74471086036671, 35.54301833568405, Math.toRadians(0));
     private final Pose intake3Pose = new Pose(8.530324400564174, 35.54301833568405, Math.toRadians(0));
-    private final Pose leavePose = new Pose(42.85472496473906, 68.64880112834979, Math.toRadians(135));
+    private final Pose leavePose = new Pose(42.85472496473906, 68.64880112834979, Math.toRadians(130));
 
 
 
