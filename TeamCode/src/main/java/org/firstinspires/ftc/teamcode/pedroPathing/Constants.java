@@ -17,11 +17,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
             .mass(10) // 10 kg is the estimate; NEED TO ACTUALLY WEIGH IT
+            //todo weigh the robot
             .forwardZeroPowerAcceleration(-27.489503988651062)
             .lateralZeroPowerAcceleration(-93.56352600735903)
             .translationalPIDFCoefficients(new PIDFCoefficients(0.14,0, 0.02, 0.04))
             .headingPIDFCoefficients(new PIDFCoefficients(1,0,0.02,0))
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.2,0,0,0.6,0.04))
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.05,0,0,0.6,0.04))
             .centripetalScaling(0.0005);
 
     public static MecanumConstants driveConstants = new MecanumConstants()
@@ -50,7 +51,7 @@ public class Constants {
 
 
     public static PathConstraints pathConstraints = new PathConstraints
-            (0.99, 100, 1, 1);
+            (0.99, 100, 1.5, 0.8);
 
     public static Follower createFollower(HardwareMap hardwareMap) {
         return new FollowerBuilder(followerConstants, hardwareMap)
