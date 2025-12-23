@@ -13,8 +13,8 @@ public class FlywheelTunerPIDF extends OpMode {
     public DcMotorEx outtakeLeft;
     public DcMotorEx outtakeRight;
 
-    public double highVelocity = 2000;
-    public double lowVelocity = 1600;
+    public double highVelocity = 950;
+    public double lowVelocity = 800;
 
     double curTargetVelocity = highVelocity;
 
@@ -51,6 +51,51 @@ public class FlywheelTunerPIDF extends OpMode {
         //set target velocity
         //update telemetry
 
-        if (gamepad1)
+        if (gamepad1.yWasPressed()){
+            if (curTargetVelocity == highVelocity){
+                curTargetVelocity = lowVelocity;
+            } else{curTargetVelocity = highVelocity;}
+
+        }
+
+        if(gamepad1.bWasPressed()){
+            stepIndex = (stepIndex+1) % stepSizes.length;
+        }
+
+        if (gamepad1.dpadLeftWasPressed()){
+            F += stepSizes[stepIndex];
+        }
+
+        if (gamepad1.dpadRightWasPressed()){
+            F -= stepSizes[stepIndex];
+        }
+
+        if (gamepad1.dpadDownWasPressed()){
+            P += stepSizes[stepIndex];
+        }
+
+        if (gamepad1.dpadUpWasPressed()){
+            P -= stepSizes[stepIndex];
+        }
+
+        // set new pidf coefficients
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(P,0,0,F);
+        outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
+        outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
+
+        // set velocity
+        outtakeLeft.setVelocity(curTargetVelocity);
+        outtakeRight.setVelocity(curTargetVelocity);
+
+        double curVelocity = outtakeLeft.getVelocity();
+        double error = curTargetVelocity-curVelocity;
+
+        telemetry.addData("Target Velocity",curTargetVelocity);
+        telemetry.addData("Current Velocity",curVelocity);
+        telemetry.addData("Error",error);
+        telemetry.addLine("----------------------------");
+        telemetry.addData("Tuning P (D-Pad U/D", P);
+        telemetry.addData("Tuning F (D-Pad L/R", F);
+        telemetry.addData("Step Size (B Button)", stepSizes[stepIndex]);
     }
 }
