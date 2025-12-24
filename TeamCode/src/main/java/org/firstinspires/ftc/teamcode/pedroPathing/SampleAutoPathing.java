@@ -65,6 +65,7 @@ public class SampleAutoPathing extends OpMode {
         //Go to shooting position and shoot next 3
         DRIVE_INTAKE3POSE_SHOOTPOSE,
 
+        //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
     }
 
