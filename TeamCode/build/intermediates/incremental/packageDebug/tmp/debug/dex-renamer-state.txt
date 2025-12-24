@@ -1,16 +1,16 @@
-#Mon Dec 22 16:30:18 EST 2025
-base.0=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
-base.1=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeLibDexDebug/10/classes.dex
-base.10=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes2.dex
-base.11=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes3.dex
-base.2=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeLibDexDebug/11/classes.dex
-base.3=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeLibDexDebug/8/classes.dex
-base.4=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
-base.5=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/10/classes.dex
-base.6=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/15/classes.dex
-base.7=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
-base.8=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeExtDexDebug/classes3.dex
-base.9=/Users/c29st/StudioProjects/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeExtDexDebug/classes4.dex
+#Thu Dec 18 20:27:10 EST 2025
+base.0=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex
+base.1=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeLibDexDebug/10/classes.dex
+base.10=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes2.dex
+base.11=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes3.dex
+base.2=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeLibDexDebug/11/classes.dex
+base.3=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeLibDexDebug/8/classes.dex
+base.4=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.5=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/10/classes.dex
+base.6=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeProjectDexDebug/15/classes.dex
+base.7=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeExtDexDebug/classes2.dex
+base.8=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeExtDexDebug/classes3.dex
+base.9=/Users/c27im/Documents/GitHub/STANDARD-PEDRO/TeamCode/build/intermediates/dex/debug/mergeExtDexDebug/classes4.dex
 path.0=classes.dex
 path.1=10/classes.dex
 path.10=0/classes2.dex

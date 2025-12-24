@@ -6,7 +6,7 @@ import com.pedropathing.paths.PathChain;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 import com.pedropathing.util.Timer;
@@ -387,3 +387,6 @@ public class SampleAutoPathing extends OpMode {
 
     }
 }
+
+
+
