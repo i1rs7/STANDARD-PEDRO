@@ -60,6 +60,7 @@ public class BlueAutoComboAT extends OpMode {
         //Intake third set of three + move balls down + start flywheels
         DRIVE_LINEINTAKE2POSE_INTAKE2POSE,
 
+        //This is also the leave position, we will stay in the red tunnel (safe unless red is there)
         STOPINTAKE2
 
     }
@@ -76,7 +77,6 @@ public class BlueAutoComboAT extends OpMode {
     PathState pathState;
 
     //all points
-    //TODO add intake to lever 1, lever 1 to lever 2, lever 2 to shoot
     private final Pose startPose = new Pose(20.919605077574047, 121.8617771509168, Math.toRadians(144));
     private final Pose shootPose = new Pose(48.13540197461213, 95.2552891396333, Math.toRadians(130));
     private final Pose lineIntake1Pose = new Pose(47.93229901269393, 83.88152327221438, Math.toRadians(0));
