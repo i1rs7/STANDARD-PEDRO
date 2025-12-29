@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.pedropathing.util.Timer;
 
-import org.opencv.core.Mat;
+//import org.opencv.core.Mat;
 
 
 @Autonomous
