@@ -88,7 +88,7 @@ public class RedAutoFar12 extends OpMode {
     PathState pathState;
 
     //all points
-    private final Pose startPose = new Pose(87.94358251057828, 7.7179125528914, Math.toRadians(90));
+    private final Pose startPose = new Pose(86.52186177715092, 8.733427362482372, Math.toRadians(90));
     private final Pose shootPose = new Pose(79.21015514809591, 15.84203102961919, Math.toRadians(67));
     private final Pose lineIntake1Pose = new Pose(101.14527503526094, 35.54301833568405, Math.toRadians(180));
     private final Pose intake1Pose = new Pose(134.2820874471086, 35.54301833568405, Math.toRadians(180));

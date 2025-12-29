@@ -88,7 +88,7 @@ public class BlueAutoFar12 extends OpMode {
     PathState pathState;
 
     //all points
-    private final Pose startPose = new Pose(56.05641748942172, 7.7179125528914, Math.toRadians(90));
+    private final Pose startPose = new Pose(57.47813822284908, 8.733427362482372, Math.toRadians(90));
     private final Pose shootPose = new Pose(64.78984485190409, 15.84203102961919, Math.toRadians(115));
     private final Pose lineIntake1Pose = new Pose(42.85472496473906, 35.54301833568405, Math.toRadians(0));
     private final Pose intake1Pose = new Pose(9.717912552891397, 35.54301833568405, Math.toRadians(0));
