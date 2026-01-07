@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class FlywheelLogic {
+public class noServoShootingStateMachine {
     private ElapsedTime stateTimer = new ElapsedTime();
 
     //private Servo shootServo;
@@ -34,7 +34,7 @@ public class FlywheelLogic {
     private double TARGET_FLYWHEEL_RPM = 1100;
     private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
 
-    void init(HardwareMap hardwareMap){
+    public void init(HardwareMap hardwareMap){
 
         //shootServo = hardwareMap.get(Servo.class, "shoot");
         outtakeLeft = hardwareMap.get(DcMotorEx.class,"oL");

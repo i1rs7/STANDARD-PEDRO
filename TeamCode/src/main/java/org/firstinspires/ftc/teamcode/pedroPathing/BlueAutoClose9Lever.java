@@ -191,12 +191,19 @@ public class BlueAutoClose9Lever extends OpMode {
                 break;
 
             case SHOOTPRELOAD:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
-                    //TODO add flywheel logic to shoot 3
-                    telemetry.addLine("Shot preload");
-                    setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                // check if the path is done
+                if (!follower.isBusy()){
+                    //requested shots yet?
+                    if (!shotTriggered) {
+                        shooter.fireShots(3);
+                        shotTriggered = true;
+                    }
+                    else if (shotTriggered && !shooter.isBusy()) {
+                        follower.followPath(driveShootPosLineIntake1Pos, true);
+                        setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                        telemetry.addLine("Shot preload");
+                    }
                 }
-                break;
 
 
             case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
@@ -395,6 +402,7 @@ public class BlueAutoClose9Lever extends OpMode {
     @Override
     public void loop(){
         follower.update();
+        shooter.update();
         StatePathUpdate();
 
 
