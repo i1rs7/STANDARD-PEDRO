@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -80,8 +81,7 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
     static final double target_RPM_close = 800;
-    static final double target_RPM_far = 975;
-    static final double target_range = 25;
+    static final double target_RPM_far = 950;
     static final double NUDGE_POWER = 0.22;
 
     @Override
@@ -109,6 +109,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15,0,0,13);
+        outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
+        outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
         // Wait for the game to start (driver presses START)
         telemetry.addData("Status", "Initialized");
@@ -219,8 +222,8 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
             //outtake code
             if (gamepad2.right_trigger == 1.0) {
-                outtakeLeft.setPower(0.325);
-                outtakeRight.setPower(0.325);
+                outtakeLeft.setVelocity(target_RPM_close);
+                outtakeRight.setVelocity(target_RPM_close);
             } else if (gamepad2.left_trigger == 1.0) {
                 outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
