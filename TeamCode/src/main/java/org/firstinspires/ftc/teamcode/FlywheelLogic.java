@@ -3,10 +3,9 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class NoServo_ShootingStateMachine {
+public class FlywheelLogic {
     private ElapsedTime stateTimer = new ElapsedTime();
 
     //private Servo shootServo;

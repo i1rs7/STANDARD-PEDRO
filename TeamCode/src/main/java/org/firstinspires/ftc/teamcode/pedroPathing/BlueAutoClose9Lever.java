@@ -10,6 +10,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import com.pedropathing.util.Timer;
 
+import org.firstinspires.ftc.teamcode.pedroPathing.FlywheelLogic;
+
 
 @Autonomous
 public class BlueAutoClose9Lever extends OpMode {
@@ -17,6 +19,10 @@ public class BlueAutoClose9Lever extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opModeTimer;
+
+    //Flywheel logic
+    private FlywheelLogic shooter = new FlywheelLogic();
+    private boolean shotTriggered = false;
 
 
     public enum PathState {
@@ -363,6 +369,7 @@ public class BlueAutoClose9Lever extends OpMode {
     public void setPathState (PathState newState) {
         pathState = newState;
         pathTimer.resetTimer();
+        shotTriggered = false;
     }
 
 
@@ -373,6 +380,7 @@ public class BlueAutoClose9Lever extends OpMode {
         opModeTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
         //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
+        shooter.init(hardwareMap);
         buildPaths();
         follower.setPose(startPose);
     }
