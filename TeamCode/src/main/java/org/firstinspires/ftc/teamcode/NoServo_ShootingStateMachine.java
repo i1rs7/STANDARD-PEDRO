@@ -35,7 +35,7 @@ public class NoServo_ShootingStateMachine {
     private double TARGET_FLYWHEEL_RPM = 1100;
     private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
 
-    private void init(HardwareMap hardwareMap){
+    void init(HardwareMap hardwareMap){
 
         //shootServo = hardwareMap.get(Servo.class, "shoot");
         outtakeLeft = hardwareMap.get(DcMotorEx.class,"oL");

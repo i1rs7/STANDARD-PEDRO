@@ -25,7 +25,9 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
     private Timer pathTimer, opModeTimer;
 
     // ------------------- FLYWHEEL SETUP ------------------------
-    private FlywheelLogic shooter = new FlywheelLogic();
+    private NoServo_ShootingStateMachine shooter = new NoServo_ShootingStateMachine();
+    private boolean shotsTriggered = false;
+
 
 
 
@@ -188,18 +190,27 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
-                //TODO start flywheels
+                //not starting flywheels here because may impact state machine code, seems like with pidf the time is negligible
                 follower.followPath(driveStartPosShootPos, true); //Follow the path
                 setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
                 break;
 
             case SHOOTPRELOAD:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
-                    //TODO add flywheel logic to shoot 3
-                    telemetry.addLine("Shot preload");
-                    setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
-                }
+                    //flywheel logic to shoot 3
+                    //check if follower has done its path
+                    if (!follower.isBusy()){
+                        //requested shots yet?
+                        if (!shotsTriggered){
+                            shooter.fireShots(3);
+                            shotsTriggered = true;
+                        }
+                        else if (shotsTriggered && !shooter.isBusy()){
+                            //shots done, free to transition
+                            telemetry.addLine("Shot preload");
+                            setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                        }
+                    }
                 break;
 
 
@@ -246,10 +257,17 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                 break;
 
             case SHOOT1:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
-                    //TODO add flywheel logic to shoot 3
-                    telemetry.addLine("Shot first 3");
-                    setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE2POSE);
+                if (!follower.isBusy()){
+                    //requested shots yet?
+                    if (!shotsTriggered){
+                        shooter.fireShots(3);
+                        shotsTriggered = true;
+                    }
+                    else if (shotsTriggered && !shooter.isBusy()){
+                        //shots done, free to transition
+                        telemetry.addLine("Shot first 3");
+                        setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE2POSE);
+                    }
                 }
                 break;
 
@@ -316,10 +334,17 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                 break;
 
             case SHOOT2:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
-                    //TODO add flywheel logic to shoot 3
-                    telemetry.addLine("Shot second 3");
-                    setPathState(PathState.DRIVE_SHOOTPOSE_LEAVEPOSE);
+                if (!follower.isBusy()){
+                    //requested shots yet?
+                    if (!shotsTriggered){
+                        shooter.fireShots(3);
+                        shotsTriggered = true;
+                    }
+                    else if (shotsTriggered && !shooter.isBusy()){
+                        //shots done, free to transition
+                        telemetry.addLine("Shot second 3");
+                        setPathState(PathState.DRIVE_SHOOTPOSE_LEAVEPOSE);
+                    }
                 }
                 break;
 
@@ -373,16 +398,22 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
     public void setPathState (PathState newState) {
         pathState = newState;
         pathTimer.resetTimer();
+
+        shotsTriggered = false;
     }
 
 
     @Override
     public void init() {
+
         pathState = PathState.DRIVE_STARTPOSE_SHOOTPOSE; //Whats the difference between DRIVE_STARTPOSE_SHOOTPOSE and driveStartPosShootPos
         pathTimer = new Timer();
         opModeTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
+
         //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
+        shooter.init(hardwareMap); // creates all the hardware map objects
+
         buildPaths();
         follower.setPose(startPose);
     }
@@ -397,6 +428,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
     @Override
     public void loop(){
         follower.update();
+        shooter.update();
         StatePathUpdate();
 
 
