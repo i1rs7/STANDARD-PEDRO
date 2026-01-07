@@ -1,14 +1,17 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class noServoShootingStateMachine {
+public class LaunchStateMachine {
+
     private ElapsedTime stateTimer = new ElapsedTime();
 
     //private Servo shootServo;
+    private DcMotor intakeMotor;
     private DcMotorEx outtakeLeft;
     private DcMotorEx outtakeRight;
     private enum FlywheelState{
@@ -24,7 +27,19 @@ public class noServoShootingStateMachine {
     // this servo does not exist yet on robot v1, may exist in v2 so pre-coded
     //private double shooterResetAngle = 0; //placeholder values (0, 90, 0.5)
     //private double shooterShootAngle = 90;
+    private double shootInches = 3;
+    private double lowerInches = 1;
     private double timeToShoot = 0.5; //amount of time the shooting takes
+
+    //intake counts per revolution conversion to distance
+    private double     ARTIFACT_DIAMETER = 5.0;
+    private double     INTAKE_COUNTS_PER_MOTOR_REV    = 384.5 ; //
+    private double     INTAKE_GEAR_REDUCTION    = 1.0 ;     // No External Gearing
+    private double     INTAKE_WHEEL_DIAMETER_INCHES   = 1.88976 ;     // For figuring circumference
+    private double     INTAKE_COUNTS_PER_INCH         = (INTAKE_COUNTS_PER_MOTOR_REV * INTAKE_GEAR_REDUCTION) /
+            (INTAKE_WHEEL_DIAMETER_INCHES * 3.1415);
+    private double     INTAKE_TO_ARTIFACT_DISTANCE_CONVERSION = ARTIFACT_DIAMETER/INTAKE_WHEEL_DIAMETER_INCHES;
+    private double     INTAKE_SPEED = 0.95;
 
     // ------ FLYWHEEL CONSTANTS -------
 
@@ -34,15 +49,23 @@ public class noServoShootingStateMachine {
     private double TARGET_FLYWHEEL_RPM = 1100;
     private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
 
+
     public void init(HardwareMap hardwareMap){
 
         //shootServo = hardwareMap.get(Servo.class, "shoot");
+        intakeMotor = hardwareMap.get(DcMotor.class,"i");
         outtakeLeft = hardwareMap.get(DcMotorEx.class,"oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class,"oR");
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15,0,0,13);
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
+
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE); // intake up
+        intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        intakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
 
         flywheelState = FlywheelState.IDLE;
 
@@ -52,13 +75,29 @@ public class noServoShootingStateMachine {
 
 
     }
+    public void intakeByEncoder(double speed, double Inches, double timeoutS){
+        int newIntakeTarget;
+        // Determine new target position, and pass to motor controller
+        newIntakeTarget = intakeMotor.getCurrentPosition() + (int) (Inches * INTAKE_COUNTS_PER_INCH * INTAKE_TO_ARTIFACT_DISTANCE_CONVERSION);
+        intakeMotor.setTargetPosition(newIntakeTarget);
+
+        // Turn On RUN_TO_POSITION
+        intakeMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        intakeMotor.setPower(Math.abs(speed));
+
+
+        //Stop all motion:
+        intakeMotor.setPower(0);
+
+        // Turn off RUN_TO_POSITION
+        intakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
 
     public void update(){
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
-                    //shootServo.setPosition(shooterResetAngle); <-- only for v2 robot
-                    //lower the balls a little // <-- only for v1 robot
                     outtakeLeft.setPower(TARGET_FLYWHEEL_RPM);
                     outtakeRight.setPower(TARGET_FLYWHEEL_RPM);
 
@@ -101,8 +140,6 @@ public class noServoShootingStateMachine {
                     }
                 }
                 break;
-
-
         }
     }
 

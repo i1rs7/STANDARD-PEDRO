@@ -64,9 +64,9 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Standard Drive", group="Linear OpMode")
+@TeleOp(name="Solo Drive Standard Drive", group="Linear OpMode")
 
-public class BasicOmniOpMode_Linear extends LinearOpMode {
+public class Solo_Standard_Drive extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -80,8 +80,9 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
     private DcMotorEx outtakeRight = null;
 
 
-    static final double target_RPM_close = 800;
+    static final double target_RPM_close = 780;
     static final double target_RPM_far = 950;
+    static final double target_range = 25;
     static final double NUDGE_POWER = 0.22;
 
     @Override
@@ -202,29 +203,29 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
             // Intake Code
-            if (gamepad2.left_bumper) {
+            if (gamepad1.left_bumper) {
                 //intake down
                 intakeMotor.setDirection(DcMotor.Direction.FORWARD);
-                intakeMotor.setPower(0.95);
-            } else if (gamepad2.right_bumper) {
+                intakeMotor.setPower(1.0);
+            } else if (gamepad1.right_bumper) {
                 //intake up
                 intakeMotor.setDirection(DcMotor.Direction.REVERSE);
-                intakeMotor.setPower(0.95);
+                intakeMotor.setPower(1.0);
             } else {
                 intakeMotor.setPower(0);
             }
 
             // prepare for shooting, bring balls down a little
-            if (gamepad2.y) {
+            if (gamepad1.y) {
                 intakeMotor.setDirection(DcMotor.Direction.FORWARD);
-                intakeMotor.setPower(0.95);
+                intakeMotor.setPower(1.0);
             }
 
             //outtake code
-            if (gamepad2.right_trigger == 1.0) {
+            if (gamepad1.right_trigger == 1.0) {
                 outtakeLeft.setVelocity(target_RPM_close);
                 outtakeRight.setVelocity(target_RPM_close);
-            } else if (gamepad2.left_trigger == 1.0) {
+            } else if (gamepad1.left_trigger == 1.0) {
                 outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
 
@@ -234,16 +235,11 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
             }
 
             // rumbles
-//            while ((gamepad2.right_trigger == 1.0) &&
-//                    (outtakeRight.getVelocity() >= target_RPM_close - target_range &&
-//                            outtakeRight.getVelocity() <= target_RPM_close + target_range) &&
-//                    (outtakeLeft.getVelocity() >= target_RPM_close - target_range &&
-//                            outtakeLeft.getVelocity() <= target_RPM_close + target_range)) {
-//                gamepad2.rumble(100);
-//            }
-//
-//            while ((gamepad2.left_trigger == 1.0) && (outtakeRight.getVelocity() >= target_RPM_far - target_range && outtakeRight.getVelocity() <= target_RPM_far + target_range) && (outtakeLeft.getVelocity() >= target_RPM_far - target_range && outtakeLeft.getVelocity() <= target_RPM_far + target_range)) {
-//                gamepad2.rumble(100);
+            //while ((gamepad1.right_trigger == 1.0) && (outtakeRight.getVelocity() >= target_RPM_close - target_range && outtakeRight.getVelocity() <= target_RPM_close + target_range) && (outtakeLeft.getVelocity() >= target_RPM_close - target_range && outtakeLeft.getVelocity() <= target_RPM_close + target_range)) {
+            //gamepad1.rumble(100);
+            //}
+//            while ((gamepad1.left_trigger == 1.0) && (outtakeRight.getVelocity() >= target_RPM_far - target_range && outtakeRight.getVelocity() <= target_RPM_far + target_range) && (outtakeLeft.getVelocity() >= target_RPM_far - target_range && outtakeLeft.getVelocity() <= target_RPM_far + target_range)) {
+//                gamepad1.rumble(100);
 //            }
 
 
@@ -257,7 +253,14 @@ public class BasicOmniOpMode_Linear extends LinearOpMode {
 
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Outtake Encoder Ticks: ", outtakeLeft.getVelocity());
+            telemetry.addData("Status", "Run Time: " + runtime.toString());
+            telemetry.addData("Outtake Left Encoder Ticks: ", outtakeLeft.getVelocity());
+            telemetry.addData("Outtake Right Encoder Ticks: ", outtakeRight.getVelocity());
+
+            telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
+            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
+            //add telemetry for intake motor?
+            telemetry.addData("Status", "Running");
             telemetry.update();
 
         }

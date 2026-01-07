@@ -19,7 +19,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
     private Timer pathTimer, opModeTimer;
 
     // ------------------- FLYWHEEL SETUP ------------------------
-    private noServoShootingStateMachine shooter = new noServoShootingStateMachine();
+    private LaunchStateMachine shooter = new LaunchStateMachine();
     private boolean shotsTriggered = false;
 
 
