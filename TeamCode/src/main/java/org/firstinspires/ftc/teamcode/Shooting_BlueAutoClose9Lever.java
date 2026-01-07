@@ -8,12 +8,6 @@ import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
@@ -25,7 +19,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
     private Timer pathTimer, opModeTimer;
 
     // ------------------- FLYWHEEL SETUP ------------------------
-    private NoServo_ShootingStateMachine shooter = new NoServo_ShootingStateMachine();
+    private noServoShootingStateMachine shooter = new noServoShootingStateMachine();
     private boolean shotsTriggered = false;
 
 
