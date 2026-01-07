@@ -6,14 +6,13 @@ import com.pedropathing.paths.PathChain;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
 import com.pedropathing.util.Timer;
 
 
 @Autonomous
-public class SampleAutoPathing extends OpMode {
+public class RedAutoClose12 extends OpMode {
 
 
     private Follower follower;
@@ -25,45 +24,55 @@ public class SampleAutoPathing extends OpMode {
         //MOVE BACK & ROTATE 5 DEGREES TO FACE GOAL
         DRIVE_STARTPOSE_SHOOTPOSE,
 
+        SHOOTPRELOAD,
 
         //LINE UP TO INTAKE FIRST SET OF BALLS
         DRIVE_SHOOTPOSE_LINEINTAKE1POSE,
 
+        STARTINTAKE1,
 
         //Move back and intake first 3 balls + move balls down + start flywheels
         DRIVE_LINEINTAKE1POSE_INTAKE1POSE,
 
+        STOPINTAKE1,
 
         //Return to shooting position, shoot
         DRIVE_INTAKE1POSE_SHOOTPOSE,
 
+        SHOOT1,
 
         //Line up to intake second set of three
         DRIVE_SHOOTPOSE_LINEINTAKE2POSE,
 
+        STARTINTAKE2,
 
         //Intake second set of three + move balls down + start flywheels
         DRIVE_LINEINTAKE2POSE_INTAKE2POSE,
 
+        STOPINTAKE2,
 
         //Go to first spot before shooting position to avoid the lever
         DRIVE_INTAKE2POSE_SHOOTPOSE2,
 
-
         //Go to shooting position and shoot next 3
         DRIVE_SHOOTPOSE2_SHOOTPOSE,
 
+        SHOOT2,
 
         //Line up to intake next 3 balls
         DRIVE_SHOOTPOSE_LINEINTAKE3POSE,
 
+        STARTINTAKE3,
 
         //Intake third set of three + move balls down + start flywheels
         DRIVE_LINEINTAKE3POSE_INTAKE3POSE,
 
+        STOPINTAKE3,
 
         //Go to shooting position and shoot next 3
         DRIVE_INTAKE3POSE_SHOOTPOSE,
+
+        SHOOT3,
 
         //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
@@ -81,16 +90,16 @@ public class SampleAutoPathing extends OpMode {
     PathState pathState;
 
     //all points
-    private final Pose startPose = new Pose(20.919605077574047, 121.8617771509168, Math.toRadians(144));
-    private final Pose shootPose = new Pose(48.13540197461213, 95.2552891396333, Math.toRadians(130));
-    private final Pose lineIntake1Pose = new Pose(47.93229901269393, 83.88152327221438, Math.toRadians(0));
-    private final Pose intake1Pose = new Pose(14.82651622002821, 83.88152327221438, Math.toRadians(0));
-    private final Pose lineIntake2Pose = new Pose(48.33850493653032, 67.22708039492244, Math.toRadians(15));
-    private final Pose intake2Pose = new Pose(8.32722143864598, 53.41607898448519, Math.toRadians(0));
-    private final Pose shootPose2 = new Pose(48.54160789844852, 58.89985895627645, Math.toRadians(130));
-    private final Pose lineIntake3Pose = new Pose(48.74471086036671, 35.54301833568405, Math.toRadians(0));
-    private final Pose intake3Pose = new Pose(8.530324400564174, 35.54301833568405, Math.toRadians(0));
-    private final Pose leavePose = new Pose(42.85472496473906, 68.64880112834979, Math.toRadians(130));
+    private final Pose startPose = new Pose(123.08039492242595, 121.8617771509168, Math.toRadians(36));
+    private final Pose shootPose = new Pose(95.86459802538787, 95.2552891396333, Math.toRadians(52));
+    private final Pose lineIntake1Pose = new Pose(96.06770098730607, 83.88152327221438, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(128.1734837799718, 83.88152327221438, Math.toRadians(180));
+    private final Pose lineIntake2Pose = new Pose(95.66149506346968, 67.22708039492244, Math.toRadians(165));
+    private final Pose intake2Pose = new Pose(134.67277856135402, 52.19746121297602, Math.toRadians(180));
+    private final Pose shootPose2 = new Pose(95.45839210155148, 58.89985895627645, Math.toRadians(52));
+    private final Pose lineIntake3Pose = new Pose(95.25528913963329, 35.54301833568405, Math.toRadians(180));
+    private final Pose intake3Pose = new Pose(134.46967559943583, 35.54301833568405, Math.toRadians(180));
+    private final Pose leavePose = new Pose(101.55148095909732, 29.246826516220032, Math.toRadians(52));
 
 
 
@@ -193,43 +202,71 @@ public class SampleAutoPathing extends OpMode {
     public void StatePathUpdate () {
         //update cases quickly
         //run the paths in order
+        //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
-                //TODO start flywheels and shoot 3
+                //TODO start flywheels
                 follower.followPath(driveStartPosShootPos, true); //Follow the path
-                setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE); //RESET TIMER & SET TO NEXT PATH STATE
+                setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
+                break;
+
+            case SHOOTPRELOAD:
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                    //TODO add flywheel logic to shoot 3
+                    telemetry.addLine("Shot preload");
+                    setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                }
                 break;
 
 
             case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
-                if(!follower.isBusy()&& pathTimer.getElapsedTimeSeconds() > 3){ //do we need to wait three seconds if the shooting is in the if statement?
+                if(!follower.isBusy()){
                     telemetry.addLine("Lined up to intake first set of balls");
                     follower.followPath(driveShootPosLineIntake1Pos, true);
+                    setPathState(PathState.STARTINTAKE1);
+                }
+                break;
+
+            case STARTINTAKE1:
+                if(!follower.isBusy()) {
+                    //TODO add intake logic to start intake
+                    telemetry.addLine("Started intake to intake first 3");
                     setPathState(PathState.DRIVE_LINEINTAKE1POSE_INTAKE1POSE);
                 }
                 break;
 
-
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()> 1){
-                    //TODO start intake
-                    telemetry.addLine("Intook 3 balls (point)");
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
+                    telemetry.addLine("Intook 3 balls");
                     follower.followPath(driveLineIntake1PosIntake1Pos, true);
-                    setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE);
-                    //TODO intake pushes the balls down and that the flywheels start
+                    setPathState(PathState.STOPINTAKE1);
                 }
                 break;
 
+            case STOPINTAKE1:
+                if(!follower.isBusy()) {
+                    //TODO add intake logic to stop intake
+                    //TODO add intake logic to move balls down slightly
+                    //TODO start flywheels
+                    telemetry.addLine("Stopped intake after intaked first 3");
+                    setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE);
+                }
+                break;
 
             case DRIVE_INTAKE1POSE_SHOOTPOSE:
                 if(!follower.isBusy()){
-                    //TODO add flywheel logic (intaking to push the balls up) (flywheels already started and balls are in place)
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos, true);
+                    setPathState(PathState.SHOOT2);
+                }
+                break;
+
+            case SHOOT1:
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                    //TODO add flywheel logic to shoot 3
+                    telemetry.addLine("Shot first 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE2POSE);
-
-
                 }
                 break;
 
@@ -238,18 +275,34 @@ public class SampleAutoPathing extends OpMode {
                 if(!follower.isBusy()){
                     telemetry.addLine("Lined up to intake second set of balls");
                     follower.followPath(driveShootPosLineIntake2Pos, true);
+                    setPathState(PathState.STARTINTAKE2);
+                }
+                break;
+
+            case STARTINTAKE2:
+                if(!follower.isBusy()) {
+                    //TODO add intake logic to start intake
+                    telemetry.addLine("Started intake to intake second 3");
                     setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSE);
                 }
                 break;
 
 
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSE:
-                if(!follower.isBusy()){
-                    //TODO start intake
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
                     telemetry.addLine("Intook second set of balls");
                     follower.followPath(driveLineIntake2PosIntake2Pos, true);
+                    setPathState(PathState.STOPINTAKE2);
+                }
+                break;
+
+            case STOPINTAKE2:
+                if(!follower.isBusy()) {
+                    //TODO add intake logic to stop intake
+                    //TODO add intake logic to move balls down slightly
+                    //TODO start flywheels
+                    telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE2);
-                    //TODO intake pushes the balls down and that the flywheels start
                 }
                 break;
 
@@ -264,40 +317,67 @@ public class SampleAutoPathing extends OpMode {
 
 
             case DRIVE_SHOOTPOSE2_SHOOTPOSE:
-                //TODO add flywheel logic (flywheels already started and balls are in place)
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveShootPos2ShootPos, true);
-                    setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE3POSE);
+                    setPathState(PathState.SHOOT2);
                 }
                 break;
 
+            case SHOOT2:
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                    //TODO add flywheel logic to shoot 3
+                    telemetry.addLine("Shot second 3");
+                    setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE3POSE);
+                }
+                break;
 
             case DRIVE_SHOOTPOSE_LINEINTAKE3POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Lined up to intake second set of balls");
                     follower.followPath(driveShootPosLineIntake3Pos, true);
+                    setPathState(PathState.STARTINTAKE3);
+                }
+                break;
+
+            case STARTINTAKE3:
+                if(!follower.isBusy()) {
+                    //TODO add intake logic to start intake
+                    telemetry.addLine("Started intake to intake third 3");
                     setPathState(PathState.DRIVE_LINEINTAKE3POSE_INTAKE3POSE);
                 }
                 break;
 
-
             case DRIVE_LINEINTAKE3POSE_INTAKE3POSE:
-                if(!follower.isBusy()){
-                    //TODO start intake
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
                     telemetry.addLine("Intook third set of balls");
                     follower.followPath(driveLineIntake3PosIntake3Pos, true);
-                    setPathState(PathState.DRIVE_INTAKE3POSE_SHOOTPOSE);
-                    //TODO intake pushes the balls down and that the flywheels start
+                    setPathState(PathState.STOPINTAKE3);
                 }
                 break;
 
+            case STOPINTAKE3:
+                if(!follower.isBusy()) {
+                    //TODO add intake logic to stop intake
+                    //TODO add intake logic to move balls down slightly
+                    //TODO start flywheels
+                    telemetry.addLine("Stopped intake after intaked third 3");
+                    setPathState(PathState.DRIVE_INTAKE3POSE_SHOOTPOSE);
+                }
+                break;
 
             case DRIVE_INTAKE3POSE_SHOOTPOSE:
                 if(!follower.isBusy()){
-                    //TODO add flywheel logic (flywheels already started and balls are in place)
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake3PosShootPos, true);
+                    setPathState(PathState.SHOOT3);
+                }
+                break;
+
+            case SHOOT3:
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                    //TODO add flywheel logic to shoot 3
+                    telemetry.addLine("Shot third 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LEAVEPOSE);
                 }
                 break;
@@ -387,6 +467,3 @@ public class SampleAutoPathing extends OpMode {
 
     }
 }
-
-
-

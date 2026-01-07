@@ -12,7 +12,7 @@ import com.pedropathing.util.Timer;
 
 
 @Autonomous
-public class BlueAutoFar12 extends OpMode {
+public class BlueAutoClose12 extends OpMode {
 
 
     private Follower follower;
@@ -52,9 +52,11 @@ public class BlueAutoFar12 extends OpMode {
         STOPINTAKE2,
 
         //Go to first spot before shooting position to avoid the lever
-        DRIVE_INTAKE2POSE_SHOOTPOSE,
+        DRIVE_INTAKE2POSE_SHOOTPOSE2,
 
         //Go to shooting position and shoot next 3
+        DRIVE_SHOOTPOSE2_SHOOTPOSE,
+
         SHOOT2,
 
         //Line up to intake next 3 balls
@@ -88,15 +90,16 @@ public class BlueAutoFar12 extends OpMode {
     PathState pathState;
 
     //all points
-    private final Pose startPose = new Pose(57.47813822284908, 8.733427362482372, Math.toRadians(90));
-    private final Pose shootPose = new Pose(64.78984485190409, 15.84203102961919, Math.toRadians(115));
-    private final Pose lineIntake1Pose = new Pose(42.85472496473906, 35.54301833568405, Math.toRadians(0));
-    private final Pose intake1Pose = new Pose(9.717912552891397, 35.54301833568405, Math.toRadians(0));
-    private final Pose lineIntake2Pose = new Pose(44.276445698166434, 60.7277856135402, Math.toRadians(0));
-    private final Pose intake2Pose = new Pose(20.716502115655853, 60.11847672778562, Math.toRadians(0));
-    private final Pose lineIntake3Pose = new Pose(9.717912552891397, 35.74612129760225, Math.toRadians(90));
-    private final Pose intake3Pose = new Pose(9.311706629055006, 9.54583921015515, Math.toRadians(90));
-    private final Pose leavePose = new Pose(31.074753173483778, 23.35684062059238, Math.toRadians(115));
+    private final Pose startPose = new Pose(20.919605077574047, 121.8617771509168, Math.toRadians(144));
+    private final Pose shootPose = new Pose(48.13540197461213, 95.2552891396333, Math.toRadians(130));
+    private final Pose lineIntake1Pose = new Pose(48.13540197461213, 83.88152327221438, Math.toRadians(0));
+    private final Pose intake1Pose = new Pose(16.045133991537377, 83.88152327221438, Math.toRadians(0));
+    private final Pose lineIntake2Pose = new Pose(48.13540197461213, 67.22708039492244, Math.toRadians(15));
+    private final Pose intake2Pose = new Pose(9.545839210155147, 52.19746121297602, Math.toRadians(0));
+    private final Pose shootPose2 = new Pose(48.13540197461213, 59.102961918194644, Math.toRadians(130));
+    private final Pose lineIntake3Pose = new Pose(48.13540197461213, 35.54301833568405, Math.toRadians(0));
+    private final Pose intake3Pose = new Pose(9.545839210155147, 35.54301833568405, Math.toRadians(0));
+    private final Pose leavePose = new Pose(42.85472496473906, 68.64880112834979, Math.toRadians(130));
 
 
 
@@ -111,7 +114,7 @@ public class BlueAutoFar12 extends OpMode {
 
     //All the movement paths (no intake/outtake)
     private PathChain driveStartPosShootPos, driveShootPosLineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos,
-            driveShootPosLineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosShootPos, driveShootPosLineIntake3Pos,
+            driveShootPosLineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosShootPos2, driveShootPos2ShootPos, driveShootPosLineIntake3Pos,
             driveLineIntake3PosIntake3Pos, driveIntake3PosShootPos, driveShootPosLeavePos;
 
 
@@ -155,9 +158,13 @@ public class BlueAutoFar12 extends OpMode {
                 .addPath(new BezierLine(lineIntake2Pose, intake2Pose))
                 .setLinearHeadingInterpolation(lineIntake2Pose.getHeading(), intake2Pose.getHeading())
                 .build();
-        driveIntake2PosShootPos = follower.pathBuilder()
-                .addPath(new BezierLine(intake2Pose, shootPose))
-                .setLinearHeadingInterpolation(intake2Pose.getHeading(), shootPose.getHeading())
+        driveIntake2PosShootPos2 = follower.pathBuilder()
+                .addPath(new BezierLine(intake2Pose, shootPose2))
+                .setLinearHeadingInterpolation(intake2Pose.getHeading(), shootPose2.getHeading())
+                .build();
+        driveShootPos2ShootPos = follower.pathBuilder()
+                .addPath(new BezierLine(shootPose2, shootPose))
+                .setLinearHeadingInterpolation(shootPose2.getHeading(), shootPose.getHeading())
                 .build();
         driveShootPosLineIntake3Pos = follower.pathBuilder()
                 .addPath(new BezierLine(shootPose, lineIntake3Pose))
@@ -295,15 +302,24 @@ public class BlueAutoFar12 extends OpMode {
                     //TODO add intake logic to move balls down slightly
                     //TODO start flywheels
                     telemetry.addLine("Stopped intake after intaked second 3");
-                    setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE);
+                    setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE2);
                 }
                 break;
 
 
-            case DRIVE_INTAKE2POSE_SHOOTPOSE:
+            case DRIVE_INTAKE2POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to preliminary shooting position 2 and rotated");
-                    follower.followPath(driveIntake2PosShootPos, true);
+                    follower.followPath(driveIntake2PosShootPos2, true);
+                    setPathState(PathState.DRIVE_SHOOTPOSE2_SHOOTPOSE);
+                }
+                break;
+
+
+            case DRIVE_SHOOTPOSE2_SHOOTPOSE:
+                if(!follower.isBusy()){
+                    telemetry.addLine("Moved to shooting position and shot next 3 balls");
+                    follower.followPath(driveShootPos2ShootPos, true);
                     setPathState(PathState.SHOOT2);
                 }
                 break;
