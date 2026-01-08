@@ -16,8 +16,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 public class Constants {
     public static FollowerConstants followerConstants = new FollowerConstants()
-            .mass(10) // 10 kg is the estimate; NEED TO ACTUALLY WEIGH IT
-            //todo weigh the robot
+            .mass(11.84)
             .forwardZeroPowerAcceleration(-27.489503988651062)
             .lateralZeroPowerAcceleration(-93.56352600735903)
             .translationalPIDFCoefficients(new PIDFCoefficients(0.14,0, 0.02, 0.04))
