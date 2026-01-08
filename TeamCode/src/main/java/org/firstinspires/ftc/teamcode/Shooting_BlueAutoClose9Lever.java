@@ -199,7 +199,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                             shooter.fireShots(3);
                             shotsTriggered = true;
                         }
-                        else if (shotsTriggered && !shooter.isBusy()){
+                        else if (shotsTriggered && !shooter.ShooterisBusy()){
                             //shots done, free to transition
                             telemetry.addLine("Shot preload");
                             setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
@@ -257,7 +257,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                         shooter.fireShots(3);
                         shotsTriggered = true;
                     }
-                    else if (shotsTriggered && !shooter.isBusy()){
+                    else if (shotsTriggered && !shooter.ShooterisBusy()){
                         //shots done, free to transition
                         telemetry.addLine("Shot first 3");
                         setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE2POSE);
@@ -334,7 +334,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                         shooter.fireShots(3);
                         shotsTriggered = true;
                     }
-                    else if (shotsTriggered && !shooter.isBusy()){
+                    else if (shotsTriggered && !shooter.ShooterisBusy()){
                         //shots done, free to transition
                         telemetry.addLine("Shot second 3");
                         setPathState(PathState.DRIVE_SHOOTPOSE_LEAVEPOSE);
