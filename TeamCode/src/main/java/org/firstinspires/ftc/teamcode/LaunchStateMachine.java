@@ -86,6 +86,10 @@ public class LaunchStateMachine {
 
         intakeMotor.setPower(Math.abs(speed));
 
+        while (intakeMotor.isBusy()){
+            Thread.yield();
+        }
+
         //Stop all motion:
         intakeMotor.setPower(0);
 
@@ -150,7 +154,7 @@ public class LaunchStateMachine {
         }
     }
 
-    public boolean isBusy(){
+    public boolean ShooterisBusy(){
         return flywheelState != FlywheelState.IDLE;
     }
 }
