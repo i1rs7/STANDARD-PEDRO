@@ -6,7 +6,9 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
@@ -22,6 +24,8 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
     private LaunchStateMachine shooter = new LaunchStateMachine();
     private boolean shotsTriggered = false;
 
+    private DcMotorEx outtakeLeft;
+    private DcMotorEx outtakeRight;
 
 
 
@@ -199,7 +203,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                             shooter.fireShots(3);
                             shotsTriggered = true;
                         }
-                        else if (shotsTriggered && !shooter.ShooterisBusy()){
+                        else if (shotsTriggered && !shooter.isBusy()){
                             //shots done, free to transition
                             telemetry.addLine("Shot preload");
                             setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
@@ -246,7 +250,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos, true);
-                    setPathState(PathState.SHOOT2);
+                    setPathState(PathState.SHOOT1);
                 }
                 break;
 
@@ -257,7 +261,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                         shooter.fireShots(3);
                         shotsTriggered = true;
                     }
-                    else if (shotsTriggered && !shooter.ShooterisBusy()){
+                    else if (shotsTriggered && !shooter.isBusy()){
                         //shots done, free to transition
                         telemetry.addLine("Shot first 3");
                         setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE2POSE);
@@ -334,7 +338,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                         shooter.fireShots(3);
                         shotsTriggered = true;
                     }
-                    else if (shotsTriggered && !shooter.ShooterisBusy()){
+                    else if (shotsTriggered && !shooter.isBusy()){
                         //shots done, free to transition
                         telemetry.addLine("Shot second 3");
                         setPathState(PathState.DRIVE_SHOOTPOSE_LEAVEPOSE);
@@ -348,6 +352,7 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
                     telemetry.addLine("Leave the zone - DONE!!!");
                     follower.followPath(driveShootPosLeavePos, true);
                 }
+                break;
 
 
 
@@ -406,6 +411,9 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
         follower = Constants.createFollower(hardwareMap);
 
         //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
+        outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
+        outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
+
         shooter.init(hardwareMap); // creates all the hardware map objects
 
         buildPaths();
@@ -431,6 +439,8 @@ public class Shooting_BlueAutoClose9Lever extends OpMode {
         telemetry.addData("y:", follower.getPose().getY());
         telemetry.addData("Heading:", follower.getPose().getHeading());
         telemetry.addData("Path time:", pathTimer.getElapsedTimeSeconds());
+        telemetry.addData("", outtakeLeft.getVelocity());
+        telemetry.addData("", outtakeRight.getVelocity());
 
 
     }
