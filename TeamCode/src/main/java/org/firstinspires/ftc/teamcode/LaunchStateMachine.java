@@ -28,7 +28,7 @@ public class LaunchStateMachine {
     //private double shooterResetAngle = 0; //placeholder values (0, 90, 0.5)
     //private double shooterShootAngle = 90;
     private double shootInches = 3;
-    private double lowerInches = 1;
+    private double lowerInches = -1;
     private double timeToShoot = 0.5; //amount of time the shooting takes
 
     //intake counts per revolution conversion to distance
@@ -86,7 +86,6 @@ public class LaunchStateMachine {
 
         intakeMotor.setPower(Math.abs(speed));
 
-
         //Stop all motion:
         intakeMotor.setPower(0);
 
@@ -98,6 +97,7 @@ public class LaunchStateMachine {
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
+                    intakeByEncoder(INTAKE_SPEED, lowerInches, 5.0);
                     outtakeLeft.setPower(TARGET_FLYWHEEL_RPM);
                     outtakeRight.setPower(TARGET_FLYWHEEL_RPM);
 
@@ -109,7 +109,7 @@ public class LaunchStateMachine {
             case SPIN_UP:
                 if (flywheelVelocity > MIN_FLYWHEEL_RPM ||
                         stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
-                    //shootServo.setPosition(shooterShootAngle);
+                    intakeByEncoder(INTAKE_SPEED, shootInches, 5.0);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.LAUNCH;
@@ -139,6 +139,7 @@ public class LaunchStateMachine {
                         flywheelState = FlywheelState.IDLE;
                     }
                 }
+
                 break;
         }
     }
