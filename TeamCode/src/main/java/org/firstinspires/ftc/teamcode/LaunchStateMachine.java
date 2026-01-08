@@ -4,9 +4,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LaunchStateMachine {
+
+    private LinearOpMode opMode;
+    private Telemetry telemetry;
 
     private ElapsedTime stateTimer = new ElapsedTime();
 
@@ -45,8 +50,10 @@ public class LaunchStateMachine {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    private double MIN_FLYWHEEL_RPM = 800;
-    private double TARGET_FLYWHEEL_RPM = 1100;
+    private double SHORT_FLYWHEEL_RPM = 800;
+    private double FAR_FLYWHEEL_RPM = 950;
+    private double target_range = 40;
+    private double TARGET_FLYWHEEL_RPM = SHORT_FLYWHEEL_RPM;
     private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
 
 
@@ -76,6 +83,7 @@ public class LaunchStateMachine {
 
     }
     public void intakeByEncoder(double speed, double Inches, double timeoutS){
+        int placeholder;
         int newIntakeTarget;
         // Determine new target position, and pass to motor controller
         newIntakeTarget = intakeMotor.getCurrentPosition() + (int) (Inches * INTAKE_COUNTS_PER_INCH * INTAKE_TO_ARTIFACT_DISTANCE_CONVERSION);
@@ -86,8 +94,10 @@ public class LaunchStateMachine {
 
         intakeMotor.setPower(Math.abs(speed));
 
-        while (intakeMotor.isBusy()){
-            Thread.yield();
+        while (opMode.opModeIsActive() && intakeMotor.isBusy()){
+            telemetry.addData("Running to", " %.7f", Inches);
+            telemetry.addData("New Intake Target", newIntakeTarget);
+            telemetry.update();
         }
 
         //Stop all motion:
@@ -101,7 +111,6 @@ public class LaunchStateMachine {
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
-                    intakeByEncoder(INTAKE_SPEED, lowerInches, 5.0);
                     outtakeLeft.setPower(TARGET_FLYWHEEL_RPM);
                     outtakeRight.setPower(TARGET_FLYWHEEL_RPM);
 
@@ -111,7 +120,7 @@ public class LaunchStateMachine {
                 break;
 
             case SPIN_UP:
-                if (flywheelVelocity > MIN_FLYWHEEL_RPM ||
+                if (FlywheelsAtSpeed() ||
                         stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
                     intakeByEncoder(INTAKE_SPEED, shootInches, 5.0);
 
@@ -145,6 +154,19 @@ public class LaunchStateMachine {
                 }
 
                 break;
+        }
+    }
+
+
+    public boolean FlywheelsAtSpeed(){
+        if ((outtakeRight.getVelocity() >= TARGET_FLYWHEEL_RPM-target_range &&
+                outtakeRight.getVelocity() <=  TARGET_FLYWHEEL_RPM+target_range) &&
+                (outtakeLeft.getVelocity() >= TARGET_FLYWHEEL_RPM-target_range &&
+                        outtakeLeft.getVelocity() <= TARGET_FLYWHEEL_RPM+target_range)){
+            return true;
+        }
+        else{
+            return false;
         }
     }
 
