@@ -387,6 +387,7 @@ public class BlueAutoClose12 extends OpMode {
                     telemetry.addLine("Leave the zone - DONE!!!");
                     follower.followPath(driveShootPosLeavePos, true);
                 }
+                break;
 
 
 

@@ -38,7 +38,6 @@ public class Constants {
             .yVelocity(59.67274823526698);
 
 
-
     public static PinpointConstants localizerConstants = new PinpointConstants()
             .forwardPodY(0.0) //forward and back pod is exactly aligned in the middle
             .strafePodX(1.0) // left and right pod is 1 inch left of the center
