@@ -81,7 +81,7 @@ public class RedAutoClose9Lever extends OpMode {
     private final Pose startPose = new Pose(123.08039492242595, 121.8617771509168, Math.toRadians(36));
     private final Pose shootPose = new Pose(95.86459802538787, 95.2552891396333, Math.toRadians(52));
     private final Pose lineIntake1Pose = new Pose(96.06770098730607, 83.88152327221438, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(128.1734837799718, 83.88152327221438, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(122.91583505287716, 83.88152327221438, Math.toRadians(180));
     private final Pose lineIntake2Pose = new Pose(94.44287729196051, 60.524682651622, Math.toRadians(180));
     private final Pose intake2Pose = new Pose(121.2524682651622, 60.524682651622, Math.toRadians(180));
     private final Pose leverPose = new Pose(127.75176304654443, 70.47672778561355, Math.toRadians(90));

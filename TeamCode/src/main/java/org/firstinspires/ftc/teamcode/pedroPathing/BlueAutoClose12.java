@@ -212,7 +212,7 @@ public class BlueAutoClose12 extends OpMode {
                 break;
 
             case SHOOTPRELOAD:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot preload");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
@@ -237,7 +237,7 @@ public class BlueAutoClose12 extends OpMode {
                 break;
 
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
+                if(!follower.isBusy()){
                     telemetry.addLine("Intook 3 balls");
                     follower.followPath(driveLineIntake1PosIntake1Pos, true);
                     setPathState(PathState.STOPINTAKE1);
@@ -263,7 +263,7 @@ public class BlueAutoClose12 extends OpMode {
                 break;
 
             case SHOOT1:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot first 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE2POSE);
@@ -289,7 +289,7 @@ public class BlueAutoClose12 extends OpMode {
 
 
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSE:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
+                if(!follower.isBusy()){
                     telemetry.addLine("Intook second set of balls");
                     follower.followPath(driveLineIntake2PosIntake2Pos, true);
                     setPathState(PathState.STOPINTAKE2);
@@ -325,7 +325,7 @@ public class BlueAutoClose12 extends OpMode {
                 break;
 
             case SHOOT2:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot second 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE3POSE);
@@ -349,7 +349,7 @@ public class BlueAutoClose12 extends OpMode {
                 break;
 
             case DRIVE_LINEINTAKE3POSE_INTAKE3POSE:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
+                if(!follower.isBusy()){
                     telemetry.addLine("Intook third set of balls");
                     follower.followPath(driveLineIntake3PosIntake3Pos, true);
                     setPathState(PathState.STOPINTAKE3);
@@ -375,7 +375,7 @@ public class BlueAutoClose12 extends OpMode {
                 break;
 
             case SHOOT3:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot third 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LEAVEPOSE);
