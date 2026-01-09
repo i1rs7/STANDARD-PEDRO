@@ -251,7 +251,7 @@ public class BlueAutoFar12 extends OpMode {
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos, true);
-                    setPathState(PathState.SHOOT2);
+                    setPathState(PathState.SHOOT1);
                 }
                 break;
 
