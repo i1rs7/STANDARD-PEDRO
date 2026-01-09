@@ -74,6 +74,7 @@ public class BlueAutoClose9Lever extends OpMode {
         //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
 
+        DONE
         //stop
 
     }
@@ -91,11 +92,11 @@ public class BlueAutoClose9Lever extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(20.919605077574047, 121.8617771509168, Math.toRadians(144));
-    private final Pose shootPose = new Pose(56.856801705433135, 86.34008052590521, Math.toRadians(130));
+    private final Pose shootPose = new Pose(64.856801705433135, 86.34008052590521, Math.toRadians(130));
     private final Pose lineIntake1Pose = new Pose(56.85680170543313, 84.07533215512152, Math.toRadians(0));
     private final Pose intake1Pose = new Pose(21.08416494712284, 84.26914103802865, Math.toRadians(0));
-    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 60.524682651622, Math.toRadians(0));
-    private final Pose intake2Pose = new Pose(21.197060671580733, 60.524682651622, Math.toRadians(0));
+    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 58.524682651622, Math.toRadians(0));
+    private final Pose intake2Pose = new Pose(24.197060671580733, 58.524682651622, Math.toRadians(0));
     private final Pose leverPose = new Pose(16.24823695345557, 70.47672778561355, Math.toRadians(90));
     final Pose leavePose = new Pose(23.919605077574047, 93.42736248236953, Math.toRadians(90));
 
@@ -191,7 +192,7 @@ public class BlueAutoClose9Lever extends OpMode {
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
                 //TODO start flywheels
-                follower.followPath(driveStartPosShootPos, true); //Follow the path
+                follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
                 setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
                 break;
@@ -339,10 +340,12 @@ public class BlueAutoClose9Lever extends OpMode {
 
             case DRIVE_SHOOTPOSE_LEAVEPOSE:
                 if(!follower.isBusy()){
-                    telemetry.addLine("Leave the zone - DONE!!!");
+                    telemetry.addLine("Leave the zone");
                     follower.followPath(driveShootPosLeavePos, true);
                 }
                 break;
+            case DONE:
+                telemetry.addLine("Done!");
 
             default:
                 telemetry.addLine("No state");
