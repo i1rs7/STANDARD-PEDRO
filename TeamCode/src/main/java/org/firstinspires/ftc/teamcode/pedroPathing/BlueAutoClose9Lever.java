@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
+
 import com.pedropathing.util.Timer;
 
 import org.firstinspires.ftc.teamcode.pedroPathing.FlywheelLogic;
@@ -96,7 +97,7 @@ public class BlueAutoClose9Lever extends OpMode {
     private final Pose lineIntake2Pose = new Pose(56.97981157469717, 60.524682651622, Math.toRadians(0));
     private final Pose intake2Pose = new Pose(21.197060671580733, 60.524682651622, Math.toRadians(0));
     private final Pose leverPose = new Pose(16.24823695345557, 70.47672778561355, Math.toRadians(90));
-    final Pose leavePose = new Pose(20.919605077574047, 93.42736248236953, Math.toRadians(130));
+    final Pose leavePose = new Pose(23.919605077574047, 93.42736248236953, Math.toRadians(90));
 
 
 
@@ -218,7 +219,7 @@ public class BlueAutoClose9Lever extends OpMode {
             case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Lined up to intake first set of balls");
-                    follower.followPath(driveShootPosLineIntake1Pos, true);
+                    follower.followPath(driveShootPosLineIntake1Pos, 0.8, true);
                     setPathState(PathState.STARTINTAKE1);
                 }
                 break;
@@ -234,7 +235,7 @@ public class BlueAutoClose9Lever extends OpMode {
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook 3 balls");
-                    follower.followPath(driveLineIntake1PosIntake1Pos, true);
+                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.6,true);
                     setPathState(PathState.STOPINTAKE1);
                 }
                 break;
@@ -252,7 +253,7 @@ public class BlueAutoClose9Lever extends OpMode {
             case DRIVE_INTAKE1POSE_SHOOTPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveIntake1PosShootPos, true);
+                    follower.followPath(driveIntake1PosShootPos, 0.9,true);
                     setPathState(PathState.SHOOT1);
                 }
                 break;
@@ -269,7 +270,7 @@ public class BlueAutoClose9Lever extends OpMode {
             case DRIVE_SHOOTPOSE_LINEINTAKE2POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Lined up to intake second set of balls");
-                    follower.followPath(driveShootPosLineIntake2Pos, true);
+                    follower.followPath(driveShootPosLineIntake2Pos, 0.8,true);
                     setPathState(PathState.STARTINTAKE2);
                 }
                 break;
@@ -286,7 +287,7 @@ public class BlueAutoClose9Lever extends OpMode {
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook second set of balls");
-                    follower.followPath(driveLineIntake2PosIntake2Pos, true);
+                    follower.followPath(driveLineIntake2PosIntake2Pos, 0.6, true);
                     setPathState(PathState.STOPINTAKE2);
                 }
                 break;
@@ -305,13 +306,13 @@ public class BlueAutoClose9Lever extends OpMode {
             case DRIVE_INTAKE2POSE_LEVERPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to preliminary shooting position 2 and rotated");
-                    follower.followPath(driveIntake2PosLeverPos, true);
+                    follower.followPath(driveIntake2PosLeverPos, 0.6, true);
                     setPathState(PathState.LEVER);
                 }
                 break;
 
             case LEVER:
-                if(!follower.isBusy()){
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>4){
                     //TODO start flywheels
                     telemetry.addLine("Waiting at lever");
                     setPathState(PathState.DRIVE_LEVERPOSE_SHOOTPOSE);
@@ -322,7 +323,7 @@ public class BlueAutoClose9Lever extends OpMode {
             case DRIVE_LEVERPOSE_SHOOTPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveLeverPosShootPos, true);
+                    follower.followPath(driveLeverPosShootPos, 0.9, true);
                     setPathState(PathState.SHOOT2);
                 }
                 break;
