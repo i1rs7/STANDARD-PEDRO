@@ -111,8 +111,8 @@ public class LaunchStateMachine {
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
-                    outtakeLeft.setPower(TARGET_FLYWHEEL_RPM);
-                    outtakeRight.setPower(TARGET_FLYWHEEL_RPM);
+                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
+                    outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.SPIN_UP;
