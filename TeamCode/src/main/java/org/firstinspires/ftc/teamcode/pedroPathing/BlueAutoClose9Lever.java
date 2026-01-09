@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import static java.lang.Thread.sleep;
+
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -70,6 +72,9 @@ public class BlueAutoClose9Lever extends OpMode {
 
         //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
+
+        //stop
+
     }
 
 
@@ -337,15 +342,6 @@ public class BlueAutoClose9Lever extends OpMode {
                     follower.followPath(driveShootPosLeavePos, true);
                 }
                 break;
-
-
-
-
-
-
-
-
-
 
             default:
                 telemetry.addLine("No state");
