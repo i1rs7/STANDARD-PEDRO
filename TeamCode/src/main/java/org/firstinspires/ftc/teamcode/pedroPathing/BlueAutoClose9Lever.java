@@ -344,8 +344,10 @@ public class BlueAutoClose9Lever extends OpMode {
                     follower.followPath(driveShootPosLeavePos, true);
                 }
                 break;
+
             case DONE:
                 telemetry.addLine("Done!");
+                break;
 
             default:
                 telemetry.addLine("No state");

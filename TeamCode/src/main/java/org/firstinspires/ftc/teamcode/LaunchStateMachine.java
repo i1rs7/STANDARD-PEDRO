@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class LaunchStateMachine {
 
-    private ElapsedTime stateTimer = new ElapsedTime();
+    public ElapsedTime stateTimer = new ElapsedTime();
 
     //private Servo shootServo;
     private DcMotor intakeMotor;
@@ -22,13 +22,13 @@ public class LaunchStateMachine {
         RESET
     }
 
-    private FlywheelState flywheelState;
+    public FlywheelState flywheelState;
 
     // ------ SHOOTER CONSTANTS --------
     // this servo does not exist yet on robot v1, may exist in v2 so pre-coded
     //private double shooterResetAngle = 0; //placeholder values (0, 90, 0.5)
     //private double shooterShootAngle = 90;
-    private double timeToLower = 0.5;
+    private double timeToLower = 1.0;
     private double timeToShoot = 0.5; //amount of time the shooting takes
 
 
@@ -77,10 +77,10 @@ public class LaunchStateMachine {
                     if (stateTimer.seconds() > timeToLower){
                         outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
                         outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
-                    }
 
-                    stateTimer.reset();
-                    flywheelState = FlywheelState.SPIN_UP;
+                        stateTimer.reset();
+                        flywheelState = FlywheelState.SPIN_UP;
+                    }
                 }
                 break;
 
