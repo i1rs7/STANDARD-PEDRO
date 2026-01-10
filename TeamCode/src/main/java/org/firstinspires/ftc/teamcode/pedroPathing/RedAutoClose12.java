@@ -388,6 +388,7 @@ public class RedAutoClose12 extends OpMode {
                 if(!follower.isBusy()){
                     telemetry.addLine("Leave the zone - DONE!!!");
                     follower.followPath(driveShootPosLeavePos, true);
+                    setPathState(PathState.DONE);
                 }
             case DONE:
                 telemetry.addLine("DONE");

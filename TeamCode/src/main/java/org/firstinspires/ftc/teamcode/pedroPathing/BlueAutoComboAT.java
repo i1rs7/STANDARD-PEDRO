@@ -290,6 +290,7 @@ public class BlueAutoComboAT extends OpMode {
                 if(!follower.isBusy()){
                     //TODO add intake logic to stop intake
                     telemetry.addLine("Stopped intake");
+                    setPathState(PathState.DONE);
                 }
                 break;
 

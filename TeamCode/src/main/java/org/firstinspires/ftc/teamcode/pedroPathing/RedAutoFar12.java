@@ -371,7 +371,9 @@ public class RedAutoFar12 extends OpMode {
                 if(!follower.isBusy()){
                     telemetry.addLine("Leave the zone - DONE!!!");
                     follower.followPath(driveShootPosLeavePos, true);
+                    setPathState(PathState.DONE);
                 }
+                break;
             case DONE:
                 telemetry.addLine("DONE");
                 break;
