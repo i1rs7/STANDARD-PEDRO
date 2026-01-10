@@ -223,13 +223,23 @@ public class Solo_Standard_Drive extends LinearOpMode {
 
             //outtake code
             if (gamepad1.right_trigger == 1.0) {
+                outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
+                outtakeRight.setDirection(DcMotor.Direction.FORWARD);
                 outtakeLeft.setVelocity(target_RPM_close);
                 outtakeRight.setVelocity(target_RPM_close);
             } else if (gamepad1.left_trigger == 1.0) {
+                outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
+                outtakeRight.setDirection(DcMotor.Direction.FORWARD);
                 outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
 
-            } else {
+            } else if (gamepad1.a){
+                outtakeLeft.setDirection(DcMotor.Direction.FORWARD);
+                outtakeRight.setDirection(DcMotor.Direction.REVERSE);
+                outtakeLeft.setVelocity(target_RPM_close);
+                outtakeRight.setVelocity(target_RPM_close);
+            }
+            else {
                 outtakeLeft.setPower(0);
                 outtakeRight.setPower(0);
             }
