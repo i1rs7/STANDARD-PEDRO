@@ -76,6 +76,8 @@ public class RedAutoClose12 extends OpMode {
 
         //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
+
+        DONE
     }
 
 
@@ -387,6 +389,9 @@ public class RedAutoClose12 extends OpMode {
                     telemetry.addLine("Leave the zone - DONE!!!");
                     follower.followPath(driveShootPosLeavePos, true);
                 }
+            case DONE:
+                telemetry.addLine("DONE");
+                break;
 
 
 

@@ -325,6 +325,7 @@ public class RedAutoClose9Lever extends OpMode {
                 } break;
             case DONE:
                 telemetry.addLine("done!");
+                break;
 
 
 

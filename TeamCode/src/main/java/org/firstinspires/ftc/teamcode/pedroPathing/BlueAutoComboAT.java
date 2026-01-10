@@ -61,7 +61,9 @@ public class BlueAutoComboAT extends OpMode {
         DRIVE_LINEINTAKE2POSE_INTAKE2POSE,
 
         //This is also the leave position, we will stay in the red tunnel (safe unless red is there)
-        STOPINTAKE2
+        STOPINTAKE2,
+
+        DONE,
 
     }
 
@@ -289,6 +291,10 @@ public class BlueAutoComboAT extends OpMode {
                     //TODO add intake logic to stop intake
                     telemetry.addLine("Stopped intake");
                 }
+                break;
+
+            case DONE:
+                telemetry.addLine("DONE");
                 break;
 
 

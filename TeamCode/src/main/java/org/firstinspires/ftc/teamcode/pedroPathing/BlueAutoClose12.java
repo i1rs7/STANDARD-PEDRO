@@ -75,6 +75,8 @@ public class BlueAutoClose12 extends OpMode {
 
         //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
+
+        DONE
     }
 
 
@@ -370,9 +372,13 @@ public class BlueAutoClose12 extends OpMode {
 
             case DRIVE_SHOOTPOSE_LEAVEPOSE:
                 if(!follower.isBusy()){
-                    telemetry.addLine("Leave the zone - DONE!!!");
+                    telemetry.addLine("Leave the zone");
                     follower.followPath(driveShootPosLeavePos, true);
                 }
+                break;
+
+            case DONE:
+                telemetry.addLine("DONE");
                 break;
 
 

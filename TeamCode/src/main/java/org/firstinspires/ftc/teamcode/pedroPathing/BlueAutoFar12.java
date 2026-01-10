@@ -74,6 +74,8 @@ public class BlueAutoFar12 extends OpMode {
 
         //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
+
+        DONE
     }
 
 
@@ -372,7 +374,9 @@ public class BlueAutoFar12 extends OpMode {
                     follower.followPath(driveShootPosLeavePos, true);
                 }
 
-
+            case DONE:
+                telemetry.addLine("DONE");
+                break;
 
 
 
