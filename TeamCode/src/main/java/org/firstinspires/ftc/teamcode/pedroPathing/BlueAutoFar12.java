@@ -89,13 +89,13 @@ public class BlueAutoFar12 extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(57.47813822284908, 8.733427362482372, Math.toRadians(90));
-    private final Pose shootPose = new Pose(64.78984485190409, 15.84203102961919, Math.toRadians(115));
-    private final Pose lineIntake1Pose = new Pose(42.85472496473906, 35.54301833568405, Math.toRadians(0));
+    private final Pose shootPose = new Pose(64.78984485190409, 15.84203102961919, Math.toRadians(110));
+    private final Pose lineIntake1Pose = new Pose(56.85472496473906, 35.54301833568405, Math.toRadians(0));
     private final Pose intake1Pose = new Pose(9.717912552891397, 35.54301833568405, Math.toRadians(0));
-    private final Pose lineIntake2Pose = new Pose(44.276445698166434, 60.7277856135402, Math.toRadians(0));
-    private final Pose intake2Pose = new Pose(20.716502115655853, 60.11847672778562, Math.toRadians(0));
-    private final Pose lineIntake3Pose = new Pose(9.717912552891397, 35.74612129760225, Math.toRadians(90));
-    private final Pose intake3Pose = new Pose(9.311706629055006, 9.54583921015515, Math.toRadians(90));
+    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 58.524682651622, Math.toRadians(0));
+    private final Pose intake2Pose = new Pose(24.197060671580733, 58.524682651622, Math.toRadians(0));
+    private final Pose lineIntake3Pose = new Pose(15.717912552891397, 35.74612129760225, Math.toRadians(90));
+    private final Pose intake3Pose = new Pose(15.311706629055006, 9.54583921015515, Math.toRadians(90));
     private final Pose leavePose = new Pose(31.074753173483778, 23.35684062059238, Math.toRadians(115));
 
 
@@ -205,7 +205,7 @@ public class BlueAutoFar12 extends OpMode {
                 break;
 
             case SHOOTPRELOAD:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot preload");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
@@ -216,7 +216,7 @@ public class BlueAutoFar12 extends OpMode {
             case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Lined up to intake first set of balls");
-                    follower.followPath(driveShootPosLineIntake1Pos, true);
+                    follower.followPath(driveShootPosLineIntake1Pos, 0.8, true);
                     setPathState(PathState.STARTINTAKE1);
                 }
                 break;
@@ -230,9 +230,9 @@ public class BlueAutoFar12 extends OpMode {
                 break;
 
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
+                if(!follower.isBusy()){
                     telemetry.addLine("Intook 3 balls");
-                    follower.followPath(driveLineIntake1PosIntake1Pos, true);
+                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.6, true);
                     setPathState(PathState.STOPINTAKE1);
                 }
                 break;
@@ -250,13 +250,13 @@ public class BlueAutoFar12 extends OpMode {
             case DRIVE_INTAKE1POSE_SHOOTPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveIntake1PosShootPos, true);
+                    follower.followPath(driveIntake1PosShootPos, 0.9,true);
                     setPathState(PathState.SHOOT1);
                 }
                 break;
 
             case SHOOT1:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot first 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE2POSE);
@@ -267,7 +267,7 @@ public class BlueAutoFar12 extends OpMode {
             case DRIVE_SHOOTPOSE_LINEINTAKE2POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Lined up to intake second set of balls");
-                    follower.followPath(driveShootPosLineIntake2Pos, true);
+                    follower.followPath(driveShootPosLineIntake2Pos, 0.8, true);
                     setPathState(PathState.STARTINTAKE2);
                 }
                 break;
@@ -282,9 +282,9 @@ public class BlueAutoFar12 extends OpMode {
 
 
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSE:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
+                if(!follower.isBusy()){
                     telemetry.addLine("Intook second set of balls");
-                    follower.followPath(driveLineIntake2PosIntake2Pos, true);
+                    follower.followPath(driveLineIntake2PosIntake2Pos, 0.6, true);
                     setPathState(PathState.STOPINTAKE2);
                 }
                 break;
@@ -303,13 +303,13 @@ public class BlueAutoFar12 extends OpMode {
             case DRIVE_INTAKE2POSE_SHOOTPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to preliminary shooting position 2 and rotated");
-                    follower.followPath(driveIntake2PosShootPos, true);
+                    follower.followPath(driveIntake2PosShootPos, 0.9, true);
                     setPathState(PathState.SHOOT2);
                 }
                 break;
 
             case SHOOT2:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot second 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE3POSE);
@@ -319,7 +319,7 @@ public class BlueAutoFar12 extends OpMode {
             case DRIVE_SHOOTPOSE_LINEINTAKE3POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Lined up to intake second set of balls");
-                    follower.followPath(driveShootPosLineIntake3Pos, true);
+                    follower.followPath(driveShootPosLineIntake3Pos, 0.6, true);
                     setPathState(PathState.STARTINTAKE3);
                 }
                 break;
@@ -333,9 +333,9 @@ public class BlueAutoFar12 extends OpMode {
                 break;
 
             case DRIVE_LINEINTAKE3POSE_INTAKE3POSE:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2){
+                if(!follower.isBusy()){
                     telemetry.addLine("Intook third set of balls");
-                    follower.followPath(driveLineIntake3PosIntake3Pos, true);
+                    follower.followPath(driveLineIntake3PosIntake3Pos, 0.5, true);
                     setPathState(PathState.STOPINTAKE3);
                 }
                 break;
@@ -353,13 +353,13 @@ public class BlueAutoFar12 extends OpMode {
             case DRIVE_INTAKE3POSE_SHOOTPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveIntake3PosShootPos, true);
+                    follower.followPath(driveIntake3PosShootPos, 0.8, true);
                     setPathState(PathState.SHOOT3);
                 }
                 break;
 
             case SHOOT3:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 5) {
+                if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot third 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LEAVEPOSE);
