@@ -36,10 +36,10 @@ public class LaunchStateMachine {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    private double SHORT_FLYWHEEL_RPM = 950;
-    private double FAR_FLYWHEEL_RPM = 1000;
-    private double target_range = 40;
-    private double TARGET_FLYWHEEL_RPM = SHORT_FLYWHEEL_RPM;
+    private double CLOSE_FLYWHEEL_RPM = 800;
+    private double FAR_FLYWHEEL_RPM = 950;
+    private double target_range = 20;
+    private double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
     private double FLYWHEEL_MAX_SPINUP_TIME = 3; //safety check in case flywheel takes forever
 
 
@@ -87,7 +87,6 @@ public class LaunchStateMachine {
             case SPIN_UP:
                 if (FlywheelsAtSpeed() &&
                         stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
-
                     stateTimer.reset();
                     flywheelState = FlywheelState.LAUNCH;
                 }
