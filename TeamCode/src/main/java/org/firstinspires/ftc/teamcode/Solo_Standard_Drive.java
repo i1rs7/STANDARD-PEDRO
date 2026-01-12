@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -78,6 +79,7 @@ public class Solo_Standard_Drive extends LinearOpMode {
 
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
+    private Servo door = null;
 
 
     static final double target_RPM_close = 780;
@@ -96,6 +98,7 @@ public class Solo_Standard_Drive extends LinearOpMode {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "i");
         outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
+        door = hardwareMap.get(Servo.class, "d");
 
         // setting direction for all DcMotors
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -253,13 +256,13 @@ public class Solo_Standard_Drive extends LinearOpMode {
 //            }
 
 
-            //if (gamepad1.y) {
-            //    // door servo at position zero
-            //door.setPosition(0.5);
-            //} else if (gamepad1.b) {
-            // door servo at position one
-            //    door.setPosition(0.8);
-            //}
+            if (gamepad2.y) {
+                // door servo at position zero
+                door.setPosition(0.3);
+            } else if (gamepad2.b) {
+                //door servo at position one
+                door.setPosition(0.8);
+            }
 
 
             // Show the elapsed game time and wheel power.
