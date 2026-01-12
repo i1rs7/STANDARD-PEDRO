@@ -34,6 +34,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /*
@@ -79,6 +80,8 @@ public class Standard_Drive extends LinearOpMode {
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
 
+    private Servo door = null;
+
 
     static final double target_RPM_close = 780;
     static final double target_RPM_far = 950;
@@ -95,6 +98,7 @@ public class Standard_Drive extends LinearOpMode {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "i");
         outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
+        door = hardwareMap.get(Servo.class, "d");
 
         // setting direction for all DcMotors
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -215,10 +219,10 @@ public class Standard_Drive extends LinearOpMode {
             }
 
             // prepare for shooting, bring balls down a little
-            if (gamepad2.y) {
-                intakeMotor.setDirection(DcMotor.Direction.FORWARD);
-                intakeMotor.setPower(0.95);
-            }
+            //if (gamepad2.y) {
+            //    intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+            //    intakeMotor.setPower(0.95);
+            //}
 
             //outtake code
             if (gamepad2.right_trigger == 1.0) {
@@ -257,13 +261,13 @@ public class Standard_Drive extends LinearOpMode {
 //            }
 
 
-            //if (gamepad1.y) {
-            //    // door servo at position zero
-            //door.setPosition(0.5);
-            //} else if (gamepad1.b) {
-            // door servo at position one
-            //    door.setPosition(0.8);
-            //}
+            if (gamepad2.y) {
+                // door servo at position zero
+            door.setPosition(0.05);
+            } else if (gamepad2.b) {
+             //door servo at position one
+                door.setPosition(0.5);
+            }
 
 
             // Show the elapsed game time and wheel power.

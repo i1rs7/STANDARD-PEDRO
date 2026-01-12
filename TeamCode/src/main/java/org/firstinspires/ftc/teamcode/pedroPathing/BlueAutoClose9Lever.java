@@ -17,7 +17,7 @@ import com.pedropathing.util.Timer;
 import org.firstinspires.ftc.teamcode.pedroPathing.FlywheelLogic;
 
 
-@Disabled
+@Autonomous
 public class BlueAutoClose9Lever extends OpMode {
 
 

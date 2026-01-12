@@ -6,7 +6,6 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -209,22 +208,23 @@ public class Final_BlueAutoClose9Lever extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
-                //TODO start flywheels
                 follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
                 setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
                 break;
 
             case SHOOTPRELOAD:
-                shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
                  if(!follower.isBusy()) {
-                     telemetry.addLine("Shot preload");
-                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                     shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
+                     if (pathTimer.getElapsedTimeSeconds() > 6.0){
+                         telemetry.addLine("Shot preload");
+                         setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                     }
                  } break;
 
 
             case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
-                if(!follower.isBusy()){
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.0){
                     telemetry.addLine("Lined up to intake first set of balls");
                     follower.followPath(driveShootPosLineIntake1Pos, 0.7, true);
                     setPathState(PathState.STARTINTAKE1);
@@ -266,7 +266,7 @@ public class Final_BlueAutoClose9Lever extends OpMode {
                 break;
 
             case SHOOT1:
-                shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
+                //shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
                 if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot first 3");
@@ -404,8 +404,11 @@ public class Final_BlueAutoClose9Lever extends OpMode {
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+
         outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
+        outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
+        outtakeRight.setDirection(DcMotor.Direction.FORWARD);
 
         //shooter.init(hardwareMap);
         buildPaths();
