@@ -216,6 +216,7 @@ public class Final_BlueAutoClose9Lever extends OpMode {
                 break;
 
             case SHOOTPRELOAD:
+                shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
                  if(!follower.isBusy()) {
                      telemetry.addLine("Shot preload");
                      setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
@@ -265,6 +266,7 @@ public class Final_BlueAutoClose9Lever extends OpMode {
                 break;
 
             case SHOOT1:
+                shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
                 if(!follower.isBusy()) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot first 3");
@@ -402,8 +404,8 @@ public class Final_BlueAutoClose9Lever extends OpMode {
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
-        //outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
-        //outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
+        outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
+        outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
 
         //shooter.init(hardwareMap);
         buildPaths();
