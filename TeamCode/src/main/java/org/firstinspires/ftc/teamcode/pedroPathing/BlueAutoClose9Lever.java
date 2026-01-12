@@ -92,7 +92,7 @@ public class BlueAutoClose9Lever extends OpMode {
     PathState pathState;
 
     //all points
-    private final Pose startPose = new Pose(20.919605077574047, 121.8617771509168, Math.toRadians(144));
+    private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(90));
     private final Pose shootPose2 = new Pose(64.856801705433135, 86.34008052590521, Math.toRadians(130));
     private final Pose shootPose = new Pose(56.85680170543313, 84.07533215512152, Math.toRadians(130));
     private final Pose lineIntake1Pose = new Pose(56.85680170543313, 84.07533215512152, Math.toRadians(0));

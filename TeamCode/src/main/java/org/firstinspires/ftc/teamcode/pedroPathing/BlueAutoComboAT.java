@@ -79,7 +79,7 @@ public class BlueAutoComboAT extends OpMode {
     PathState pathState;
 
     //all points
-    private final Pose startPose = new Pose(20.919605077574047, 121.8617771509168, Math.toRadians(144));
+    private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(90));
     private final Pose shootPose = new Pose(48.13540197461213, 95.2552891396333, Math.toRadians(130));
     private final Pose lineIntake1Pose = new Pose(47.93229901269393, 83.88152327221438, Math.toRadians(0));
     private final Pose intake1Pose = new Pose(14.82651622002821, 83.88152327221438, Math.toRadians(0));
