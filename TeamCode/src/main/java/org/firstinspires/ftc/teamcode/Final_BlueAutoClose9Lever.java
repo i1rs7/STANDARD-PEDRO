@@ -214,15 +214,17 @@ public class Final_BlueAutoClose9Lever extends OpMode {
                 break;
 
             case SHOOTPRELOAD:
-                //shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
                  if(!follower.isBusy()) {
-                     telemetry.addLine("Shot preload");
-                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                     shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
+                     if (pathTimer.getElapsedTimeSeconds() > 6.0){
+                         telemetry.addLine("Shot preload");
+                         setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                     }
                  } break;
 
 
             case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
-                if(!follower.isBusy()){
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.0){
                     telemetry.addLine("Lined up to intake first set of balls");
                     follower.followPath(driveShootPosLineIntake1Pos, 0.7, true);
                     setPathState(PathState.STARTINTAKE1);
@@ -402,8 +404,11 @@ public class Final_BlueAutoClose9Lever extends OpMode {
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+
         outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
+        outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
+        outtakeRight.setDirection(DcMotor.Direction.FORWARD);
 
         //shooter.init(hardwareMap);
         buildPaths();
