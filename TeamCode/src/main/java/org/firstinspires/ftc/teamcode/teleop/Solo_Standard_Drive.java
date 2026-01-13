@@ -75,16 +75,17 @@ public class Solo_Standard_Drive extends LinearOpMode {
     private DcMotorEx backLeftDrive = null;
     private DcMotorEx frontRightDrive = null;
     private DcMotorEx backRightDrive = null;
-    private DcMotorEx intakeMotor = null;
+    private DcMotor intakeMotor = null;
+    private DcMotor shootMotor = null;
 
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
+
     private Servo door = null;
 
 
     static final double target_RPM_close = 780;
     static final double target_RPM_far = 950;
-    static final double target_range = 25;
     static final double NUDGE_POWER = 0.22;
 
     @Override
@@ -99,6 +100,7 @@ public class Solo_Standard_Drive extends LinearOpMode {
         outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
         door = hardwareMap.get(Servo.class, "d");
+        shootMotor = hardwareMap.get(DcMotor.class,"shoot");
 
         // setting direction for all DcMotors
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -108,6 +110,7 @@ public class Solo_Standard_Drive extends LinearOpMode {
         intakeMotor.setDirection(DcMotor.Direction.REVERSE); // intake up
         outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
+        shootMotor.setDirection(DcMotor.Direction.FORWARD); //todo find the right direction
 
 
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -209,19 +212,26 @@ public class Solo_Standard_Drive extends LinearOpMode {
             if (gamepad1.left_bumper) {
                 //intake down
                 intakeMotor.setDirection(DcMotor.Direction.FORWARD);
-                intakeMotor.setPower(1.0);
+                intakeMotor.setPower(0.95);
             } else if (gamepad1.right_bumper) {
                 //intake up
                 intakeMotor.setDirection(DcMotor.Direction.REVERSE);
-                intakeMotor.setPower(1.0);
+                intakeMotor.setPower(0.95);
             } else {
                 intakeMotor.setPower(0);
             }
 
-            // prepare for shooting, bring balls down a little
-            if (gamepad1.y) {
-                intakeMotor.setDirection(DcMotor.Direction.FORWARD);
-                intakeMotor.setPower(1.0);
+            // shooting code
+            if (gamepad1.y){
+                //shoot up
+                shootMotor.setDirection(DcMotor.Direction.FORWARD); //todo find direction
+                shootMotor.setPower(0.95);
+            } else if (gamepad1.b) {
+                //shoot down
+                shootMotor.setDirection(DcMotor.Direction.REVERSE);
+                shootMotor.setPower(0.95);
+            } else {
+                shootMotor.setPower(0);
             }
 
             //outtake code
@@ -236,11 +246,6 @@ public class Solo_Standard_Drive extends LinearOpMode {
                 outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
 
-            } else if (gamepad1.a){
-                outtakeLeft.setDirection(DcMotor.Direction.FORWARD);
-                outtakeRight.setDirection(DcMotor.Direction.REVERSE);
-                outtakeLeft.setVelocity(target_RPM_close);
-                outtakeRight.setVelocity(target_RPM_close);
             }
             else {
                 outtakeLeft.setPower(0);
@@ -248,32 +253,30 @@ public class Solo_Standard_Drive extends LinearOpMode {
             }
 
             // rumbles
-            //while ((gamepad1.right_trigger == 1.0) && (outtakeRight.getVelocity() >= target_RPM_close - target_range && outtakeRight.getVelocity() <= target_RPM_close + target_range) && (outtakeLeft.getVelocity() >= target_RPM_close - target_range && outtakeLeft.getVelocity() <= target_RPM_close + target_range)) {
-            //gamepad1.rumble(100);
-            //}
-//            while ((gamepad1.left_trigger == 1.0) && (outtakeRight.getVelocity() >= target_RPM_far - target_range && outtakeRight.getVelocity() <= target_RPM_far + target_range) && (outtakeLeft.getVelocity() >= target_RPM_far - target_range && outtakeLeft.getVelocity() <= target_RPM_far + target_range)) {
-//                gamepad1.rumble(100);
+//            while ((gamepad2.right_trigger == 1.0) &&
+//                    (outtakeRight.getVelocity() >= target_RPM_close - target_range &&
+//                            outtakeRight.getVelocity() <= target_RPM_close + target_range) &&
+//                    (outtakeLeft.getVelocity() >= target_RPM_close - target_range &&
+//                            outtakeLeft.getVelocity() <= target_RPM_close + target_range)) {
+//                gamepad2.rumble(100);
+//            }
+//
+//            while ((gamepad2.left_trigger == 1.0) && (outtakeRight.getVelocity() >= target_RPM_far - target_range && outtakeRight.getVelocity() <= target_RPM_far + target_range) && (outtakeLeft.getVelocity() >= target_RPM_far - target_range && outtakeLeft.getVelocity() <= target_RPM_far + target_range)) {
+//                gamepad2.rumble(100);
 //            }
 
 
-            if (gamepad1.y) {
+            if (gamepad1.x) {
                 // door up
                 door.setPosition(0.15);
-            } else if (gamepad1.b) {
+            } else if (gamepad1.a) {
                 //door down
                 door.setPosition(0.45);
             }
 
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Outtake Left Encoder Ticks: ", outtakeLeft.getVelocity());
-            telemetry.addData("Outtake Right Encoder Ticks: ", outtakeRight.getVelocity());
-
-            telemetry.addData("Front left/Right", "%4.2f, %4.2f", frontLeftPower, frontRightPower);
-            telemetry.addData("Back  left/Right", "%4.2f, %4.2f", backLeftPower, backRightPower);
-            //add telemetry for intake motor?
-            telemetry.addData("Status", "Running");
+            telemetry.addData("Outtake Encoder Ticks: ", outtakeLeft.getVelocity());
             telemetry.update();
 
         }

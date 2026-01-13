@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -75,7 +76,8 @@ public class Standard_Drive extends LinearOpMode {
     private DcMotorEx backLeftDrive = null;
     private DcMotorEx frontRightDrive = null;
     private DcMotorEx backRightDrive = null;
-    private DcMotorEx intakeMotor = null;
+    private DcMotor intakeMotor = null;
+    private DcMotor shootMotor = null;
 
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
@@ -99,6 +101,7 @@ public class Standard_Drive extends LinearOpMode {
         outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
         door = hardwareMap.get(Servo.class, "d");
+        shootMotor = hardwareMap.get(DcMotor.class,"shoot");
 
         // setting direction for all DcMotors
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -108,6 +111,7 @@ public class Standard_Drive extends LinearOpMode {
         intakeMotor.setDirection(DcMotor.Direction.REVERSE); // intake up
         outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
+        shootMotor.setDirection(DcMotor.Direction.FORWARD); //todo find the right direction
 
 
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -218,11 +222,18 @@ public class Standard_Drive extends LinearOpMode {
                 intakeMotor.setPower(0);
             }
 
-            // prepare for shooting, bring balls down a little
-            //if (gamepad2.y) {
-            //    intakeMotor.setDirection(DcMotor.Direction.FORWARD);
-            //    intakeMotor.setPower(0.95);
-            //}
+            // shooting code
+            if (gamepad2.y){
+                //shoot up
+                shootMotor.setDirection(DcMotor.Direction.FORWARD); //todo find direction
+                shootMotor.setPower(0.95);
+            } else if (gamepad2.b) {
+                //shoot down
+                shootMotor.setDirection(DcMotor.Direction.REVERSE);
+                shootMotor.setPower(0.95);
+            } else {
+                shootMotor.setPower(0);
+            }
 
             //outtake code
             if (gamepad2.right_trigger == 1.0) {
@@ -236,11 +247,6 @@ public class Standard_Drive extends LinearOpMode {
                 outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
 
-            } else if (gamepad2.a){
-                outtakeLeft.setDirection(DcMotor.Direction.FORWARD);
-                outtakeRight.setDirection(DcMotor.Direction.REVERSE);
-                outtakeLeft.setVelocity(target_RPM_close);
-                outtakeRight.setVelocity(target_RPM_close);
             }
             else {
                 outtakeLeft.setPower(0);
@@ -261,10 +267,10 @@ public class Standard_Drive extends LinearOpMode {
 //            }
 
 
-            if (gamepad2.y) {
+            if (gamepad2.x) {
                 // door up
             door.setPosition(0.15);
-            } else if (gamepad2.b) {
+            } else if (gamepad2.a) {
              //door down
                 door.setPosition(0.45);
             }
