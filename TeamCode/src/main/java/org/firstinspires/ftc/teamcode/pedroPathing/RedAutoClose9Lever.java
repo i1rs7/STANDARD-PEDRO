@@ -95,7 +95,7 @@ public class RedAutoClose9Lever extends OpMode {
         LEVER,
 
 
-        DRIVE_LEVERPOSE_SHOOTPOSE2,
+        DRIVE_LEVERPOSE_SHOOTPOSE3,
 
 
         //Go to shooting position and shoot next 3
@@ -105,7 +105,7 @@ public class RedAutoClose9Lever extends OpMode {
 
 
         //Leave
-        DRIVE_SHOOTPOSE2_LEAVEPOSE,
+        DRIVE_SHOOTPOSE3_LEAVEPOSE,
 
 
         DONE
@@ -137,16 +137,20 @@ public class RedAutoClose9Lever extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(123.08039492242595, 121.8617771509168, Math.toRadians(36));
-    private final Pose shootPose = new Pose(95.86459802538787, 86.72769829171948, Math.toRadians(60));
-    private final Pose shootPose2 = new Pose(87.14319829456687, 90.07533215512152, Math.toRadians(135));
-    private final Pose lineIntake1Pose = new Pose(96.06770098730607, 87.88152327221438, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(120.91583505287716, 87.88152327221438, Math.toRadians(180));
-    private final Pose lineIntake2Pose = new Pose(94.44287729196051, 67.524682651622, Math.toRadians(180));
-    private final Pose intake2Pose = new Pose(120.2524682651622, 67.524682651622, Math.toRadians(180));
-    private final Pose controlLever = new Pose(127.75176304654443, 63.60157710801516, Math.toRadians(180));
-    private final Pose leverPose = new Pose(133.75176304654443, 63.60157710801516, Math.toRadians(75));
+    private final Pose startPose = new Pose(110.5444287729196, 136.1579689703808, Math.toRadians(90));
+    private final Pose shootPose = new Pose(85.86459802538787, 86.72769829171948, Math.toRadians(60));
+    private final Pose shootPose2 = new Pose(98.14319829456687, 90.07533215512152, Math.toRadians(10));
+    private final Pose shootPose3 = new Pose(94.856801705433135, 90.34008052590521, Math.toRadians(60));
+    private final Pose lineIntake1Pose = new Pose(100.06770098730607, 77.08152327221438, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(120.91583505287716, 77.08152327221438, Math.toRadians(180));
+    private final Pose lineIntake2Pose = new Pose(105.44287729196051, 67.524682651622, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(125.2524682651622, 67.524682651622, Math.toRadians(180));
+    private final Pose controlLever = new Pose(127.75176304654443, 69.60157710801516, Math.toRadians(90));
+    private final Pose leverPose = new Pose(14.75176304654443, 69.60157710801516, Math.toRadians(90));
     private final Pose leavePose = new Pose(120.08039492242595, 93.42736248236953, Math.toRadians(90));
+
+
+
 
 
 
@@ -171,7 +175,7 @@ public class RedAutoClose9Lever extends OpMode {
 
     //All the movement paths (no intake/outtake)
     private PathChain driveStartPosShootPos, driveShootPosLineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos2,
-            driveShootPos2LineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosControlLeverPos, driveControlLeverPosLeverPos, driveLeverPosShootPos2, driveShootPos2LeavePos;
+            driveShootPos2LineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosControlLeverPos, driveControlLeverPosLeverPos, driveLeverPosShootPos3, driveShootPos3LeavePos;
 
 
 
@@ -238,13 +242,13 @@ public class RedAutoClose9Lever extends OpMode {
                 .addPath(new BezierLine(controlLever, leverPose))
                 .setLinearHeadingInterpolation(controlLever.getHeading(), leverPose.getHeading())
                 .build();
-        driveLeverPosShootPos2 = follower.pathBuilder()
-                .addPath(new BezierLine(leverPose, shootPose2))
-                .setLinearHeadingInterpolation(leverPose.getHeading(), shootPose2.getHeading())
+        driveLeverPosShootPos3 = follower.pathBuilder()
+                .addPath(new BezierLine(leverPose, shootPose3))
+                .setLinearHeadingInterpolation(leverPose.getHeading(), shootPose3.getHeading())
                 .build();
-        driveShootPos2LeavePos = follower.pathBuilder()
-                .addPath(new BezierLine(shootPose2, leavePose))
-                .setLinearHeadingInterpolation(shootPose2.getHeading(), leavePose.getHeading())
+        driveShootPos3LeavePos = follower.pathBuilder()
+                .addPath(new BezierLine(shootPose3, leavePose))
+                .setLinearHeadingInterpolation(shootPose3.getHeading(), leavePose.getHeading())
                 .build();
     }
 
@@ -306,7 +310,7 @@ public class RedAutoClose9Lever extends OpMode {
                        telemetry.addLine("Shot preload");
                    }
                 }*/
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>2) {
                     telemetry.addLine("Shot preload");
                     setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
                 } break;
@@ -355,14 +359,14 @@ public class RedAutoClose9Lever extends OpMode {
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveIntake1PosShootPos2, 0.9,true);
+                    follower.followPath(driveIntake1PosShootPos2, 0.7,true);
                     setPathState(PathState.SHOOT1);
                 }
                 break;
 
 
             case SHOOT1:
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>2) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot first 3");
                     setPathState(PathState.DRIVE_SHOOTPOSE2_LINEINTAKE2POSE);
@@ -434,43 +438,44 @@ public class RedAutoClose9Lever extends OpMode {
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>4){
                     //TODO start flywheels
                     telemetry.addLine("Waiting at lever");
-                    setPathState(PathState.DRIVE_LEVERPOSE_SHOOTPOSE2);
+                    setPathState(PathState.DRIVE_LEVERPOSE_SHOOTPOSE3);
                 }
                 break;
 
 
 
 
-            case DRIVE_LEVERPOSE_SHOOTPOSE2:
+            case DRIVE_LEVERPOSE_SHOOTPOSE3:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveLeverPosShootPos2, 0.9, true);
+                    follower.followPath(driveLeverPosShootPos3, 0.7, true);
                     setPathState(PathState.SHOOT2);
                 }
                 break;
 
 
             case SHOOT2:
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>2) {
                     //TODO add flywheel logic to shoot 3
                     telemetry.addLine("Shot second 3");
-                    setPathState(PathState.DRIVE_SHOOTPOSE2_LEAVEPOSE);
+                    setPathState(PathState.DRIVE_SHOOTPOSE3_LEAVEPOSE);
                 }
                 break;
 
 
 
 
-            case DRIVE_SHOOTPOSE2_LEAVEPOSE:
+            case DRIVE_SHOOTPOSE3_LEAVEPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Leave the zone");
-                    follower.followPath(driveShootPos2LeavePos, true);
+                    follower.followPath(driveShootPos3LeavePos, true);
                 }
                 break;
 
 
             case DONE:
-                telemetry.addLine("Done!");
+                if(!follower.isBusy())
+                    telemetry.addLine("Done!");
                 break;
 
 
@@ -547,7 +552,7 @@ public class RedAutoClose9Lever extends OpMode {
         opModeTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
         //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
-        //shooter.init(hardwareMap);
+        // shooter.init(hardwareMap);
         buildPaths();
         follower.setPose(startPose);
     }
@@ -583,4 +588,7 @@ public class RedAutoClose9Lever extends OpMode {
 
     }
 }
+
+
+
 
