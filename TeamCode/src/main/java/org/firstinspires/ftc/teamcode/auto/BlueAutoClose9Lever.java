@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.auto;
 
 
 import com.pedropathing.follower.Follower;
@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Autonomous
-public class Final_BlueAutoClose9Lever extends OpMode {
+public class BlueAutoClose9Lever extends OpMode {
 
 
 
