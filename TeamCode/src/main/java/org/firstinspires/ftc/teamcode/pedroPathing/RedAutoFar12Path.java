@@ -12,7 +12,7 @@ import com.pedropathing.util.Timer;
 
 
 @Autonomous
-public class RedAutoClose12 extends OpMode {
+public class RedAutoFar12Path extends OpMode {
 
 
     private Follower follower;
@@ -52,11 +52,9 @@ public class RedAutoClose12 extends OpMode {
         STOPINTAKE2,
 
         //Go to first spot before shooting position to avoid the lever
-        DRIVE_INTAKE2POSE_SHOOTPOSE2,
+        DRIVE_INTAKE2POSE_SHOOTPOSE,
 
         //Go to shooting position and shoot next 3
-        DRIVE_SHOOTPOSE2_SHOOTPOSE,
-
         SHOOT2,
 
         //Line up to intake next 3 balls
@@ -76,8 +74,7 @@ public class RedAutoClose12 extends OpMode {
 
         //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
-
-        DONE
+        DONE,
     }
 
 
@@ -92,16 +89,15 @@ public class RedAutoClose12 extends OpMode {
     PathState pathState;
 
     //all points
-    private final Pose startPose = new Pose(123.08039492242595, 121.8617771509168, Math.toRadians(36));
-    private final Pose shootPose = new Pose(95.86459802538787, 95.2552891396333, Math.toRadians(52));
-    private final Pose lineIntake1Pose = new Pose(96.06770098730607, 83.88152327221438, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(128.1734837799718, 83.88152327221438, Math.toRadians(180));
-    private final Pose lineIntake2Pose = new Pose(95.66149506346968, 67.22708039492244, Math.toRadians(165));
-    private final Pose intake2Pose = new Pose(134.67277856135402, 52.19746121297602, Math.toRadians(180));
-    private final Pose shootPose2 = new Pose(95.45839210155148, 58.89985895627645, Math.toRadians(52));
-    private final Pose lineIntake3Pose = new Pose(95.25528913963329, 35.54301833568405, Math.toRadians(180));
-    private final Pose intake3Pose = new Pose(134.46967559943583, 35.54301833568405, Math.toRadians(180));
-    private final Pose leavePose = new Pose(101.55148095909732, 29.246826516220032, Math.toRadians(52));
+    private final Pose startPose = new Pose(86.52186177715092, 8.733427362482372, Math.toRadians(90));
+    private final Pose shootPose = new Pose(79.21015514809591, 15.84203102961919, Math.toRadians(67));
+    private final Pose lineIntake1Pose = new Pose(101.14527503526094, 35.54301833568405, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(134.2820874471086, 35.54301833568405, Math.toRadians(180));
+    private final Pose lineIntake2Pose = new Pose(99.72355430183357, 60.7277856135402, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(123.28349788434415, 60.11847672778562, Math.toRadians(180));
+    private final Pose lineIntake3Pose = new Pose(134.2820874471086, 35.74612129760225, Math.toRadians(90));
+    private final Pose intake3Pose = new Pose(134.688293370945, 9.54583921015515, Math.toRadians(90));
+    private final Pose leavePose = new Pose(112.92524682651622, 23.35684062059238, Math.toRadians(67));
 
 
 
@@ -116,7 +112,7 @@ public class RedAutoClose12 extends OpMode {
 
     //All the movement paths (no intake/outtake)
     private PathChain driveStartPosShootPos, driveShootPosLineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos,
-            driveShootPosLineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosShootPos2, driveShootPos2ShootPos, driveShootPosLineIntake3Pos,
+            driveShootPosLineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosShootPos, driveShootPosLineIntake3Pos,
             driveLineIntake3PosIntake3Pos, driveIntake3PosShootPos, driveShootPosLeavePos;
 
 
@@ -160,13 +156,9 @@ public class RedAutoClose12 extends OpMode {
                 .addPath(new BezierLine(lineIntake2Pose, intake2Pose))
                 .setLinearHeadingInterpolation(lineIntake2Pose.getHeading(), intake2Pose.getHeading())
                 .build();
-        driveIntake2PosShootPos2 = follower.pathBuilder()
-                .addPath(new BezierLine(intake2Pose, shootPose2))
-                .setLinearHeadingInterpolation(intake2Pose.getHeading(), shootPose2.getHeading())
-                .build();
-        driveShootPos2ShootPos = follower.pathBuilder()
-                .addPath(new BezierLine(shootPose2, shootPose))
-                .setLinearHeadingInterpolation(shootPose2.getHeading(), shootPose.getHeading())
+        driveIntake2PosShootPos = follower.pathBuilder()
+                .addPath(new BezierLine(intake2Pose, shootPose))
+                .setLinearHeadingInterpolation(intake2Pose.getHeading(), shootPose.getHeading())
                 .build();
         driveShootPosLineIntake3Pos = follower.pathBuilder()
                 .addPath(new BezierLine(shootPose, lineIntake3Pose))
@@ -304,24 +296,15 @@ public class RedAutoClose12 extends OpMode {
                     //TODO add intake logic to move balls down slightly
                     //TODO start flywheels
                     telemetry.addLine("Stopped intake after intaked second 3");
-                    setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE2);
+                    setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE);
                 }
                 break;
 
 
-            case DRIVE_INTAKE2POSE_SHOOTPOSE2:
+            case DRIVE_INTAKE2POSE_SHOOTPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to preliminary shooting position 2 and rotated");
-                    follower.followPath(driveIntake2PosShootPos2, true);
-                    setPathState(PathState.DRIVE_SHOOTPOSE2_SHOOTPOSE);
-                }
-                break;
-
-
-            case DRIVE_SHOOTPOSE2_SHOOTPOSE:
-                if(!follower.isBusy()){
-                    telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveShootPos2ShootPos, true);
+                    follower.followPath(driveIntake2PosShootPos, true);
                     setPathState(PathState.SHOOT2);
                 }
                 break;
@@ -390,6 +373,7 @@ public class RedAutoClose12 extends OpMode {
                     follower.followPath(driveShootPosLeavePos, true);
                     setPathState(PathState.DONE);
                 }
+                break;
             case DONE:
                 telemetry.addLine("DONE");
                 break;

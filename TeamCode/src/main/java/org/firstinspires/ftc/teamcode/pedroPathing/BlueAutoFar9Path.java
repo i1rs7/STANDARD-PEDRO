@@ -12,7 +12,7 @@ import com.pedropathing.util.Timer;
 
 
 @Autonomous
-public class BlueAutoFar9 extends OpMode {
+public class BlueAutoFar9Path extends OpMode {
 
 
     private Follower follower;

@@ -9,7 +9,6 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
@@ -26,7 +25,7 @@ import com.pedropathing.util.Timer;
 
 
 @Autonomous
-public class BlueAutoClose9Lever extends OpMode {
+public class RedAutoClose9LeverPath extends OpMode {
 
 
 
@@ -137,17 +136,18 @@ public class BlueAutoClose9Lever extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(90));
-    private final Pose shootPose = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(135));
-    private final Pose shootPose2 = new Pose(53.856801705433135, 89.34008052590521, Math.toRadians(145));
-    private final Pose shootPose3 = new Pose(50.856801705433135, 90.34008052590521, Math.toRadians(135));
-    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 84.07533215512152, Math.toRadians(0));
-    private final Pose intake1Pose = new Pose(21.08416494712284, 84.07533215512152, Math.toRadians(0));
-    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 60.524682651622, Math.toRadians(0));
-    private final Pose intake2Pose = new Pose(24.197060671580733, 60.524682651622, Math.toRadians(0));
-    private final Pose controlLever = new Pose (35.917366981341605, 69.60157710801516, Math.toRadians(90));
-    private final Pose leverPose = new Pose(16.54823695345557, 67.47672778561355, Math.toRadians(90));
-    final Pose leavePose = new Pose(20.919605077574047, 93.42736248236953, Math.toRadians(90));
+    private final Pose startPose = new Pose(110.5444287729196, 136.1579689703808, Math.toRadians(90));
+    private final Pose shootPose = new Pose(85.86459802538787, 86.72769829171948, Math.toRadians(60));
+    private final Pose shootPose2 = new Pose(98.14319829456687, 90.07533215512152, Math.toRadians(10));
+    private final Pose shootPose3 = new Pose(94.856801705433135, 90.34008052590521, Math.toRadians(60));
+    private final Pose lineIntake1Pose = new Pose(100.06770098730607, 77.08152327221438, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(120.91583505287716, 77.08152327221438, Math.toRadians(180));
+    private final Pose lineIntake2Pose = new Pose(105.44287729196051, 67.524682651622, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(125.2524682651622, 67.524682651622, Math.toRadians(180));
+    private final Pose controlLever = new Pose(127.75176304654443, 69.60157710801516, Math.toRadians(90));
+    private final Pose leverPose = new Pose(14.75176304654443, 69.60157710801516, Math.toRadians(90));
+    private final Pose leavePose = new Pose(120.08039492242595, 93.42736248236953, Math.toRadians(90));
+
 
 
 
@@ -551,7 +551,7 @@ public class BlueAutoClose9Lever extends OpMode {
         opModeTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
         //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
-       // shooter.init(hardwareMap);
+        // shooter.init(hardwareMap);
         buildPaths();
         follower.setPose(startPose);
     }

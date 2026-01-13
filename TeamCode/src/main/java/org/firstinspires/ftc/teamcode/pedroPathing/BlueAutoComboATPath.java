@@ -5,6 +5,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
@@ -13,8 +14,8 @@ import com.pedropathing.util.Timer;
 //import org.opencv.core.Mat;
 
 
-@Autonomous
-public class BlueAutoComboAT extends OpMode {
+@Disabled
+public class BlueAutoComboATPath extends OpMode {
 
 
     private Follower follower;
