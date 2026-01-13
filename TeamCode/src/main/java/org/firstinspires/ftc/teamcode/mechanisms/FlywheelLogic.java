@@ -26,10 +26,10 @@ public class FlywheelLogic {
     public FlywheelState flywheelState;
 
     // gate constants
-    private double GATE_CLOSE_ANGLE = 0.5; //todo find this value
-    private double GATE_OPEN_ANGLE = 0.15; // todo find this value
-    private double GATE_OPEN_TIME = 0.4; // todo find this value
-    private double GATE_CLOSE_TIME = 0.4; // todo find this value
+    private double GATE_CLOSE_ANGLE = 0.45;
+    private double GATE_OPEN_ANGLE = 0.15; //
+    private double GATE_OPEN_TIME = 0.1; // todo find this value
+    private double GATE_CLOSE_TIME = 0.1; // todo find this value
 
     // ------ SHOOTER CONSTANTS --------
     // this servo does not exist yet on robot v1, may exist in v2 so pre-coded
@@ -43,11 +43,11 @@ public class FlywheelLogic {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    private double CLOSE_FLYWHEEL_RPM = 800;
+    private double CLOSE_FLYWHEEL_RPM = 770;
     private double FAR_FLYWHEEL_RPM = 950;
-    private double target_range = 0;
+    private double target_range = 20;
     private double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
-    private double FLYWHEEL_MAX_SPINUP_TIME = 3; //safety check in case flywheel takes forever
+    private double FLYWHEEL_MAX_SPINUP_TIME = 2; //safety check in case flywheel takes forever
 
 
     public void init(HardwareMap hardwareMap){
@@ -92,7 +92,7 @@ public class FlywheelLogic {
 
             case SPIN_UP:
                 if (FlywheelsAtSpeed() || stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
-                    door.setPosition(GATE_OPEN_ANGLE);
+                    //door.setPosition(GATE_OPEN_ANGLE);
                     intakeMotor.setPower(0.95);
 
                     stateTimer.reset();
@@ -105,7 +105,9 @@ public class FlywheelLogic {
                 if (stateTimer.seconds() > GATE_OPEN_TIME){
                     shotsRemaining --;
 
+                    intakeMotor.setPower(0);
                     door.setPosition(GATE_CLOSE_ANGLE);
+
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.RESET;

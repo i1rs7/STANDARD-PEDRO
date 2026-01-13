@@ -266,7 +266,7 @@ public class Standard_Drive extends LinearOpMode {
             door.setPosition(0.15);
             } else if (gamepad2.b) {
              //door down
-                door.setPosition(0.5);
+                door.setPosition(0.45);
             }
 
 

@@ -261,7 +261,7 @@ public class Solo_Standard_Drive extends LinearOpMode {
                 door.setPosition(0.15);
             } else if (gamepad1.b) {
                 //door down
-                door.setPosition(0.5);
+                door.setPosition(0.45);
             }
 
 
