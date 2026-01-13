@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-public class FlywheelLogic {
+public class FlywheelLogic2 {
     private ElapsedTime stateTimer = new ElapsedTime();
 
     //private Servo shootServo;

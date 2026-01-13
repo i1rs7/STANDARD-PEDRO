@@ -1,17 +1,18 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-public class LaunchStateMachine {
+public class FlywheelLogic {
 
     public ElapsedTime stateTimer = new ElapsedTime();
 
-    //private Servo shootServo;
+    private Servo door;
     private DcMotor intakeMotor;
     private DcMotorEx outtakeLeft;
     private DcMotorEx outtakeRight;
@@ -23,6 +24,12 @@ public class LaunchStateMachine {
     }
 
     public FlywheelState flywheelState;
+
+    // gate constants
+    private double GATE_CLOSE_ANGLE = 0.1; //todo find this value
+    private double GATE_OPEN_ANGLE = 0.5; // todo find this value
+    private double GATE_OPEN_TIME = 0.4; // todo find this value
+    private double GATE_CLOSE_TIME = 0.4; // todo find this value
 
     // ------ SHOOTER CONSTANTS --------
     // this servo does not exist yet on robot v1, may exist in v2 so pre-coded
@@ -45,6 +52,8 @@ public class LaunchStateMachine {
 
     public void init(HardwareMap hardwareMap){
 
+        door = hardwareMap.get(Servo.class, "d");
+
         intakeMotor = hardwareMap.get(DcMotor.class,"i");
         outtakeLeft = hardwareMap.get(DcMotorEx.class,"oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class,"oR");
@@ -60,42 +69,43 @@ public class LaunchStateMachine {
         intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         intakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-
-
         flywheelState = FlywheelState.IDLE;
 
         outtakeLeft.setPower(0);
         outtakeRight.setPower(0);
+        door.setPosition(GATE_CLOSE_ANGLE);
     }
 
     public void update(){
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
-                    intakeMotor.setDirection(DcMotor.Direction.REVERSE);
-                    intakeMotor.setPower(0.95);
-                    if (stateTimer.seconds() > timeToLower){
-                        outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
-                        outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
+                    door.setPosition(GATE_CLOSE_ANGLE);
+                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
+                    outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
+                    intakeMotor.setPower(0);
 
-                        stateTimer.reset();
-                        flywheelState = FlywheelState.SPIN_UP;
-                    }
+                    stateTimer.reset();
+                    flywheelState = FlywheelState.SPIN_UP;
                 }
                 break;
 
             case SPIN_UP:
-                if (FlywheelsAtSpeed() &&
-                        stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
+                if (FlywheelsAtSpeed() || stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
+                    door.setPosition(GATE_OPEN_ANGLE);
+                    intakeMotor.setPower(0.95);
+
                     stateTimer.reset();
                     flywheelState = FlywheelState.LAUNCH;
                 }
                 break;
 
             case LAUNCH:
-                intakeMotor.setPower(0.95);
-                if (stateTimer.seconds() > timeToShoot){
+
+                if (stateTimer.seconds() > GATE_OPEN_TIME){
                     shotsRemaining --;
+
+                    door.setPosition(GATE_CLOSE_ANGLE);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.RESET;
@@ -103,7 +113,7 @@ public class LaunchStateMachine {
                 break;
 
             case RESET:
-                if (stateTimer.seconds() > timeToShoot){
+                if (stateTimer.seconds() > GATE_CLOSE_TIME){
                     if (shotsRemaining > 0){
                         stateTimer.reset();
                         flywheelState = FlywheelState.SPIN_UP;
@@ -111,6 +121,7 @@ public class LaunchStateMachine {
                     else{
                         outtakeLeft.setPower(0);
                         outtakeRight.setPower(0);
+                        intakeMotor.setPower(0);
 
                         flywheelState = FlywheelState.IDLE;
                     }
@@ -119,7 +130,6 @@ public class LaunchStateMachine {
                 break;
         }
     }
-
 
     public boolean FlywheelsAtSpeed(){
         if ((outtakeRight.getVelocity() >= TARGET_FLYWHEEL_RPM-target_range &&
@@ -139,7 +149,7 @@ public class LaunchStateMachine {
         }
     }
 
-    public boolean isBusy(){
+    public boolean flywheelsAreBusy(){
         return flywheelState != FlywheelState.IDLE;
     }
 }
