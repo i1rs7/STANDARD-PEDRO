@@ -10,6 +10,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
@@ -22,10 +23,10 @@ public class Final_BlueAutoClose9Lever extends OpMode {
 
     //motors
 
-    private DcMotor intakeMotor;
+    private DcMotor intakeMotor = null;
 
-    private DcMotorEx outtakeLeft;
-    private DcMotorEx outtakeRight;
+    private DcMotorEx outtakeLeft = null;
+    private DcMotorEx outtakeRight = null;
 
     //Flywheel constants
     private double CLOSE_FLYWHEEL_RPM = 800;
@@ -43,6 +44,11 @@ public class Final_BlueAutoClose9Lever extends OpMode {
     static final double     INTAKE_TO_ARTIFACT_DISTANCE_CONVERSION = ARTIFACT_DIAMETER/INTAKE_WHEEL_DIAMETER_INCHES;
 
     static final double     INTAKE_SPEED = 0.95;
+
+    // state machine stuff
+    private FlywheelLogic shooter = new FlywheelLogic();
+    private boolean shotsTriggered = false;
+
 
 
     public enum PathState {
@@ -96,15 +102,6 @@ public class Final_BlueAutoClose9Lever extends OpMode {
 
     }
 
-
-
-
-
-
-
-
-
-
     PathState pathState;
 
     //all points
@@ -117,35 +114,9 @@ public class Final_BlueAutoClose9Lever extends OpMode {
     private final Pose leverPose = new Pose(16.24823695345557, 70.47672778561355, Math.toRadians(90));
     final Pose leavePose = new Pose(23.919605077574047, 93.42736248236953, Math.toRadians(90));
 
-
-
-
-
-
-
-
-
-
-
-
     //All the movement paths (no intake/outtake)
     private PathChain driveStartPosShootPos, driveShootPosLineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos,
             driveShootPosLineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosLeverPos, driveLeverPosShootPos, driveShootPosLeavePos;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     public void buildPaths(){
         //use coordinates of the points (above) for the starting position and the ending position to construct a path
@@ -187,21 +158,6 @@ public class Final_BlueAutoClose9Lever extends OpMode {
                 .build();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void StatePathUpdate () {
         //update cases quickly
         //run the paths in order
@@ -214,13 +170,17 @@ public class Final_BlueAutoClose9Lever extends OpMode {
                 break;
 
             case SHOOTPRELOAD:
-                 if(!follower.isBusy()) {
-                     shootThreeBalls(CLOSE_FLYWHEEL_RPM,10.0);
-                     if (pathTimer.getElapsedTimeSeconds() > 6.0){
-                         telemetry.addLine("Shot preload");
-                         setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
-                     }
-                 } break;
+                if(!follower.isBusy()){
+                    if (!shotsTriggered){
+                        shooter.fireShots(3);
+                        shotsTriggered = true;
+                    }
+                    else if (shotsTriggered && !shooter.flywheelsAreBusy()){
+                        //shots are done, free to transition
+                        telemetry.addLine("Shot preload");
+                        setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                    }
+                } break;
 
 
             case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
@@ -250,8 +210,6 @@ public class Final_BlueAutoClose9Lever extends OpMode {
             case STOPINTAKE1:
                 if(!follower.isBusy()) {
                     intakeMotor.setPower(0);
-                    //TODO add intake logic to move balls down slightly
-                    //TODO start flywheels
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE);
                 }
@@ -303,8 +261,6 @@ public class Final_BlueAutoClose9Lever extends OpMode {
             case STOPINTAKE2:
                 if(!follower.isBusy()) {
                     intakeMotor.setPower(0);
-                    //TODO add intake logic to move balls down slightly
-                    //TODO start flywheels
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_INTAKE2POSE_LEVERPOSE);
                 }
@@ -321,7 +277,6 @@ public class Final_BlueAutoClose9Lever extends OpMode {
 
             case LEVER:
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>4){
-                    //TODO start flywheels
                     telemetry.addLine("Waiting at lever");
                     setPathState(PathState.DRIVE_LEVERPOSE_SHOOTPOSE);
                 }
@@ -362,36 +317,11 @@ public class Final_BlueAutoClose9Lever extends OpMode {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void setPathState (PathState newState) {
         pathState = newState;
         pathTimer.resetTimer();
+        shotsTriggered = false;
     }
-
 
     @Override
     public void init() {
@@ -401,6 +331,7 @@ public class Final_BlueAutoClose9Lever extends OpMode {
         timeoutTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
         //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
+        shooter.init(hardwareMap);
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -410,7 +341,7 @@ public class Final_BlueAutoClose9Lever extends OpMode {
         outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
 
-        //shooter.init(hardwareMap);
+
         buildPaths();
         follower.setPose(startPose);
     }
@@ -421,94 +352,26 @@ public class Final_BlueAutoClose9Lever extends OpMode {
         setPathState(pathState);
     }
 
-    public boolean FlywheelsAtSpeed(){
-        if ((outtakeRight.getVelocity() >= CLOSE_FLYWHEEL_RPM-target_range &&
-                outtakeRight.getVelocity() <=  CLOSE_FLYWHEEL_RPM+target_range) &&
-                (outtakeLeft.getVelocity() >= CLOSE_FLYWHEEL_RPM-target_range &&
-                        outtakeLeft.getVelocity() <= CLOSE_FLYWHEEL_RPM+target_range)){
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
 
-    public void intakeByEncoder(double speed, double Inches, double timeoutS){
-        int newIntakeTarget;
-
-        // Determine new target position, and pass to motor controller
-        newIntakeTarget = intakeMotor.getCurrentPosition() + (int) (Inches * INTAKE_COUNTS_PER_INCH * INTAKE_TO_ARTIFACT_DISTANCE_CONVERSION);
-        intakeMotor.setTargetPosition(newIntakeTarget);
-
-        // Turn On RUN_TO_POSITION
-        intakeMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        // reset the timeout time and start motion.
-        timeoutTimer.resetTimer();
-
-        intakeMotor.setPower(Math.abs(speed));
-
-        //telemetry
-        while (intakeMotor.isBusy()) {
-            telemetry.addData("Running to", " %.7f", Inches);
-            telemetry.addData("New Intake Target", newIntakeTarget);
-            telemetry.update();
-        }
-
-        //Stop all motion:
-        intakeMotor.setPower(0);
-
-        // Turn off RUN_TO_POSITION
-        intakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    }
-
-    public void shootThreeBalls(double target_RPM, double timeoutS) {
-        int i;
-        intakeMotor.setPower(0.95);
-        for (i = 1; i <= 3; i++) {
-            while (!FlywheelsAtSpeed()) {
-                outtakeLeft.setVelocity(target_RPM + 10 * i);
-                outtakeRight.setVelocity(target_RPM + 10 * i);
-                telemetry.addData("Outtake Left Velocity: ", outtakeLeft.getVelocity());
-                telemetry.update();
-            }
-            switch (i) {
-                case 1:
-                    intakeByEncoder(INTAKE_SPEED, -0.5, 10.0);
-                    intakeByEncoder(INTAKE_SPEED, 3.0, 10.0);
-                    telemetry.addData("Case", "1");
-                    telemetry.update();
-                    break;
-                case 2:
-                    intakeByEncoder(INTAKE_SPEED, -1, 10.0);
-                    intakeByEncoder(INTAKE_SPEED, 8, 10.0);
-                    telemetry.addData("Case", "2");
-                    telemetry.update();
-                    break;
-                case 3:
-                    intakeByEncoder(INTAKE_SPEED, -3, 10.0);
-                    intakeByEncoder(INTAKE_SPEED, 12, 10.0);
-                    telemetry.addData("Case", "3");
-                    telemetry.update();
-                    break;
-            }
-        }
-
-    }
 
     @Override
     public void loop(){
         follower.update();
-        //shooter.update();
+        shooter.update();
         StatePathUpdate();
 
 
         telemetry.addData("Path State:", pathState.toString());
-        telemetry.addData("x:", follower.getPose().getX());
-        telemetry.addData("y:", follower.getPose().getY());
-        telemetry.addData("Heading:", follower.getPose().getHeading());
+        //telemetry.addData("x:", follower.getPose().getX());
+        //telemetry.addData("y:", follower.getPose().getY());
+        //telemetry.addData("Heading:", follower.getPose().getHeading());
         telemetry.addData("Path time:", pathTimer.getElapsedTimeSeconds());
+
+        telemetry.addData("Left flywheel velocity", outtakeLeft.getVelocity());
+        telemetry.addData("Right flywheel velocity", outtakeRight.getVelocity());
+        telemetry.addData("Shooting state", shooter.flywheelState);
+        telemetry.addData("Shots triggered",shotsTriggered);
+
 
 
     }
