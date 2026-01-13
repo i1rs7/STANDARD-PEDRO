@@ -256,12 +256,12 @@ public class Solo_Standard_Drive extends LinearOpMode {
 //            }
 
 
-            if (gamepad2.y) {
-                // door servo at position zero
-                door.setPosition(0.3);
-            } else if (gamepad2.b) {
-                //door servo at position one
-                door.setPosition(0.8);
+            if (gamepad1.y) {
+                // door up
+                door.setPosition(0.15);
+            } else if (gamepad1.b) {
+                //door down
+                door.setPosition(0.5);
             }
 
 

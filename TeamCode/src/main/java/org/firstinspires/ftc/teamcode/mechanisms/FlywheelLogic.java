@@ -26,8 +26,8 @@ public class FlywheelLogic {
     public FlywheelState flywheelState;
 
     // gate constants
-    private double GATE_CLOSE_ANGLE = 0.1; //todo find this value
-    private double GATE_OPEN_ANGLE = 0.5; // todo find this value
+    private double GATE_CLOSE_ANGLE = 0.5; //todo find this value
+    private double GATE_OPEN_ANGLE = 0.15; // todo find this value
     private double GATE_OPEN_TIME = 0.4; // todo find this value
     private double GATE_CLOSE_TIME = 0.4; // todo find this value
 
@@ -45,7 +45,7 @@ public class FlywheelLogic {
     private double flywheelVelocity = 0;
     private double CLOSE_FLYWHEEL_RPM = 800;
     private double FAR_FLYWHEEL_RPM = 950;
-    private double target_range = 20;
+    private double target_range = 0;
     private double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
     private double FLYWHEEL_MAX_SPINUP_TIME = 3; //safety check in case flywheel takes forever
 
