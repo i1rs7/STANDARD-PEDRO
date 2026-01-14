@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Disabled
-public class newRobo_stateMachine {
+public class supersRobo_FlywheelLogic {
     private ElapsedTime stateTimer = new ElapsedTime();
 
     private Servo shootServo;
