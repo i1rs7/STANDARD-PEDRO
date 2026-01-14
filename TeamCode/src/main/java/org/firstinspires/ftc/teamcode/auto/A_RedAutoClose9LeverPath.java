@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Autonomous
-public class RedAutoClose9LeverPath extends OpMode {
+public class A_RedAutoClose9LeverPath extends OpMode {
 
 
 
@@ -131,10 +131,10 @@ public class RedAutoClose9LeverPath extends OpMode {
     private final Pose shootPose = new Pose(145-55.85680170543313, 92.07533215512152, Math.toRadians(50));
     private final Pose shootPose2 = new Pose(145-53.856801705433135, 89.34008052590521, Math.toRadians(50));
     private final Pose shootPose3 = new Pose(145-50.856801705433135, 90.34008052590521, Math.toRadians(50));
-    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 84.07533215512152, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(145-13.08416494712284, 84.07533215512152, Math.toRadians(180));
-    private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 60.524682651622, Math.toRadians(180));
-    private final Pose intake2Pose = new Pose(145-15.197060671580733, 60.524682651622, Math.toRadians(180));
+    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 87.07533215512152, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-16.08416494712284, 87.07533215512152, Math.toRadians(180));
+    private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 63.524682651622, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(145-15.197060671580733, 63.524682651622, Math.toRadians(180));
     private final Pose controlLever = new Pose (145-35.917366981341605, 69.60157710801516, Math.toRadians(90));
     private final Pose leverPose = new Pose(145-16.54823695345557, 67.47672778561355, Math.toRadians(90));
     final Pose leavePose = new Pose(145-20.919605077574047, 93.42736248236953, Math.toRadians(90));
@@ -459,6 +459,7 @@ public class RedAutoClose9LeverPath extends OpMode {
                 if(!follower.isBusy()){
                     telemetry.addLine("Leave the zone");
                     follower.followPath(driveShootPos3LeavePos, true);
+                    setPathState(PathState.DONE);
                 }
                 break;
 
