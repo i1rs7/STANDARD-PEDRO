@@ -212,28 +212,32 @@ public class Solo_Standard_Drive extends LinearOpMode {
             if (gamepad1.left_bumper) {
                 //intake down
                 intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+                shootMotor.setDirection(DcMotor.Direction.REVERSE);
                 intakeMotor.setPower(0.95);
+                shootMotor.setPower(0.95);
             } else if (gamepad1.right_bumper) {
                 //intake up
                 intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+                shootMotor.setDirection(DcMotor.Direction.FORWARD);
                 intakeMotor.setPower(0.95);
+                shootMotor.setPower(0.95);
             } else {
                 intakeMotor.setPower(0);
+                shootMotor.setPower(0);
             }
 
             // shooting code
             if (gamepad1.y){
-                //shoot up
-                shootMotor.setDirection(DcMotor.Direction.FORWARD); //todo find direction
-                shootMotor.setPower(0.95);
+                //intake
+                intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+                intakeMotor.setPower(0.95);
             } else if (gamepad1.b) {
                 //shoot down
-                shootMotor.setDirection(DcMotor.Direction.REVERSE);
+                shootMotor.setDirection(DcMotor.Direction.FORWARD);
                 shootMotor.setPower(0.95);
             } else {
                 shootMotor.setPower(0);
             }
-
             //outtake code
             if (gamepad1.right_trigger == 1.0) {
                 outtakeLeft.setDirection(DcMotor.Direction.REVERSE);

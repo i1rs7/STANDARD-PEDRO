@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-public class FlywheelLogic {
+public class FlywheelLogicFar {
 
     public ElapsedTime stateTimer = new ElapsedTime();
 
@@ -48,7 +48,7 @@ public class FlywheelLogic {
     private double CLOSE_FLYWHEEL_RPM = 770;
     private double FAR_FLYWHEEL_RPM = 950;
     private double target_range = 20;
-    private double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
+    private double TARGET_FLYWHEEL_RPM = FAR_FLYWHEEL_RPM;
     private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
 
 
