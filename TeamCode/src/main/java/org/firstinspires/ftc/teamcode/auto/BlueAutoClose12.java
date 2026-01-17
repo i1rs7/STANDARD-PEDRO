@@ -360,8 +360,6 @@ public class BlueAutoClose12 extends OpMode {
                     }
                 } break;
 
-                //todo fix this and down!!!
-
             case DRIVE_SHOOTPOSE_LINEINTAKE3POSE:
                 if(!follower.isBusy()){
                     door.setPosition(GATE_UP_ANGLE);
@@ -486,7 +484,6 @@ public class BlueAutoClose12 extends OpMode {
         opModeTimer = new Timer();
         timeoutTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
-        //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
         shooter.init(hardwareMap);
 
 
