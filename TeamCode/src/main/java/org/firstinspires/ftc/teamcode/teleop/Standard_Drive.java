@@ -228,11 +228,11 @@ public class Standard_Drive extends LinearOpMode {
             }
 
             // shooting code
-            if (gamepad2.y){
+            if (gamepad2.b){
                 //intake
                 intakeMotor.setDirection(DcMotor.Direction.REVERSE);
                 intakeMotor.setPower(0.95);
-            } else if (gamepad2.b) {
+            } else if (gamepad2.y) {
                 //shoot down
                 shootMotor.setDirection(DcMotor.Direction.FORWARD);
                 shootMotor.setPower(0.95);

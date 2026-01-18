@@ -73,9 +73,9 @@ public class RedAutoFar3 extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(145-57.47813822284908, 8.733427362482372, Math.toRadians(180-90));
-    private final Pose shootPose = new Pose(145-59.75081389631863, 16.229648795433462, Math.toRadians(180-115));
-    private final Pose leavePose = new Pose(145-56.85472496473906, 35.54301833568405, Math.toRadians(180));
+    private final Pose startPose = new Pose(145-56, 8, Math.toRadians(90));
+    private final Pose shootPose = new Pose(145-56, 12, Math.toRadians(70));
+    private final Pose leavePose = new Pose(145-56, 36, Math.toRadians(0));
 
 
 
