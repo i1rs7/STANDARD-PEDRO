@@ -14,8 +14,10 @@ public class FlywheelLogic {
 
     private Servo door;
     private DcMotor intakeMotor;
+    private DcMotor shootMotor;
     private DcMotorEx outtakeLeft;
     private DcMotorEx outtakeRight;
+
     private enum FlywheelState{
         IDLE,
         SPIN_UP,
@@ -26,10 +28,10 @@ public class FlywheelLogic {
     public FlywheelState flywheelState;
 
     // gate constants
-    private double GATE_CLOSE_ANGLE = 0.45;
-    private double GATE_OPEN_ANGLE = 0.15; //
-    private double GATE_OPEN_TIME = 0.1; // todo find this value
-    private double GATE_CLOSE_TIME = 0.1; // todo find this value
+    private double GATE_UP_ANGLE = 0.45;
+    private double GATE_DOWN_ANGLE = 0.15; //
+    private double GATE_OPEN_TIME = 0.25; // todo find this value
+    private double GATE_CLOSE_TIME = 0.4; // todo find this value
 
     // ------ SHOOTER CONSTANTS --------
     // this servo does not exist yet on robot v1, may exist in v2 so pre-coded
@@ -47,7 +49,7 @@ public class FlywheelLogic {
     private double FAR_FLYWHEEL_RPM = 950;
     private double target_range = 20;
     private double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
-    private double FLYWHEEL_MAX_SPINUP_TIME = 2; //safety check in case flywheel takes forever
+    private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
 
 
     public void init(HardwareMap hardwareMap){
@@ -55,9 +57,12 @@ public class FlywheelLogic {
         door = hardwareMap.get(Servo.class, "d");
 
         intakeMotor = hardwareMap.get(DcMotor.class,"i");
+        shootMotor = hardwareMap.get(DcMotor.class, "shoot");
         outtakeLeft = hardwareMap.get(DcMotorEx.class,"oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class,"oR");
 
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+        shootMotor.setDirection(DcMotor.Direction.FORWARD); //todo find correct direction
         outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
 
@@ -65,25 +70,24 @@ public class FlywheelLogic {
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
-        intakeMotor.setDirection(DcMotor.Direction.REVERSE); // intake up
-        intakeMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        intakeMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        shootMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         flywheelState = FlywheelState.IDLE;
 
         outtakeLeft.setPower(0);
         outtakeRight.setPower(0);
-        door.setPosition(GATE_CLOSE_ANGLE);
+        //door.setPosition(GATE_CLOSE_ANGLE);
     }
 
     public void update(){
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
-                    door.setPosition(GATE_CLOSE_ANGLE);
                     outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
                     outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
-                    intakeMotor.setPower(0);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.SPIN_UP;
@@ -92,8 +96,9 @@ public class FlywheelLogic {
 
             case SPIN_UP:
                 if (FlywheelsAtSpeed() || stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
-                    //door.setPosition(GATE_OPEN_ANGLE);
+                    door.setPosition(GATE_DOWN_ANGLE);
                     intakeMotor.setPower(0.95);
+                    shootMotor.setPower(0.95);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.LAUNCH;
@@ -106,8 +111,7 @@ public class FlywheelLogic {
                     shotsRemaining --;
 
                     intakeMotor.setPower(0);
-                    door.setPosition(GATE_CLOSE_ANGLE);
-
+                    shootMotor.setPower(0);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.RESET;
@@ -121,9 +125,11 @@ public class FlywheelLogic {
                         flywheelState = FlywheelState.SPIN_UP;
                     }
                     else{
-                        outtakeLeft.setPower(0);
-                        outtakeRight.setPower(0);
+                        //outtakeLeft.setPower(0);
+                        //outtakeRight.setPower(0);
                         intakeMotor.setPower(0);
+                        shootMotor.setPower(0);
+                        door.setPosition(GATE_DOWN_ANGLE);
 
                         flywheelState = FlywheelState.IDLE;
                     }

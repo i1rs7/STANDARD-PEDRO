@@ -213,23 +213,28 @@ public class Standard_Drive extends LinearOpMode {
             if (gamepad2.left_bumper) {
                 //intake down
                 intakeMotor.setDirection(DcMotor.Direction.FORWARD);
+                shootMotor.setDirection(DcMotor.Direction.REVERSE);
                 intakeMotor.setPower(0.95);
+                shootMotor.setPower(0.95);
             } else if (gamepad2.right_bumper) {
                 //intake up
                 intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+                shootMotor.setDirection(DcMotor.Direction.FORWARD);
                 intakeMotor.setPower(0.95);
+                shootMotor.setPower(0.95);
             } else {
                 intakeMotor.setPower(0);
+                shootMotor.setPower(0);
             }
 
             // shooting code
-            if (gamepad2.y){
-                //shoot up
-                shootMotor.setDirection(DcMotor.Direction.FORWARD); //todo find direction
-                shootMotor.setPower(0.95);
-            } else if (gamepad2.b) {
+            if (gamepad2.b){
+                //intake
+                intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+                intakeMotor.setPower(0.95);
+            } else if (gamepad2.y) {
                 //shoot down
-                shootMotor.setDirection(DcMotor.Direction.REVERSE);
+                shootMotor.setDirection(DcMotor.Direction.FORWARD);
                 shootMotor.setPower(0.95);
             } else {
                 shootMotor.setPower(0);

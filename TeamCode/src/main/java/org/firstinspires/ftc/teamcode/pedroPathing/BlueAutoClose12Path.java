@@ -5,13 +5,14 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.follower.Follower;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
 import com.pedropathing.util.Timer;
 
 
-@Autonomous
+@Disabled
 public class BlueAutoClose12Path extends OpMode {
 
 
