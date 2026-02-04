@@ -42,7 +42,7 @@ public class Constants {
             .forwardPodY(0.0) //forward and back pod is exactly aligned in the middle
             .strafePodX(1.0) // left and right pod is 1 inch left of the center
             .distanceUnit(DistanceUnit.INCH)
-            .hardwareMapName("pinpoint")
+            .hardwareMapName("pinpoiny")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
             .forwardEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD)
             .strafeEncoderDirection(GoBildaPinpointDriver.EncoderDirection.FORWARD);
