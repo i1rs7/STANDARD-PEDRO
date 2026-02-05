@@ -117,5 +117,20 @@ public class AprilTagAutoAlign extends OpMode {
             kD -= stepSizes[stepIndex];
         }
 
+        // -------- telemetry ------------
+        if (id20 != null){
+            if (gamepad1.left_trigger >0.3){
+                telemetry.addLine("AUTO ALIGN");
+            }
+            aprilTagWebcam.displayDetectionTelemetry(id20);
+            telemetry.addData("error", error);
+        } else{
+            telemetry.addLine("MANUAL rotate mode");
+        }
+        telemetry.addLine("--------------------------");
+        telemetry.addData("Tuning P (D-Pad U/D", kP);
+        telemetry.addData("Tuning D (D-Pad L/R", kD);
+        telemetry.addData("Step Size (B Button)", stepSizes[stepIndex]);
+
     }
 }
