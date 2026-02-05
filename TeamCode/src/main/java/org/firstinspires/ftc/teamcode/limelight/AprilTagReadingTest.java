@@ -46,10 +46,10 @@ public class AprilTagReadingTest extends OpMode {
         LLResult llResult = limelight.getLatestResult();
 
         if(llResult !=null && llResult.isValid()) {
-            Pose3D botPose = llResult.getBotpose();
+            Pose3D botPose = llResult.getBotpose_MT2();
             telemetry.addData("Target X", llResult.getTx());
             telemetry.addData("Target Y", llResult.getTy());
-            telemetry.addData("Target Area ", llResult.getTa());
+            telemetry.addData("Target Area", llResult.getTa());
         }
 
         //limelight.updateRobotOrientation(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
