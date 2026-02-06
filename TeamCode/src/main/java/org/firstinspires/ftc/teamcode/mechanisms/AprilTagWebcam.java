@@ -109,4 +109,20 @@ public class AprilTagWebcam {
         }
     }
 
+
+    public AprilTagDetection getTagBySpecificID(int id){
+        for(AprilTagDetection detection : detectedTags){
+            if (detection.id == id){
+                return detection;
+            }
+        }
+        return null;
+    }
+
+    public void stop(){
+        if (visionPortal != null){
+            visionPortal.close();
+        }
+    }
+
 }
