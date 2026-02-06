@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.mechanisms;
 
 import android.util.Size;
 
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -39,7 +40,8 @@ public class AprilTagWebcam {
                 .build();
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hwMap.get(WebcamName.class, "limelight"));
+        builder.setCamera(hwMap.get(Limelight3A.class, "limelight"));
+        //todo: fix this: oringinally was webcamename but when changed to limelight it breaks
         builder.setCameraResolution(new Size(640,480)); //todo: is this size right?
         builder.enableLiveView(false); //reduce latency (??)
 
