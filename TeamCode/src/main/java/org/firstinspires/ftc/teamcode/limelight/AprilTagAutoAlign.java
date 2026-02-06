@@ -7,14 +7,14 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.teamcode.mechanisms.MecanumDrive;
 
-import org.firstinspires.ftc.teamcode.mechanisms.AprilTagWebcam; //todo create helper class
+import org.firstinspires.ftc.teamcode.mechanisms.AprilTagWebcam;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 
 @TeleOp
 public class AprilTagAutoAlign extends OpMode {
-    private final AprilTagWebcam aprilTagWebcam = new AprilTagWebcam(); //todo create helper class
-    private final MecanumDrive drive = new MecanumDrive(); //todo create helper class
+    private final AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
+    private final MecanumDrive drive = new MecanumDrive();
 
     // ------------ PD controller ------------
     double kP = 0.0002;
@@ -59,7 +59,7 @@ public class AprilTagAutoAlign extends OpMode {
 
         // ------- get april tag info -------
         aprilTagWebcam.update(); //todo apriltagwebcam
-        AprilTagDetection id20 = aprilTagWebcam.getTagbySpecificID(20);
+        AprilTagDetection id20 = aprilTagWebcam.getTagBySpecificID(20);
 
         // ------- auto align rotation logic -------
         if (gamepad1.left_trigger > 0.3){
