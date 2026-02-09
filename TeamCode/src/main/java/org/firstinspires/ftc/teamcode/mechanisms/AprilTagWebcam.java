@@ -40,7 +40,7 @@ public class AprilTagWebcam {
                 .build();
 
         VisionPortal.Builder builder = new VisionPortal.Builder();
-        builder.setCamera(hwMap.get(Limelight3A.class, "limelight"));
+        builder.setCamera(hwMap.get(WebcamName.class, "limelight"));
         //todo: fix this: oringinally was webcamename but when changed to limelight it breaks
         builder.setCameraResolution(new Size(640,480)); //todo: is this size right?
         builder.enableLiveView(false); //reduce latency (??)
