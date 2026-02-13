@@ -23,7 +23,7 @@ public class SampleAutoAlign extends LinearOpMode {
     // --- Constants ---
     // PID Controller for turning.
     // If it overshoots: decrease P. If it's too slow: increase P.
-    private static final double TURN_P = 0.01;
+    private static final double TURN_P = 0.075;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -47,7 +47,7 @@ public class SampleAutoAlign extends LinearOpMode {
 
         // Reset the Pinpoint so it knows "Forward" is 0 degrees right now
         pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.REVERSED, GoBildaPinpointDriver.EncoderDirection.REVERSED);
+        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
         pinpoint.resetPosAndIMU();
 
         telemetry.addLine("Ready! Press Start.");
@@ -72,7 +72,7 @@ public class SampleAutoAlign extends LinearOpMode {
             // 5. Auto-Align Logic
             // If 'A' is held, we override the manual turn (rx) with calculated turn
             if (gamepad1.a) {
-                double targetHeading = Math.toRadians(0); // Face Forward
+                double targetHeading = Math.toRadians(180); // Face Forward, inverted
 
                 // Calculate the difference (Error)
                 double error = AngleUnit.normalizeRadians(targetHeading - currentHeading);
