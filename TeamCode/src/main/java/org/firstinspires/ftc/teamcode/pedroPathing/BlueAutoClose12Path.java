@@ -1,3 +1,28 @@
+/*
+    private final Pose startPose = new Pose(145-33.4555712270804, 136.1579689703808, Math.toRadians(90));
+    private final Pose shootPose1 = new Pose(145-55.85680170543313, 92.07533215512152, Math.toRadians(50));
+    private final Pose shootPose2 = new Pose(145-53.856801705433135, 89.34008052590521, Math.toRadians(50));
+    private final Pose shootPose3 = new Pose(145-50.856801705433135, 90.34008052590521, Math.toRadians(50));
+    private final Pose shootPose4 = new Pose(145-48, 90, Math.toRadians(50));
+
+    //make sure this on is inside the zone to get the leave points
+    private final Pose shootPose5 = new Pose(145-45, 110, Math.toRadians(30));
+
+
+
+    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 60.524682651622, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-24.08416494712284, 60.524682651622, Math.toRadians(180));
+    private final Pose controlLever1 = new Pose (145-35.917366981341605, 69.60157710801516, Math.toRadians(90));
+    private final Pose leverPose1 = new Pose(145-16.54823695345557, 67.47672778561355, Math.toRadians(90));
+    private final Pose controlLever2 = new Pose (145-35.917366981341605, 69.60157710801516, Math.toRadians(90));
+    private final Pose leverPose2 = new Pose(145-16.54823695345557, 67.47672778561355, Math.toRadians(90));
+    private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 84.07533215512152, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(145-21.197060671580733, 84.07533215512152, Math.toRadians(180));
+ */
+
+
+
+
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import com.pedropathing.geometry.BezierLine;
