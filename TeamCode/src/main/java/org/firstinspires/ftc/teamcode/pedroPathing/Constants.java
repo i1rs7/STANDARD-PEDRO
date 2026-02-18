@@ -39,8 +39,8 @@ public class Constants {
 
 
     public static PinpointConstants localizerConstants = new PinpointConstants()
-            .forwardPodY(0.0) //forward and back pod is exactly aligned in the middle THIS IS THE X POD OFFSET
-            .strafePodX(1.0) // left and right pod is 1 inch left of the center THIS IS THE Y POD OFFSET
+            .forwardPodY(0.5) //forward and back pod is exactly aligned in the middle THIS IS THE X POD OFFSET
+            .strafePodX(2.25) // left and right pod is 1 inch left of the center THIS IS THE Y POD OFFSET
             .distanceUnit(DistanceUnit.INCH)
             .hardwareMapName("pinpoint")
             .encoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD)
