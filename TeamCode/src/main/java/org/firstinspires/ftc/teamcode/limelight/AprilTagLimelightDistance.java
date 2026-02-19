@@ -3,6 +3,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
@@ -13,6 +14,9 @@ public class AprilTagLimelightDistance extends OpMode {
     private Limelight3A limelight;
     private IMU imu;
     private double distance;
+
+    private DcMotorEx outtakeLeft = null;
+    private DcMotorEx outtakeRight = null;
 
     @Override
     public void init(){
@@ -28,6 +32,8 @@ public class AprilTagLimelightDistance extends OpMode {
     }
     @Override
     public void loop(){
+
+
 
         limelight.updateRobotOrientation(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
 
@@ -59,5 +65,21 @@ public class AprilTagLimelightDistance extends OpMode {
         distance = Math.sqrt(Math.pow((mtRedX-camX), 2) + Math.pow((mtRedY-camY),2));
         return distance;
     }
+    public double getFlywheelTicks(double distanceMeters) {
 
+        // Calculated from:
+        // (1.65 m → 770 ticks)
+        // (3.1242 m → 950 ticks)
+        //6000 RPM motor to 1150 RPM motor conversion: Far(770 -> 765); Far:(950 -> 943)
+        double slopeTicksPerMeter = 122;
+        double baseTicks = 565;
+
+        double ticks = slopeTicksPerMeter * distanceMeters + baseTicks;
+
+        // Safety clamp (optional but recommended)
+        ticks = Math.max(650, Math.min(ticks, 1050));
+
+        return ticks;
+
+    }
 }
