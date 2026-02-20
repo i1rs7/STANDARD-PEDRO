@@ -3,17 +3,20 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
-@Disabled
+@TeleOp
 public class AprilTagLimelightDistance extends OpMode {
 
     private Limelight3A limelight;
     private IMU imu;
     private double distance;
+    private double target_ticks;
 
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
@@ -44,7 +47,10 @@ public class AprilTagLimelightDistance extends OpMode {
             double camX  = -botpose.getPosition().x;
             double camY  = botpose.getPosition().y;
             distance = getDistance(camX, camY);
+            target_ticks = getFlywheelTicks(distance);
+
             telemetry.addData("distance", distance);
+            telemetry.addData("ticks",target_ticks);
             telemetry.addData("Cam X", camX);
             telemetry.addData("Cam Y", camY);
             telemetry.addData("Target X", llResult.getTx());

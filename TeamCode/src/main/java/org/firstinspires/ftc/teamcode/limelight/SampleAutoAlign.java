@@ -72,7 +72,7 @@ public class SampleAutoAlign extends LinearOpMode {
             // 5. Auto-Align Logic
             // If 'A' is held, we override the manual turn (rx) with calculated turn
             if (gamepad1.a) {
-                double targetHeading = Math.toRadians(180); // Face Forward, inverted
+                double targetHeading = Math.toRadians(0); // Face Forward, inverted
 
                 // Calculate the difference (Error)
                 double error = AngleUnit.normalizeRadians(targetHeading - currentHeading);
