@@ -49,8 +49,11 @@ public class AprilTagLimelightDistance extends OpMode {
             distance = getDistance(camX, camY);
             target_ticks = getFlywheelTicks(distance);
 
+            if(gamepad1.a) {
+                telemetry.addData("ticks",target_ticks);
+            }
+
             telemetry.addData("distance", distance);
-            telemetry.addData("ticks",target_ticks);
             telemetry.addData("Cam X", camX);
             telemetry.addData("Cam Y", camY);
             telemetry.addData("Target X", llResult.getTx());
@@ -68,7 +71,7 @@ public class AprilTagLimelightDistance extends OpMode {
         double mtBlueY = -1.413;
         double mtRedX = 1.482;
         double mtRedY = 1.413;
-        distance = Math.sqrt(Math.pow((mtRedX-camX), 2) + Math.pow((mtRedY-camY),2));
+        distance = (Math.sqrt(Math.pow((mtRedX-camX), 2) + Math.pow((mtRedY-camY),2))/39.37);
         return distance;
     }
     public double getFlywheelTicks(double distanceMeters) {
@@ -85,7 +88,7 @@ public class AprilTagLimelightDistance extends OpMode {
         // Safety clamp (optional but recommended)
         ticks = Math.max(650, Math.min(ticks, 1050));
 
-        return ticks;
+        return ticks; 
 
     }
 }
