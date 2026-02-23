@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.SuperQualPathing;
+package org.firstinspires.ftc.teamcode.SuperQualAuto;
 
 
 //import static java.lang.Thread.sleep;

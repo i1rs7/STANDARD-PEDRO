@@ -12,8 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
-import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogicFar;
+import org.firstinspires.ftc.teamcode.Archive.FlywheelLogicFar;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
