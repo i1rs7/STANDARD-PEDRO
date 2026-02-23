@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.Archive.auto;
 
 
 import com.pedropathing.follower.Follower;
@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogicFar;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
@@ -20,7 +21,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Autonomous
-public class RedAutoFar3 extends OpMode {
+public class BlueAutoFar3 extends OpMode {
 
 
 
@@ -73,10 +74,9 @@ public class RedAutoFar3 extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(145-56, 8, Math.toRadians(90));
-    private final Pose shootPose = new Pose(145-56, 12, Math.toRadians(70));
-    private final Pose leavePose = new Pose(145-56, 36, Math.toRadians(0));
-
+    private final Pose startPose = new Pose(56, 8, Math.toRadians(90));
+    private final Pose shootPose = new Pose(56, 12, Math.toRadians(110));
+    private final Pose leavePose = new Pose(56, 36, Math.toRadians(0));
 
 
 

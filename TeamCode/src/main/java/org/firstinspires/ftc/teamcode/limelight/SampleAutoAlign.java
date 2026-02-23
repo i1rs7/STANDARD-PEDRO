@@ -43,7 +43,7 @@ public class SampleAutoAlign extends LinearOpMode {
         pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
 
         // OFFSETS: Distance from center of robot to the pod in IN
-        pinpoint.setOffsets(0, 1.0, DistanceUnit.INCH);
+        pinpoint.setOffsets(0.5, 2.25, DistanceUnit.INCH);
 
         // Reset the Pinpoint so it knows "Forward" is 0 degrees right now
         pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);

@@ -1,135 +1,137 @@
 package org.firstinspires.ftc.teamcode.limelight;
-//package org.firstinspires.ftc.teamcode.tutorials;
 
-
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.hardware.limelightvision.LLResult;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
-import org.firstinspires.ftc.teamcode.mechanisms.MecanumDrive;
 
-import org.firstinspires.ftc.teamcode.mechanisms.AprilTagWebcam;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
-
-@TeleOp
+@TeleOp(name = "AprilTagAutoAlign", group = "Iterative OpMode")
 public class AprilTagAutoAlign extends OpMode {
-    private final AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
-    private final MecanumDrive drive = new MecanumDrive();
 
-    // ------------ PD controller ------------
-    double kP = 0.0002;
-    double error = 0;
-    double lastError = 0;
-    double goalX = 0; //or add offset here
-    double angleTolerance = 0.2;
+    // --- Hardware ---
+    private DcMotor frontLeft, frontRight, backLeft, backRight;
+    private GoBildaPinpointDriver pinpoint;
+    private Limelight3A limelight;
 
-    double kD = 0.00001;
-    double curTime = 0;
-    double lastTime = 0;
-
-    // ----- driving setup----------
-    double forward, strafe, rotate;
-
-    // ------- controller based pd tuning -------
-
-    double[] stepSizes = {0.1,0.001,0.0001};
-
-    int stepIndex = 1;
+    // --- Constants ---
+    private static final double TURN_P = 0.075;
+    private static final double TURN_MAX = 0.5;
 
 
     @Override
-    public void init (){
-        aprilTagWebcam.init(hardwareMap,telemetry); //todo create helper class
-        drive.init(hardwareMap,false); //todo create helper class
-        telemetry.addLine("initialized");
+    public void init() {
+        // 1. Initialize Motors
+        frontLeft  = hardwareMap.get(DcMotor.class, "fL");
+        frontRight = hardwareMap.get(DcMotor.class, "fR");
+        backLeft   = hardwareMap.get(DcMotor.class, "bL");
+        backRight  = hardwareMap.get(DcMotor.class, "bR");
 
-    }
+        frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+        backLeft.setDirection(DcMotorSimple.Direction.FORWARD);
 
-    public void start(){
-        resetRuntime();
-        curTime = getRuntime();
+        // 2. Initialize Pinpoint
+        pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
+
+        pinpoint.setOffsets(0.5, 2.25, DistanceUnit.INCH);
+        pinpoint.setEncoderResolution(
+                GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD
+        );
+        pinpoint.setEncoderDirections(
+                GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                GoBildaPinpointDriver.EncoderDirection.FORWARD
+        );
+
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight.pipelineSwitch(1); // Your AprilTag pipeline
+        limelight.start();
+
+        telemetry.addLine("Initialized. Press Play.");
+        telemetry.update();
     }
 
     @Override
-    public void loop (){
-        // ------- get mecanum drive inputs -------
-        forward = -gamepad1.left_stick_y;
-        strafe = gamepad1.left_stick_x;
-        rotate = gamepad1.right_stick_x;
+    public void start() {
+        // Reset position & IMU ONCE when Play is pressed
+        pinpoint.resetPosAndIMU();
+    }
 
-        // ------- get april tag info -------
-        aprilTagWebcam.update(); //todo apriltagwebcam
-        AprilTagDetection id20 = aprilTagWebcam.getTagBySpecificID(20);
+    @Override
+    public void loop() {
+        // MUST update every loop
+        pinpoint.update();
 
-        // ------- auto align rotation logic -------
-        if (gamepad1.left_trigger > 0.3){
-            if (id20 != null){
-                error = goalX - id20.ftcPose.bearing; //tx
+        // 3. Gamepad Input
+        double y  = -gamepad1.left_stick_y;
+        double x  =  gamepad1.left_stick_x;
+        double rx =  gamepad1.right_stick_x;
 
-                if (Math.abs(error)< angleTolerance){
-                    rotate = 0;
-                } else{
-                    double pTerm = error *kP;
-                    curTime = getRuntime();
-                    double dT = curTime - lastTime;
-                    double dTerm = ((error-lastError)/dT) *kD;
+        // 4. Heading
+        Pose2D pose = pinpoint.getPosition();
+        double currentHeading = pose.getHeading(AngleUnit.RADIANS);
 
-                    rotate = Range.clip(pTerm+dTerm,-0.4,0.4);
+        // 5. Auto-Align
 
-                    lastError = error;
-                    lastTime = curTime;
+        if (gamepad1.a) {
 
+            LLResult result = limelight.getLatestResult();
+
+            if (result != null && result.isValid()) {
+
+                double tagYawDegrees = result.getTx();
+                // Tx = horizontal offset in degrees
+
+                double error = -Math.toRadians(tagYawDegrees);
+
+                if (Math.abs(tagYawDegrees) > 3.0) { // TODO figure out how many degrees off is ok
+                    rx = Range.clip(error * TURN_P, -TURN_MAX, TURN_MAX);
+                } else {
+                    rx = 0;
                 }
-            } else {
-                lastTime = getRuntime();
-                lastError = 0;
+
+                telemetry.addData("Target X", tagYawDegrees);
             }
-        } else{
-            lastError = 0;
-            lastTime = getRuntime();
-
         }
 
-        // drive our motors
-        drive.drive(forward, strafe, rotate);
-        if(gamepad1.bWasPressed()) {
-            stepIndex = (stepIndex+1) % stepSizes.length; //goes to next index, then wraps the index back to 0
-        }
+        // 6. Field-Centric Math
+        double rotX = x * Math.cos(-currentHeading) - y * Math.sin(-currentHeading);
+        double rotY = x * Math.sin(-currentHeading) + y * Math.cos(-currentHeading);
 
-        //D-pad right increases the P variable
-        if(gamepad1.dpadRightWasPressed()) {
-            kP += stepSizes[stepIndex];
-        }
+        double denominator = Math.max(
+                Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1
+        );
 
-        //D-pad left decreases the P variable
-        if(gamepad1.dpadLeftWasPressed()) {
-            kP -= stepSizes[stepIndex];
-        }
+        double frontLeftPower  = (rotY + rotX + rx) / denominator;
+        double backLeftPower   = (rotY - rotX + rx) / denominator;
+        double frontRightPower = (rotY - rotX - rx) / denominator;
+        double backRightPower  = (rotY + rotX - rx) / denominator;
 
-        //D-pad up increases the D variable
-        if(gamepad1.dpadUpWasPressed()) {
-            kD += stepSizes[stepIndex];
-        }
+        // 7. Motor Power
+        frontLeft.setPower(frontLeftPower);
+        backLeft.setPower(backLeftPower);
+        frontRight.setPower(frontRightPower);
+        backRight.setPower(backRightPower);
 
-        //D-pad down decreases the D variable
-        if(gamepad1.dpadDownWasPressed()) {
-            kD -= stepSizes[stepIndex];
-        }
+        // Telemetry
+        telemetry.addData("Heading (deg)", Math.toDegrees(currentHeading));
+        telemetry.addData("Turn Power", rx);
+        telemetry.addData("Auto Align", gamepad1.a);
+        telemetry.update();
+    }
 
-        // -------- telemetry ------------
-        if (id20 != null){
-            if (gamepad1.left_trigger >0.3){
-                telemetry.addLine("AUTO ALIGN");
-            }
-            aprilTagWebcam.displayDetectionTelemetry(id20);
-            telemetry.addData("error", error);
-        } else{
-            telemetry.addLine("MANUAL rotate mode");
-        }
-        telemetry.addLine("--------------------------");
-        telemetry.addData("Tuning P (D-Pad U/D", kP);
-        telemetry.addData("Tuning D (D-Pad L/R", kD);
-        telemetry.addData("Step Size (B Button)", stepSizes[stepIndex]);
-
+    @Override
+    public void stop() {
+        // Optional safety
+        frontLeft.setPower(0);
+        frontRight.setPower(0);
+        backLeft.setPower(0);
+        backRight.setPower(0);
     }
 }

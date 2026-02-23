@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.auto;
+package org.firstinspires.ftc.teamcode.Archive.auto;
 
 
 import com.pedropathing.follower.Follower;
@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Autonomous
-public class BlueAutoClose9 extends OpMode {
+public class RedAutoClose9 extends OpMode {
 
 
 
@@ -132,15 +132,15 @@ public class BlueAutoClose9 extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(90));
-    private final Pose shootPose = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(130));
-    private final Pose shootPose2 = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(135));
-    private final Pose shootPose3 = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(135));
-    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152, Math.toRadians(0));
-    private final Pose intake1Pose = new Pose(16.08416494712284, 87.07533215512152, Math.toRadians(0));
-    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 63.524682651622, Math.toRadians(0));
-    private final Pose intake2Pose = new Pose(15.197060671580733, 63.524682651622, Math.toRadians(0));
-    final Pose leavePose = new Pose(20.919605077574047, 93.42736248236953, Math.toRadians(90));
+    private final Pose startPose = new Pose(145-33.4555712270804, 136.1579689703808, Math.toRadians(90));
+    private final Pose shootPose = new Pose(145-55.85680170543313, 92.07533215512152, Math.toRadians(50));
+    private final Pose shootPose2 = new Pose(145-53.856801705433135, 89.34008052590521, Math.toRadians(45));
+    private final Pose shootPose3 = new Pose(145-50.856801705433135, 90.34008052590521, Math.toRadians(45));
+    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 87.07533215512152, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-16.08416494712284, 87.07533215512152, Math.toRadians(180));
+    private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 63.524682651622, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(145-10.197060671580733, 63.524682651622, Math.toRadians(180));
+    final Pose leavePose = new Pose(145-20.919605077574047, 93.42736248236953, Math.toRadians(90));
 
 
 
