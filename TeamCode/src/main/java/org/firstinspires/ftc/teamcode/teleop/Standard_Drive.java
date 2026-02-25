@@ -111,13 +111,13 @@ public class Standard_Drive extends LinearOpMode {
         intakeMotor.setDirection(DcMotor.Direction.REVERSE); // intake up
         outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
-        shootMotor.setDirection(DcMotor.Direction.FORWARD); //todo find the right direction
+        shootMotor.setDirection(DcMotor.Direction.FORWARD); // shooter up
 
 
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15,0,0,13);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(17.3,0,0,15.3);
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
@@ -153,6 +153,7 @@ public class Standard_Drive extends LinearOpMode {
             intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             outtakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             outtakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            shootMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -174,54 +175,16 @@ public class Standard_Drive extends LinearOpMode {
             backRightDrive.setPower(backRightPower);
 
             // END OF DRIVE CODE
-            double lf = 0;
-            double rf = 0;
-            double rb = 0;
-            double lb = 0;
-
-            // If any dpad pressed -> override joystick control with small fixed powers
-            if (gamepad1.dpad_up || gamepad1.dpad_down || gamepad1.dpad_left || gamepad1.dpad_right) {
-                if (gamepad1.dpad_up) { // forward
-                    lf = NUDGE_POWER;
-                    rf = NUDGE_POWER;
-                    lb = NUDGE_POWER;
-                    rb = NUDGE_POWER;
-                } else if (gamepad1.dpad_down) { // backward
-                    lf = -NUDGE_POWER;
-                    rf = -NUDGE_POWER;
-                    lb = -NUDGE_POWER;
-                    rb = -NUDGE_POWER;
-                } else if (gamepad1.dpad_right) { // strafe right (mecanum)
-                    lf = NUDGE_POWER;
-                    rf = -NUDGE_POWER;
-                    lb = -NUDGE_POWER;
-                    rb = NUDGE_POWER;
-                } else if (gamepad1.dpad_left) { // strafe left (mecanum)
-                    lf = -NUDGE_POWER;
-                    rf = NUDGE_POWER;
-                    lb = NUDGE_POWER;
-                    rb = -NUDGE_POWER;
-                }
-                frontLeftDrive.setPower(lf);
-                frontRightDrive.setPower(rf);
-                backLeftDrive.setPower(lb);
-                backRightDrive.setPower(rb);
-            }
-
 
             // Intake Code
             if (gamepad2.left_bumper) {
                 //intake down
-                intakeMotor.setDirection(DcMotor.Direction.FORWARD);
-                shootMotor.setDirection(DcMotor.Direction.REVERSE);
-                intakeMotor.setPower(0.95);
-                shootMotor.setPower(0.95);
+                intakeMotor.setPower(-0.95);
+                shootMotor.setPower(-0.5);
             } else if (gamepad2.right_bumper) {
                 //intake up
-                intakeMotor.setDirection(DcMotor.Direction.REVERSE);
-                shootMotor.setDirection(DcMotor.Direction.FORWARD);
                 intakeMotor.setPower(0.95);
-                shootMotor.setPower(0.95);
+                shootMotor.setPower(0.5);
             } else {
                 intakeMotor.setPower(0);
                 shootMotor.setPower(0);
@@ -230,25 +193,19 @@ public class Standard_Drive extends LinearOpMode {
             // shooting code
             if (gamepad2.b){
                 //intake
-                intakeMotor.setDirection(DcMotor.Direction.REVERSE);
                 intakeMotor.setPower(0.95);
             } else if (gamepad2.y) {
                 //shoot down
-                shootMotor.setDirection(DcMotor.Direction.FORWARD);
                 shootMotor.setPower(0.95);
             } else {
                 shootMotor.setPower(0);
             }
 
             //outtake code
-            if (gamepad2.right_trigger == 1.0) {
-                outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
-                outtakeRight.setDirection(DcMotor.Direction.FORWARD);
+            if (gamepad2.right_trigger > 0.5) {
                 outtakeLeft.setVelocity(target_RPM_close);
                 outtakeRight.setVelocity(target_RPM_close);
-            } else if (gamepad2.left_trigger == 1.0) {
-                outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
-                outtakeRight.setDirection(DcMotor.Direction.FORWARD);
+            } else if (gamepad2.left_trigger > 0.5) {
                 outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
 
@@ -258,26 +215,13 @@ public class Standard_Drive extends LinearOpMode {
                 outtakeRight.setPower(0);
             }
 
-            // rumbles
-//            while ((gamepad2.right_trigger == 1.0) &&
-//                    (outtakeRight.getVelocity() >= target_RPM_close - target_range &&
-//                            outtakeRight.getVelocity() <= target_RPM_close + target_range) &&
-//                    (outtakeLeft.getVelocity() >= target_RPM_close - target_range &&
-//                            outtakeLeft.getVelocity() <= target_RPM_close + target_range)) {
-//                gamepad2.rumble(100);
-//            }
-//
-//            while ((gamepad2.left_trigger == 1.0) && (outtakeRight.getVelocity() >= target_RPM_far - target_range && outtakeRight.getVelocity() <= target_RPM_far + target_range) && (outtakeLeft.getVelocity() >= target_RPM_far - target_range && outtakeLeft.getVelocity() <= target_RPM_far + target_range)) {
-//                gamepad2.rumble(100);
-//            }
-
 
             if (gamepad2.x) {
                 // door up
-            door.setPosition(0.15);
+            door.setPosition(0.45);
             } else if (gamepad2.a) {
              //door down
-                door.setPosition(0.45);
+                door.setPosition(0.15);
             }
 
 

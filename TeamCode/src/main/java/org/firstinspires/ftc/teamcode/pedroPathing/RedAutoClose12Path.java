@@ -12,7 +12,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.pedropathing.util.Timer;
 
 
-@Disabled
+@Autonomous
 public class RedAutoClose12Path extends OpMode {
 
 
