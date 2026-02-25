@@ -30,8 +30,6 @@ public class AprilTagReadingTest extends OpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.FORWARD); //don't know if the forward direction is right
         imu.initialize (new IMU.Parameters(revHubOrientationOnRobot));
 
-
-
     }
     @Override
     public void start(){
