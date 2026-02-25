@@ -17,8 +17,8 @@ public class FlywheelTunerPIDF extends OpMode {
 
     double curTargetVelocity = highVelocity;
 
-    double F = 13;
-    double P = 15;
+    double F = 19;
+    double P = 36;
 
     double[] stepSizes = {10.0,1.0,0.1,0.001,0.0001};
 
