@@ -25,11 +25,6 @@ public class AprilTagReadingTest extends OpMode {
     public void init(){
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(  1); //obelisk = 0, goal = 1
-        imu = hardwareMap.get(IMU.class,"pinpoint");
-        RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD); //don't know if the forward direction is right
-        imu.initialize (new IMU.Parameters(revHubOrientationOnRobot));
-
     }
     @Override
     public void start(){
@@ -49,26 +44,5 @@ public class AprilTagReadingTest extends OpMode {
             telemetry.addData("Target Y", llResult.getTy());
             telemetry.addData("Target Area", llResult.getTa());
         }
-
-        //limelight.updateRobotOrientation(imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES));
-
-
-        //if (llResult != null && llResult.isValid()){
-        //    Pose3D botpose = llResult.getBotpose();
-        //    double camX  = -botpose.getPosition().x;
-        //    double camY  = botpose.getPosition().y;
-        //    distance = getDistance(camX, camY);
-        //    telemetry.addData("distance", distance);
-        //    telemetry.addData("Cam X", camX);
-        //    telemetry.addData("Cam Y", camY);
-        //    telemetry.addData("Target X", llResult.getTx());
-        //    telemetry.addData("Target Area", llResult.getTa());
-        //    telemetry.addData("Botpose", botpose.toString());
-        //} else {
-        //    telemetry.addLine("No result");
-        //}
-
-}
-
-
     }
+}

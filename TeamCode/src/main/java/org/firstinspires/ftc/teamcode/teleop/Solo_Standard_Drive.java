@@ -83,8 +83,8 @@ public class Solo_Standard_Drive extends LinearOpMode {
     private Servo door = null;
 
 
-    static final double target_RPM_close = 780;
-    static final double target_RPM_far = 950;
+    static final double target_RPM_close = 1300;
+    static final double target_RPM_far = 1300;
     static final double NUDGE_POWER = 0.22;
 
     @Override
@@ -115,7 +115,7 @@ public class Solo_Standard_Drive extends LinearOpMode {
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(17.3,0,0,15.3);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(36,0,0,19);
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
@@ -175,14 +175,14 @@ public class Solo_Standard_Drive extends LinearOpMode {
             // END OF DRIVE CODE
 
             // Intake Code
-            if (gamepad1.left_bumper) {
+            if (gamepad2.y) {
                 //intake down
-                intakeMotor.setPower(-0.95);
-                shootMotor.setPower(-0.5);
-            } else if (gamepad2.right_bumper) {
+                shootMotor.setPower(-0.95);
+                //intakeMotor.setPower(-0.95);
+            } else if (gamepad2.b)  {
                 //intake up
-                intakeMotor.setPower(0.95);
-                shootMotor.setPower(0.5);
+                shootMotor.setPower(0.95);
+               //intakeMotor.setPower(0.95);
             } else {
                 intakeMotor.setPower(0);
                 shootMotor.setPower(0);
@@ -224,7 +224,9 @@ public class Solo_Standard_Drive extends LinearOpMode {
 
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Outtake Encoder Ticks: ", outtakeLeft.getVelocity());
+            telemetry.addData("Velocity: ", outtakeLeft.getVelocity());
+            telemetry.addData("P value", pidfCoefficients.p);
+            telemetry.addData("F value", pidfCoefficients.f);
             telemetry.update();
 
         }

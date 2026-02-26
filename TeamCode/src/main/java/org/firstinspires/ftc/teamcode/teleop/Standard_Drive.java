@@ -113,6 +113,16 @@ public class Standard_Drive extends LinearOpMode {
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
         shootMotor.setDirection(DcMotor.Direction.FORWARD); // shooter up
 
+        //brakes
+        frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        shootMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -145,15 +155,7 @@ public class Standard_Drive extends LinearOpMode {
             double backLeftPower = axial - lateral + yaw;
             double backRightPower = axial + lateral - yaw;
 
-            //brakes
-            frontLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            frontRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            backLeftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            backRightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            outtakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            outtakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            shootMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
             // Normalize the values so no wheel power exceeds 100%
             // This ensures that the robot maintains the desired motion.
@@ -226,10 +228,11 @@ public class Standard_Drive extends LinearOpMode {
 
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Outtake Encoder Ticks: ", outtakeLeft.getVelocity());
+            telemetry.addData("Velocity: ", outtakeLeft.getVelocity());
+            telemetry.addData("P value", pidfCoefficients.p);
+            telemetry.addData("F value", pidfCoefficients.f);
             telemetry.update();
 
         }
     }
 }
-

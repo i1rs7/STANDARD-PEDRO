@@ -46,7 +46,7 @@ public class AprilTagAutoAlign extends OpMode {
         );
         pinpoint.setEncoderDirections(
                 GoBildaPinpointDriver.EncoderDirection.FORWARD,
-                GoBildaPinpointDriver.EncoderDirection.FORWARD
+                GoBildaPinpointDriver.EncoderDirection.REVERSED
         );
 
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
