@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
-@Autonomous
+@Disabled
 public class BlueAutoClose12 extends OpMode {
 
 

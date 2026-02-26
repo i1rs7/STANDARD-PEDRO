@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.Archive;
 //package org.firstinspires.ftc.teamcode.tutorials;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.Range;
@@ -9,7 +10,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 
-@TeleOp
+@Disabled
 public class BroganAprilTagAutoAlign extends OpMode {
     private final AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
     private final MecanumDrive drive = new MecanumDrive();

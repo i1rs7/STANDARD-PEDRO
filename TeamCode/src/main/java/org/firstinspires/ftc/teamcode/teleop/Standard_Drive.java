@@ -182,11 +182,11 @@ public class Standard_Drive extends LinearOpMode {
             if (gamepad2.left_bumper) {
                 //intake down
                 intakeMotor.setPower(-0.95);
-                shootMotor.setPower(-0.5);
+                shootMotor.setPower(-0.95);
             } else if (gamepad2.right_bumper) {
                 //intake up
                 intakeMotor.setPower(0.95);
-                shootMotor.setPower(0.5);
+                shootMotor.setPower(0.95);
             } else {
                 intakeMotor.setPower(0);
                 shootMotor.setPower(0);
@@ -229,8 +229,9 @@ public class Standard_Drive extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Velocity: ", outtakeLeft.getVelocity());
-            telemetry.addData("P value", pidfCoefficients.p);
-            telemetry.addData("F value", pidfCoefficients.f);
+            telemetry.addData("intake motor power", intakeMotor.getPower());
+            telemetry.addData("shoot motor power", shootMotor.getPower());
+            telemetry.addData("door position",door.getPosition());
             telemetry.update();
 
         }
