@@ -66,7 +66,7 @@ public class FlywheelLogic {
         outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15,0,0,13);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(36,0,0,19);
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
