@@ -5,7 +5,6 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -17,7 +16,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Disabled
-public class RedAutoClose12 extends OpMode {
+public class RedClose12LEVER extends OpMode {
 
 
     private Follower follower;
@@ -106,7 +105,7 @@ public class RedAutoClose12 extends OpMode {
     private final Pose shootPose4 = new Pose(145-48, 85, Math.toRadians(44));
 
     //make sure this on is inside the zone to get the leave points
-   // private final Pose shootPose5 = new Pose(145-35, 110, Math.toRadians(36));
+    // private final Pose shootPose5 = new Pose(145-35, 110, Math.toRadians(36));
 
 
 

@@ -11,6 +11,7 @@ import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 
 @Disabled
+
 public class BroganAprilTagAutoAlign extends OpMode {
     private final AprilTagWebcam aprilTagWebcam = new AprilTagWebcam();
     private final MecanumDrive drive = new MecanumDrive();
