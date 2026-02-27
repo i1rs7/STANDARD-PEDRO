@@ -150,22 +150,22 @@ public class RedCloseAuto extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(145-33.4555712270804, 136.1579689703808, Math.toRadians(90));
-    private final Pose shootPose1 = new Pose(145-55.85680170543313, 92.07533215512152, Math.toRadians(50));
-    private final Pose shootPose2 = new Pose(145-53.856801705433135, 87.34008052590521, Math.toRadians(50));
-    private final Pose shootPose3 = new Pose(145-50.856801705433135, 87.34008052590521, Math.toRadians(50));
-    private final Pose shootPose4 = new Pose(145-48, 85, Math.toRadians(45));
+    private final Pose shootPose1 = new Pose(145-55.85680170543313, 92.07533215512152, Math.toRadians(44));
+    private final Pose shootPose2 = new Pose(145-53.856801705433135, 87.34008052590521, Math.toRadians(43));
+    private final Pose shootPose3 = new Pose(145-50.856801705433135, 87.34008052590521, Math.toRadians(41));
+    private final Pose shootPose4 = new Pose(145-48, 85, Math.toRadians(40));
 
     //make sure this on is inside the zone to get the leave points
-    private final Pose shootPose5 = new Pose(145-40, 110, Math.toRadians(45));
+    private final Pose shootPose5 = new Pose(145-40, 110, Math.toRadians(33));
 
 
 
     private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 66.524682651622, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(145-24.08416494712284, 66.524682651622, Math.toRadians(180));
-    private final Pose controlLever1 = new Pose (145-35.917366981341605, 64.60157710801516, Math.toRadians(230));
-    private final Pose leverPose1 = new Pose(145-10.54823695345557, 64.60157710801516, Math.toRadians(230));
-    private final Pose controlLever2 = new Pose (145-35.917366981341605, 63.60157710801516, Math.toRadians(230));
-    private final Pose leverPose2 = new Pose(145-10.54823695345557, 63.60157710801516, Math.toRadians(230));
+    private final Pose intake1Pose = new Pose(145-20.08416494712284, 66.524682651622, Math.toRadians(180));
+    private final Pose controlLever1 = new Pose (145-35.917366981341605, 67.60157710801516, Math.toRadians(220));
+    private final Pose leverPose1 = new Pose(145-13.54823695345557, 67.60157710801516, Math.toRadians(220));
+    private final Pose controlLever2 = new Pose (145-35.917366981341605, 67.60157710801516, Math.toRadians(220));
+    private final Pose leverPose2 = new Pose(145-13.54823695345557, 67.60157710801516, Math.toRadians(220));
     private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 87.07533215512152, Math.toRadians(180));
     private final Pose intake2Pose = new Pose(145-21.197060671580733, 87.07533215512152, Math.toRadians(180));
 
@@ -281,6 +281,7 @@ public class RedCloseAuto extends OpMode {
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE1:
                 follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
+                door.setPosition(GATE_DOWN_ANGLE);
                 telemetry.addLine("Moved back");
                 setPathState(PathState.SHOOT1); //RESET TIMER & SET TO NEXT PATH STATE
                 break;
@@ -288,10 +289,9 @@ public class RedCloseAuto extends OpMode {
 
             case SHOOT1:
                 telemetry.addLine("In SHOOT1");
-                if(!follower.isBusy()){
-                    door.setPosition(GATE_DOWN_ANGLE);
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.5){
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(4);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -345,7 +345,6 @@ public class RedCloseAuto extends OpMode {
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 intakeMotor.setPower(0);
                 shootMotor.setPower(0);
-                door.setPosition(GATE_DOWN_ANGLE);
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos2, 0.7,true);
@@ -401,7 +400,7 @@ public class RedCloseAuto extends OpMode {
 
 
             case STOPINTAKE2:
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
                     //TODO add intake logic to stop intake
                     //TODO add intake logic to move balls down slightly
                     //TODO start flywheels
@@ -416,7 +415,6 @@ public class RedCloseAuto extends OpMode {
                 if(!follower.isBusy()){
                     intakeMotor.setPower(0);
                     shootMotor.setPower(0);
-                    door.setPosition(GATE_DOWN_ANGLE);
                     telemetry.addLine("Moved to preliminary lever pos ");
                     follower.followPath(driveLeverPose1ShootPose3, 0.6, true);
                     setPathState(PathState.SHOOT3);
@@ -466,7 +464,7 @@ public class RedCloseAuto extends OpMode {
                 break;
 
             case STOPINTAKE3:
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_LEVERPOSE2_SHOOTPOSE4);
                 }

@@ -49,7 +49,7 @@ public class FlywheelLogic {
     private double FAR_FLYWHEEL_RPM = 950;
     private double target_range = 40;
     private double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
-    private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
+    private double FLYWHEEL_MAX_SPINUP_TIME = 0.0; //safety check in case flywheel takes forever
 
 
     public void init(HardwareMap hardwareMap){
