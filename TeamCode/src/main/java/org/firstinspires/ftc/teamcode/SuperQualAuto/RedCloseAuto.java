@@ -159,8 +159,8 @@ public class RedCloseAuto extends OpMode {
 
 
 
-    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 60.524682651622, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(145-24.08416494712284, 60.524682651622, Math.toRadians(180));
+    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 63.524682651622, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-24.08416494712284, 63.524682651622, Math.toRadians(180));
     private final Pose controlLever1 = new Pose (145-35.917366981341605, 69.60157710801516, Math.toRadians(90));
     private final Pose leverPose1 = new Pose(145-16.54823695345557, 67.47672778561355, Math.toRadians(90));
     private final Pose controlLever2 = new Pose (145-35.917366981341605, 69.60157710801516, Math.toRadians(90));
@@ -280,8 +280,8 @@ public class RedCloseAuto extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE1:
-                outtakeLeft.setVelocity(1300);
-                outtakeRight.setVelocity(1300);
+                outtakeLeft.setVelocity(800);
+                outtakeRight.setVelocity(800);
                 follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
                 setPathState(PathState.SHOOT1); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
@@ -336,6 +336,8 @@ public class RedCloseAuto extends OpMode {
 
             case STOPINTAKE1:
                 if(!follower.isBusy()) {
+                    intakeMotor.setPower(0);
+                    shootMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
                 }
@@ -343,8 +345,6 @@ public class RedCloseAuto extends OpMode {
 
 
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
-                intakeMotor.setPower(0);
-                shootMotor.setPower(0);
                 door.setPosition(GATE_DOWN_ANGLE);
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
