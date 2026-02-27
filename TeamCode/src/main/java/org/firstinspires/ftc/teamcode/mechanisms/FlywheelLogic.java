@@ -45,9 +45,9 @@ public class FlywheelLogic {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    private double CLOSE_FLYWHEEL_RPM = 800;
+    private double CLOSE_FLYWHEEL_RPM = 770;
     private double FAR_FLYWHEEL_RPM = 950;
-    private double target_range = 40;
+    private double target_range = 30;
     private double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
     private double FLYWHEEL_MAX_SPINUP_TIME = 0.0; //safety check in case flywheel takes forever
 
@@ -96,7 +96,7 @@ public class FlywheelLogic {
 
             case SPIN_UP:
                 if (FlywheelsAtSpeed() || stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
-                    door.setPosition(GATE_DOWN_ANGLE);
+                   // door.setPosition(GATE_DOWN_ANGLE);
                     intakeMotor.setPower(0.95);
                     shootMotor.setPower(0.95);
 
