@@ -23,6 +23,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Archive.auto.RedAutoClose12;
 import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
@@ -45,8 +46,8 @@ public class RedCloseAuto extends OpMode {
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
     private Servo door = null;
-    private double GATE_DOWN_ANGLE = 0.45;
-    private double GATE_UP_ANGLE = 0.15; //
+    private double GATE_DOWN_ANGLE = 0.15;
+    private double GATE_UP_ANGLE = 0.45; //
 
 
     // state machine stuff
@@ -159,15 +160,14 @@ public class RedCloseAuto extends OpMode {
 
 
 
-    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 63.524682651622, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(145-24.08416494712284, 63.524682651622, Math.toRadians(180));
-    private final Pose controlLever1 = new Pose (145-35.917366981341605, 69.60157710801516, Math.toRadians(90));
-    private final Pose leverPose1 = new Pose(145-16.54823695345557, 67.47672778561355, Math.toRadians(90));
-    private final Pose controlLever2 = new Pose (145-35.917366981341605, 69.60157710801516, Math.toRadians(90));
-    private final Pose leverPose2 = new Pose(145-16.54823695345557, 67.47672778561355, Math.toRadians(90));
+    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 60.524682651622, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-24.08416494712284, 60.524682651622, Math.toRadians(180));
+    private final Pose controlLever1 = new Pose (145-35.917366981341605, 64.60157710801516, Math.toRadians(230));
+    private final Pose leverPose1 = new Pose(145-16.54823695345557, 64.60157710801516, Math.toRadians(230));
+    private final Pose controlLever2 = new Pose (145-35.917366981341605, 63.60157710801516, Math.toRadians(230));
+    private final Pose leverPose2 = new Pose(145-16.54823695345557, 63.60157710801516, Math.toRadians(230));
     private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 84.07533215512152, Math.toRadians(180));
     private final Pose intake2Pose = new Pose(145-21.197060671580733, 84.07533215512152, Math.toRadians(180));
-
 
 
 
@@ -336,8 +336,6 @@ public class RedCloseAuto extends OpMode {
 
             case STOPINTAKE1:
                 if(!follower.isBusy()) {
-                    intakeMotor.setPower(0);
-                    shootMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
                 }
@@ -345,6 +343,8 @@ public class RedCloseAuto extends OpMode {
 
 
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
+                intakeMotor.setPower(0);
+                shootMotor.setPower(0);
                 door.setPosition(GATE_DOWN_ANGLE);
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
@@ -590,9 +590,25 @@ public class RedCloseAuto extends OpMode {
         pathState = PathState.DRIVE_STARTPOSE_SHOOTPOSE1; //Whats the difference between DRIVE_STARTPOSE_SHOOTPOSE and driveStartPosShootPos
         pathTimer = new Timer();
         opModeTimer = new Timer();
+        timeoutTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
-        //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
-        // shooter.init(hardwareMap);
+        shooter.init(hardwareMap);
+
+
+        intakeMotor = hardwareMap.get(DcMotor.class, "i");
+        intakeMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        shootMotor = hardwareMap.get(DcMotor.class, "shoot");
+        shootMotor.setDirection(DcMotor.Direction.FORWARD);
+
+        outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
+        outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
+        outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
+        outtakeRight.setDirection(DcMotor.Direction.FORWARD);
+
+        door = hardwareMap.get(Servo.class, "d");
+
+
         buildPaths();
         follower.setPose(startPose);
     }
@@ -611,7 +627,7 @@ public class RedCloseAuto extends OpMode {
     @Override
     public void loop(){
         follower.update();
-        //shooter.update();
+        shooter.update();
         StatePathUpdate();
 
 
@@ -622,13 +638,11 @@ public class RedCloseAuto extends OpMode {
         telemetry.addData("y:", follower.getPose().getY());
         telemetry.addData("Heading:", follower.getPose().getHeading());
         telemetry.addData("Path time:", pathTimer.getElapsedTimeSeconds());
+        telemetry.addData("outtake left ticks",outtakeLeft.getVelocity());
+        telemetry.addData("outtake right ticks",outtakeRight.getVelocity());
 
 
 
 
     }
 }
-
-
-
-

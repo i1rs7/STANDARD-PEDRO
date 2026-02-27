@@ -85,9 +85,8 @@ public class Standard_Drive extends LinearOpMode {
     private Servo door = null;
 
 
-    static final double target_RPM_close = 780;
-    static final double target_RPM_far = 950;
-    static final double NUDGE_POWER = 0.22;
+    static final double target_RPM_close = 750;
+    static final double target_RPM_far = 1100;
 
     @Override
     public void runOpMode() {
@@ -187,13 +186,9 @@ public class Standard_Drive extends LinearOpMode {
                 //intake up
                 intakeMotor.setPower(0.95);
                 shootMotor.setPower(0.95);
-            } else {
-                intakeMotor.setPower(0);
-                shootMotor.setPower(0);
             }
-
             // shooting code
-            if (gamepad2.b){
+            else if (gamepad2.b){
                 //intake
                 intakeMotor.setPower(0.95);
             } else if (gamepad2.y) {
@@ -201,6 +196,7 @@ public class Standard_Drive extends LinearOpMode {
                 shootMotor.setPower(0.95);
             } else {
                 shootMotor.setPower(0);
+                intakeMotor.setPower(0);
             }
 
             //outtake code

@@ -9,6 +9,7 @@ import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.follower.Follower;
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -31,7 +32,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 
-@Disabled
+@Autonomous
 public class BlueCloseAuto extends OpMode {
 
     private Follower follower;
@@ -522,7 +523,7 @@ public class BlueCloseAuto extends OpMode {
                 }
                 break;
 
-                case STOPINTAKE4:
+            case STOPINTAKE4:
                 if(!follower.isBusy()) {
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_INTAKEPOSE2_SHOOTPOSE5);
@@ -627,7 +628,3 @@ public class BlueCloseAuto extends OpMode {
 
     }
 }
-
-
-
-

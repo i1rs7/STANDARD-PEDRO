@@ -50,8 +50,8 @@ public class RedClosePath extends OpMode {
 
 */
     // state machine stuff
-   // private FlywheelLogic shooter = new FlywheelLogic();
-   // private boolean shotsTriggered = false;
+    // private FlywheelLogic shooter = new FlywheelLogic();
+    // private boolean shotsTriggered = false;
 
     //Flywheel logic
     //private FlywheelLogic shooter = new FlywheelLogic();
@@ -61,69 +61,69 @@ public class RedClosePath extends OpMode {
         DRIVE_STARTPOSE_SHOOTPOSE1,
 
 
-       // SHOOT1,
+        // SHOOT1,
 
 
         //LINE UP TO INTAKE FIRST SET OF BALLS
         DRIVE_SHOOTPOSE1_LINEINTAKE1POSE,
 
 
-      //  STARTINTAKE1,
+        //  STARTINTAKE1,
 
 
         //Move back and intake first 3 balls + move balls down + start flywheels
         DRIVE_LINEINTAKE1POSE_INTAKE1POSE,
 
 
-      //  STOPINTAKE1,
+        //  STOPINTAKE1,
 
 
         //Return to shooting position, shoot
         DRIVE_INTAKE1POSE_SHOOTPOSE2,
 
 
-      //  SHOOT2,
+        //  SHOOT2,
 
 
         //Line up to intake second set of three
         DRIVE_SHOOTPOSE2_CONTROLLEVERPOSE1,
 
 
-     //   STARTINTAKE2,
+        //   STARTINTAKE2,
 
         DRIVE_CONTROLLEVERPOSE1_LEVERPOSE1,
 
 
-    //    STOPINTAKE2,
+        //    STOPINTAKE2,
 
         DRIVE_LEVERPOSE1_SHOOTPOSE3,
 
-      //  SHOOT3,
+        //  SHOOT3,
 
         DRIVE_SHOOTPOSE3_CONTROLLEVERPOSE2,
 
-      //  STARTINTAKE3,
+        //  STARTINTAKE3,
 
         DRIVE_CONTROLLEVERPOSE2_LEVERPOSE2,
 
-      //  STOPINTAKE3,
+        //  STOPINTAKE3,
 
         DRIVE_LEVERPOSE2_SHOOTPOSE4,
 
-       // SHOOT4,
+        // SHOOT4,
 
         DRIVE_SHOOTPOSE4_LINEINTAKE2,
 
-      //  STARTINTAKE4,
+        //  STARTINTAKE4,
 
         //THIS POSE IS INSIDE THE ZONE TO GET LEAVE POINTS
         DRIVE_LINEINTAKEPOSE2_INTAKEPOSE2,
 
-      //  STOPINTAKE4,
+        //  STOPINTAKE4,
 
         DRIVE_INTAKEPOSE2_SHOOTPOSE5,
 
-     //   SHOOT5,
+        //   SHOOT5,
 
         DONE
         //stop
@@ -183,6 +183,7 @@ public class RedClosePath extends OpMode {
 
 
 
+
     //All the movement paths (no intake/outtake)
     private PathChain driveStartPosShootPos, driveShootPos1LineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos2,
             driveShootPos2ControlLeverPose1, driveControlLeverPose1LeverPose1, driveLeverPose1ShootPose3, driveShootPos3ControlLeverPose2, driveControlLeverPose2LeverPose2, driveLeverPose2ShootPose4, driveShootPose4LineIntake2, driveLineIntake2Intake2, driveIntake2ShootPose5;
@@ -209,55 +210,81 @@ public class RedClosePath extends OpMode {
         //use coordinates of the points (above) for the starting position and the ending position to construct a path
         driveStartPosShootPos = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, shootPose1))
-                .setLinearHeadingInterpolation(startPose.getHeading(), shootPose1.getHeading())
+                        .
+                setLinearHeadingInterpolation(startPose.getHeading(), shootPose1.getHeading())
+
                 .build();
         driveShootPos1LineIntake1Pos = follower.pathBuilder()
                 .addPath(new BezierLine(shootPose1, lineIntake1Pose))
-                .setLinearHeadingInterpolation(shootPose1.getHeading(), lineIntake1Pose.getHeading())
+                        .
+                setLinearHeadingInterpolation(shootPose1.getHeading(), lineIntake1Pose.getHeading())
+
                 .build();
         driveLineIntake1PosIntake1Pos = follower.pathBuilder()
                 .addPath(new BezierLine(lineIntake1Pose, intake1Pose))
-                .setLinearHeadingInterpolation(lineIntake1Pose.getHeading(), intake1Pose.getHeading())
+                        .
+                setLinearHeadingInterpolation(lineIntake1Pose.getHeading(), intake1Pose.getHeading())
+
                 .build();
         driveIntake1PosShootPos2 = follower.pathBuilder()
                 .addPath(new BezierLine(intake1Pose, shootPose2))
-                .setLinearHeadingInterpolation(intake1Pose.getHeading(), shootPose2.getHeading())
+                        .
+                setLinearHeadingInterpolation(intake1Pose.getHeading(), shootPose2.getHeading())
+
                 .build();
         driveShootPos2ControlLeverPose1 = follower.pathBuilder()
                 .addPath(new BezierLine(shootPose2, controlLever1))
-                .setLinearHeadingInterpolation(shootPose2.getHeading(), controlLever1.getHeading())
+                        .
+                setLinearHeadingInterpolation(shootPose2.getHeading(), controlLever1.getHeading())
+
                 .build();
         driveControlLeverPose1LeverPose1 = follower.pathBuilder()
                 .addPath(new BezierLine(controlLever1, leverPose1))
-                .setLinearHeadingInterpolation(controlLever1.getHeading(), leverPose1.getHeading())
+                        .
+                setLinearHeadingInterpolation(controlLever1.getHeading(), leverPose1.getHeading())
+
                 .build();
         driveLeverPose1ShootPose3 = follower.pathBuilder()
                 .addPath(new BezierLine(leverPose1, shootPose3))
-                .setLinearHeadingInterpolation(leverPose1.getHeading(), shootPose3.getHeading())
+                        .
+                setLinearHeadingInterpolation(leverPose1.getHeading(), shootPose3.getHeading())
+
                 .build();
         driveShootPos3ControlLeverPose2 = follower.pathBuilder()
                 .addPath(new BezierLine(shootPose3, controlLever2))
-                .setLinearHeadingInterpolation(shootPose3.getHeading(), controlLever2.getHeading())
+                        .
+                setLinearHeadingInterpolation(shootPose3.getHeading(), controlLever2.getHeading())
+
                 .build();
         driveControlLeverPose2LeverPose2 = follower.pathBuilder()
                 .addPath(new BezierLine(controlLever2, leverPose2))
-                .setLinearHeadingInterpolation(controlLever2.getHeading(), leverPose2.getHeading())
+                        .
+                setLinearHeadingInterpolation(controlLever2.getHeading(), leverPose2.getHeading())
+
                 .build();
         driveLeverPose2ShootPose4 = follower.pathBuilder()
                 .addPath(new BezierLine(leverPose2, shootPose4))
-                .setLinearHeadingInterpolation(leverPose2.getHeading(), shootPose4.getHeading())
+                        .
+                setLinearHeadingInterpolation(leverPose2.getHeading(), shootPose4.getHeading())
+
                 .build();
         driveShootPose4LineIntake2 = follower.pathBuilder()
                 .addPath(new BezierLine(shootPose4, lineIntake2Pose))
-                .setLinearHeadingInterpolation(shootPose4.getHeading(), lineIntake2Pose.getHeading())
+                        .
+                setLinearHeadingInterpolation(shootPose4.getHeading(), lineIntake2Pose.getHeading())
+
                 .build();
         driveLineIntake2Intake2 = follower.pathBuilder()
                 .addPath(new BezierLine(lineIntake2Pose, intake2Pose))
-                .setLinearHeadingInterpolation(lineIntake2Pose.getHeading(), intake2Pose.getHeading())
+                        .
+                setLinearHeadingInterpolation(lineIntake2Pose.getHeading(), intake2Pose.getHeading())
+
                 .build();
         driveIntake2ShootPose5 = follower.pathBuilder()
                 .addPath(new BezierLine(intake2Pose, shootPose5))
-                .setLinearHeadingInterpolation(intake2Pose.getHeading(), shootPose5.getHeading())
+                        .
+                setLinearHeadingInterpolation(intake2Pose.getHeading(), shootPose5.getHeading())
+
                 .build();
     }
 
@@ -281,7 +308,7 @@ public class RedClosePath extends OpMode {
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE1:
                 //outtakeLeft.setVelocity(770);
-               // outtakeRight.setVelocity(770);
+                // outtakeRight.setVelocity(770);
                 follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
                 setPathState(PathState.DRIVE_SHOOTPOSE1_LINEINTAKE1POSE); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
@@ -344,8 +371,8 @@ public class RedClosePath extends OpMode {
 
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 //intakeMotor.setPower(0);
-            //    shootMotor.setPower(0);
-              //  door.setPosition(GATE_DOWN_ANGLE);
+                //    shootMotor.setPower(0);
+                //  door.setPosition(GATE_DOWN_ANGLE);
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos2, 0.7,true);
@@ -628,7 +655,3 @@ public class RedClosePath extends OpMode {
 
     }
 }
-
-
-
-
