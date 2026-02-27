@@ -280,8 +280,8 @@ public class RedCloseAuto extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE1:
-                outtakeLeft.setVelocity(770);
-                outtakeRight.setVelocity(770);
+                outtakeLeft.setVelocity(1300);
+                outtakeRight.setVelocity(1300);
                 follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
                 setPathState(PathState.SHOOT1); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
