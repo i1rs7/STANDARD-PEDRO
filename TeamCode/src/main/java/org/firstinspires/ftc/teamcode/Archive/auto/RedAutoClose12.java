@@ -96,7 +96,7 @@ public class RedAutoClose12 extends OpMode {
         //Leave
         DRIVE_SHOOTPOSE_LEAVEPOSE,
 
-        DONE
+        DRIVE_INTAKE2POSE_SHOOTPOSE4, DONE
     }
 
 
