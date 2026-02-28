@@ -88,10 +88,10 @@ public class FlywheelLogic {
             case IDLE:
                 if (shotsRemaining > 0){
                     intakeTimer.reset();
-                    while(intakeTimer.seconds() > 0.6) {
+                    /* while(intakeTimer.seconds() > 0.6) {
                         shootMotor.setPower(-0.95);
                         intakeMotor.setPower(-0.95);
-                    }
+                    }*/
                     outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
                     outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
 

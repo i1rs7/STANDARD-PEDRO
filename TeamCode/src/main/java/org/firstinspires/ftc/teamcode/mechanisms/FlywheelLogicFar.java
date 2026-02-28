@@ -47,7 +47,7 @@ public class FlywheelLogicFar {
     private double flywheelVelocity = 0;
     private double CLOSE_FLYWHEEL_RPM = 770;
     private double FAR_FLYWHEEL_RPM = 950;
-    private double target_range = 20;
+    private double target_range = 60;
     private double TARGET_FLYWHEEL_RPM = FAR_FLYWHEEL_RPM;
     private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
 
@@ -125,8 +125,8 @@ public class FlywheelLogicFar {
                         flywheelState = FlywheelState.SPIN_UP;
                     }
                     else{
-                        //outtakeLeft.setPower(0);
-                        //outtakeRight.setPower(0);
+                        outtakeLeft.setPower(0);
+                        outtakeRight.setPower(0);
                         intakeMotor.setPower(0);
                         shootMotor.setPower(0);
                         door.setPosition(GATE_DOWN_ANGLE);
