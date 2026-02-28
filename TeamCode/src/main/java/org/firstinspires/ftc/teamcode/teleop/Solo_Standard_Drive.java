@@ -33,7 +33,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -68,7 +67,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name="Standard Drive", group="Linear OpMode")
 
-public class Standard_Drive extends LinearOpMode {
+public class Solo_Standard_Drive extends LinearOpMode {
 
     // Declare OpMode members for each of the 4 motors.
     private ElapsedTime runtime = new ElapsedTime();
@@ -180,20 +179,20 @@ public class Standard_Drive extends LinearOpMode {
             // END OF DRIVE CODE
 
             // Intake Code
-            if (gamepad2.left_bumper) {
+            if (gamepad1.left_bumper) {
                 //intake down
                 intakeMotor.setPower(-0.95);
                 shootMotor.setPower(-0.95);
-            } else if (gamepad2.right_bumper) {
+            } else if (gamepad1.right_bumper) {
                 //intake up
                 intakeMotor.setPower(0.95);
                 shootMotor.setPower(0.95);
             }
             // shooting code
-            else if (gamepad2.b){
+            else if (gamepad1.b){
                 //intake
                 intakeMotor.setPower(0.95);
-            } else if (gamepad2.y) {
+            } else if (gamepad1.y) {
                 //shoot down
                 shootMotor.setPower(0.95);
             } else {
@@ -202,11 +201,11 @@ public class Standard_Drive extends LinearOpMode {
             }
 
             //outtake code
-            if (gamepad2.right_trigger > 0.5) {
+            if (gamepad1.right_trigger > 0.5) {
                 outtakeLeft.setVelocity(target_RPM_close);
                 outtakeRight.setVelocity(target_RPM_close);
                 TARGET_FLYWHEEL_RPM=target_RPM_close;
-            } else if (gamepad2.left_trigger > 0.5) {
+            } else if (gamepad1.left_trigger > 0.5) {
                 outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
                 TARGET_FLYWHEEL_RPM=target_RPM_far;
@@ -217,10 +216,10 @@ public class Standard_Drive extends LinearOpMode {
             }
 
 
-            if (gamepad2.x) {
+            if (gamepad1.x) {
                 // door up
                 door.setPosition(0.60);
-            } else if (gamepad2.a) {
+            } else if (gamepad1.a) {
                 //door down
                 door.setPosition(0.30);
             }
