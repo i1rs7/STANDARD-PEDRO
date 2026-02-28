@@ -87,6 +87,8 @@ public class Standard_Drive extends LinearOpMode {
 
     static final double target_RPM_close = 750;
     static final double target_RPM_far = 1100;
+    static final double target_range = 40;
+    private double TARGET_FLYWHEEL_RPM;
 
     @Override
     public void runOpMode() {
@@ -203,10 +205,11 @@ public class Standard_Drive extends LinearOpMode {
             if (gamepad2.right_trigger > 0.5) {
                 outtakeLeft.setVelocity(target_RPM_close);
                 outtakeRight.setVelocity(target_RPM_close);
+                TARGET_FLYWHEEL_RPM=target_RPM_close;
             } else if (gamepad2.left_trigger > 0.5) {
                 outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
-
+                TARGET_FLYWHEEL_RPM=target_RPM_far;
             }
             else {
                 outtakeLeft.setPower(0);
@@ -222,6 +225,12 @@ public class Standard_Drive extends LinearOpMode {
                 door.setPosition(0.15);
             }
 
+            if ((outtakeRight.getVelocity() >= TARGET_FLYWHEEL_RPM-target_range &&
+                    outtakeRight.getVelocity() <=  TARGET_FLYWHEEL_RPM+target_range) &&
+                    (outtakeLeft.getVelocity() >= TARGET_FLYWHEEL_RPM-target_range &&
+                            outtakeLeft.getVelocity() <= TARGET_FLYWHEEL_RPM+target_range)) {
+                gamepad2.rumble(5);
+            }
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Velocity: ", outtakeLeft.getVelocity());
