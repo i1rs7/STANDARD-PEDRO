@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
+import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogicFar;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
@@ -29,7 +29,7 @@ public class BlueFar6 extends OpMode {
     private double GATE_UP_ANGLE = 0.60; //
 
     // state machine stuff
-    private FlywheelLogic shooter = new FlywheelLogic();
+    private FlywheelLogicFar shooter = new FlywheelLogicFar();
     private boolean shotsTriggered = false;
 
 
@@ -103,7 +103,7 @@ public class BlueFar6 extends OpMode {
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.7){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(1);
+                        shooter.fireShots(5);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -162,7 +162,7 @@ public class BlueFar6 extends OpMode {
 
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(1);
+                        shooter.fireShots(5);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -211,7 +211,6 @@ public class BlueFar6 extends OpMode {
         follower = Constants.createFollower(hardwareMap);
 
         shooter.init(hardwareMap);
-        shooter.TARGET_FLYWHEEL_RPM = shooter.FAR_FLYWHEEL_RPM;
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -244,7 +243,6 @@ public class BlueFar6 extends OpMode {
         StatePathUpdate();
 
         telemetry.addData("Path State:", pathState.toString());
-        telemetry.addData("flywheel target rpm", shooter.TARGET_FLYWHEEL_RPM);
         //telemetry.addData("x:", follower.getPose().getX());
         //telemetry.addData("y:", follower.getPose().getY());
         //telemetry.addData("Heading:", follower.getPose().getHeading());
