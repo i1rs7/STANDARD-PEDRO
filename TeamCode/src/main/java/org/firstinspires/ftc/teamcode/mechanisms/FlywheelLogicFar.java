@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Archive;
+package org.firstinspires.ftc.teamcode.mechanisms;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -28,10 +28,10 @@ public class FlywheelLogicFar {
     public FlywheelState flywheelState;
 
     // gate constants
-    private double GATE_UP_ANGLE = 0.45;
-    private double GATE_DOWN_ANGLE = 0.15; //
-    private double GATE_OPEN_TIME = 0.25; // todo find this value
-    private double GATE_CLOSE_TIME = 0.4; // todo find this value
+    private double GATE_DOWN_ANGLE = 0.30;
+    private double GATE_UP_ANGLE = 0.60;
+    private double GATE_OPEN_TIME = 0.25;
+    private double GATE_CLOSE_TIME = 0.4;
 
     // ------ SHOOTER CONSTANTS --------
     // this servo does not exist yet on robot v1, may exist in v2 so pre-coded

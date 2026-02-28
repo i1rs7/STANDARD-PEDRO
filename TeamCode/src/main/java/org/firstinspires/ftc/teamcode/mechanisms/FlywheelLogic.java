@@ -29,8 +29,8 @@ public class FlywheelLogic {
     public FlywheelState flywheelState;
 
     // gate constants
-    private double GATE_UP_ANGLE = 0.45;
-    private double GATE_DOWN_ANGLE = 0.15; //
+    private double GATE_DOWN_ANGLE = 0.30;
+    private double GATE_UP_ANGLE = 0.60; //
     private double GATE_OPEN_TIME = 2; // todo find this value
     private double GATE_CLOSE_TIME = 0.5; // todo find this value
 
