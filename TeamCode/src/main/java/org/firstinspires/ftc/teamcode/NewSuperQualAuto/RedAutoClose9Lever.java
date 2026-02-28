@@ -1,9 +1,9 @@
-package org.firstinspires.ftc.teamcode.Archive.auto;
-
+package org.firstinspires.ftc.teamcode.NewSuperQualAuto;
 
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -12,130 +12,47 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
-
 import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
-//import org.firstinspires.ftc.teamcode.pedroPathing.FlywheelLogic;
-
-
-@Disabled
-public class BlueAutoClose9Lever extends OpMode {
-
-
-
+@Autonomous
+public class RedAutoClose9Lever extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opModeTimer, timeoutTimer;
-
-
     private DcMotor intakeMotor = null;
     private DcMotor shootMotor = null;
-
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
     private Servo door = null;
-    private double GATE_DOWN_ANGLE = 0.45;
-    private double GATE_UP_ANGLE = 0.15; //
-
+    private double GATE_DOWN_ANGLE = 0.15;
+    private double GATE_UP_ANGLE = 0.45; //
 
     // state machine stuff
     private FlywheelLogic shooter = new FlywheelLogic();
     private boolean shotsTriggered = false;
 
 
-
-
-
     public enum PathState {
-        //MOVE BACK & ROTATE 5 DEGREES TO FACE GOAL
-        DRIVE_STARTPOSE_SHOOTPOSE,
-
-
+        DRIVE_STARTPOSE_SHOOTPOSE, //MOVE BACK & ROTATE 5 DEGREES TO FACE GOAL
         SHOOTPRELOAD,
-
-
-        //LINE UP TO INTAKE FIRST SET OF BALLS
-        DRIVE_SHOOTPOSE_LINEINTAKE1POSE,
-
-
+        DRIVE_SHOOTPOSE_LINEINTAKE1POSE, //LINE UP TO INTAKE FIRST SET OF BALLS
         STARTINTAKE1,
-
-
-        //Move back and intake first 3 balls + move balls down + start flywheels
-        DRIVE_LINEINTAKE1POSE_INTAKE1POSE,
-
-
+        DRIVE_LINEINTAKE1POSE_INTAKE1POSE,//Move back and intake first 3 balls + move balls down + start flywheels
         STOPINTAKE1,
-
-
-        //Return to shooting position, shoot
-        DRIVE_INTAKE1POSE_SHOOTPOSE2,
-
-
+        DRIVE_INTAKE1POSE_SHOOTPOSE2,//Return to shooting position, shoot
         SHOOT1,
-
-
-        //Line up to intake second set of three
         DRIVE_SHOOTPOSE2_LINEINTAKE2POSE,
-
-
         STARTINTAKE2,
-
-
-        //Intake second set of three + move balls down + start flywheels
-        DRIVE_LINEINTAKE2POSE_INTAKE2POSE,
-
-
+        DRIVE_LINEINTAKE2POSE_INTAKE2POSE, //Intake second set of three + move balls down + start flywheels
         STOPINTAKE2,
-
-
-        //Go to first spot before shooting position to avoid the lever
-        DRIVE_INTAKE2POSE_CONTROLLEVERPOSE,
-
-
-        DRIVE_CONTROLLEVERPOSE_LEVERPOSE,
-
-
-        LEVER,
-
-
-        DRIVE_LEVERPOSE_SHOOTPOSE3,
-
-
-        //Go to shooting position and shoot next 3
-
-
-        SHOOT2,
-
-
-        //Leave
-        DRIVE_SHOOTPOSE3_LEAVEPOSE,
-
-
-        DONE
-        //stop
-
+        DRIVE_INTAKE2POSE_SHOOTPOSE3,
+        SHOOT2, //Go to shooting position and shoot next 3
+        DRIVE_SHOOTPOSE3_LEAVEPOSE,  //Leave
+        DONE //stop
 
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -143,61 +60,21 @@ public class BlueAutoClose9Lever extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(90));
-    private final Pose shootPose = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(130));
-    private final Pose shootPose2 = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(135));
-    private final Pose shootPose3 = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(135));
-    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152, Math.toRadians(0));
-    private final Pose intake1Pose = new Pose(16.08416494712284, 87.07533215512152, Math.toRadians(0));
-    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 63.524682651622, Math.toRadians(0));
-    private final Pose intake2Pose = new Pose(15.197060671580733, 63.524682651622, Math.toRadians(0));
-    private final Pose controlLever = new Pose (35.917366981341605, 69.60157710801516, Math.toRadians(90));
-    private final Pose leverPose = new Pose(16.54823695345557, 67.47672778561355, Math.toRadians(90));
-    final Pose leavePose = new Pose(20.919605077574047, 93.42736248236953, Math.toRadians(90));
-
-
-
-
-
-
-
-
+    private final Pose startPose = new Pose(145-33.4555712270804, 136.1579689703808, Math.toRadians(90));
+    private final Pose shootPose = new Pose(145-55.85680170543313, 92.07533215512152, Math.toRadians(45));
+    private final Pose shootPose2 = new Pose(145-53.856801705433135, 89.34008052590521, Math.toRadians(45));
+    private final Pose shootPose3 = new Pose(145-50.856801705433135, 90.34008052590521, Math.toRadians(45));
+    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 87.07533215512152+2, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-16.08416494712284+5, 87.07533215512152+2, Math.toRadians(180));
+    private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 63.524682651622+4, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(145-10.197060671580733+5, 63.524682651622+4, Math.toRadians(180));
+    final Pose leavePose = new Pose(145-20.919605077574047, 93.42736248236953, Math.toRadians(90));
 
 
 
     //All the movement paths (no intake/outtake)
     private PathChain driveStartPosShootPos, driveShootPosLineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos2,
-            driveShootPos2LineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosControlLeverPos, driveControlLeverPosLeverPos, driveLeverPosShootPos3, driveShootPos3LeavePos;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            driveShootPos2LineIntake2Pos, driveLineIntake2PosIntake2Pos, driveIntake2PosShootPos3, driveShootPos3LeavePos;
 
 
     public void buildPaths(){
@@ -226,17 +103,9 @@ public class BlueAutoClose9Lever extends OpMode {
                 .addPath(new BezierLine(lineIntake2Pose, intake2Pose))
                 .setLinearHeadingInterpolation(lineIntake2Pose.getHeading(), intake2Pose.getHeading())
                 .build();
-        driveIntake2PosControlLeverPos = follower.pathBuilder()
-                .addPath(new BezierLine(intake2Pose, controlLever))
-                .setLinearHeadingInterpolation(intake2Pose.getHeading(), controlLever.getHeading())
-                .build();
-        driveControlLeverPosLeverPos = follower.pathBuilder()
-                .addPath(new BezierLine(controlLever, leverPose))
-                .setLinearHeadingInterpolation(controlLever.getHeading(), leverPose.getHeading())
-                .build();
-        driveLeverPosShootPos3 = follower.pathBuilder()
-                .addPath(new BezierLine(leverPose, shootPose3))
-                .setLinearHeadingInterpolation(leverPose.getHeading(), shootPose3.getHeading())
+        driveIntake2PosShootPos3 = follower.pathBuilder()
+                .addPath(new BezierLine(intake2Pose, shootPose3))
+                .setLinearHeadingInterpolation(intake2Pose.getHeading(), shootPose3.getHeading())
                 .build();
         driveShootPos3LeavePos = follower.pathBuilder()
                 .addPath(new BezierLine(shootPose3, leavePose))
@@ -244,56 +113,22 @@ public class BlueAutoClose9Lever extends OpMode {
                 .build();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void StatePathUpdate () {
         //update cases quickly
         //run the paths in order
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
-                outtakeLeft.setVelocity(770);
-                outtakeRight.setVelocity(770);
                 follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
                 setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
                 break;
 
-
             case SHOOTPRELOAD:
                 if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(5);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -302,8 +137,6 @@ public class BlueAutoClose9Lever extends OpMode {
                         setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
                     }
                 } break;
-
-
 
             case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
                 if(!follower.isBusy()){
@@ -314,16 +147,14 @@ public class BlueAutoClose9Lever extends OpMode {
                 }
                 break;
 
-
             case STARTINTAKE1:
                 if(!follower.isBusy()) {
                     intakeMotor.setPower(0.95);
-                    shootMotor.setPower(0.95);
+                    shootMotor.setPower(0.75);
                     telemetry.addLine("Started intake to intake first 3");
                     setPathState(PathState.DRIVE_LINEINTAKE1POSE_INTAKE1POSE);
                 }
                 break;
-
 
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
                 if(!follower.isBusy()){
@@ -333,33 +164,30 @@ public class BlueAutoClose9Lever extends OpMode {
                 }
                 break;
 
-
             case STOPINTAKE1:
                 if(!follower.isBusy()) {
+                    shootMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
                 }
                 break;
 
-
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
-                    shootMotor.setPower(0);
-                    door.setPosition(GATE_DOWN_ANGLE);
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos2, 0.7,true);
                     setPathState(PathState.SHOOT1);
-
                 }
                 break;
 
-
             case SHOOT1:
                 if(!follower.isBusy()){
+                    intakeMotor.setPower(0);
+
+
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(5);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -368,9 +196,6 @@ public class BlueAutoClose9Lever extends OpMode {
                         setPathState(PathState.DRIVE_SHOOTPOSE2_LINEINTAKE2POSE);
                     }
                 } break;
-
-
-
 
             case DRIVE_SHOOTPOSE2_LINEINTAKE2POSE:
                 if(!follower.isBusy()){
@@ -381,18 +206,14 @@ public class BlueAutoClose9Lever extends OpMode {
                 }
                 break;
 
-
             case STARTINTAKE2:
                 if(!follower.isBusy()) {
                     intakeMotor.setPower(0.95);
-                    shootMotor.setPower(0.95);
+                    shootMotor.setPower(0.75);
                     telemetry.addLine("Started intake to intake second 3");
                     setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSE);
                 }
                 break;
-
-
-
 
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSE:
                 if(!follower.isBusy()){
@@ -402,60 +223,28 @@ public class BlueAutoClose9Lever extends OpMode {
                 }
                 break;
 
-
             case STOPINTAKE2:
                 if(!follower.isBusy()) {
-                    telemetry.addLine("Stopped intake after intaked second 3");
-                    setPathState(PathState.DRIVE_INTAKE2POSE_CONTROLLEVERPOSE);
-                }
-                break;
-
-
-
-
-            case DRIVE_INTAKE2POSE_CONTROLLEVERPOSE:
-                if(!follower.isBusy()){
-                    telemetry.addLine("Moved to preliminary lever pos ");
-                    follower.followPath(driveIntake2PosControlLeverPos, 0.8, true);
-                    setPathState(PathState.DRIVE_CONTROLLEVERPOSE_LEVERPOSE);
-                }
-                break;
-
-            case DRIVE_CONTROLLEVERPOSE_LEVERPOSE:
-                if(!follower.isBusy()){
-                    telemetry.addLine("Lever pose and rotated");
-                    follower.followPath(driveControlLeverPosLeverPos, 0.8, true);
-                    setPathState(PathState.LEVER);
-                }
-                break;
-
-
-            case LEVER:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()>3){
-                    telemetry.addLine("Waiting at lever");
-                    setPathState(PathState.DRIVE_LEVERPOSE_SHOOTPOSE3);
-                }
-                break;
-
-
-
-            case DRIVE_LEVERPOSE_SHOOTPOSE3:
-                if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
                     shootMotor.setPower(0);
-                    door.setPosition(GATE_DOWN_ANGLE);
+                    telemetry.addLine("Stopped intake after intaked second 3");
+                    setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE3);
+                }
+                break;
+
+            case DRIVE_INTAKE2POSE_SHOOTPOSE3:
+                if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveLeverPosShootPos3, 0.8, true);
+                    follower.followPath(driveIntake2PosShootPos3, 0.8, true);
                     setPathState(PathState.SHOOT2);
                 }
                 break;
 
-
             case SHOOT2:
                 if(!follower.isBusy()){
+                    intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(5);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -465,8 +254,6 @@ public class BlueAutoClose9Lever extends OpMode {
                     }
                 } break;
 
-
-
             case DRIVE_SHOOTPOSE3_LEAVEPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Leave the zone");
@@ -474,7 +261,6 @@ public class BlueAutoClose9Lever extends OpMode {
                     setPathState(PathState.DONE);
                 }
                 break;
-
 
             case DONE:
                 if(!follower.isBusy()) {
@@ -484,62 +270,11 @@ public class BlueAutoClose9Lever extends OpMode {
                 }
                 break;
 
-
             default:
                 telemetry.addLine("No state");
                 break;
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     public void setPathState (PathState newState) {
@@ -549,8 +284,6 @@ public class BlueAutoClose9Lever extends OpMode {
     }
 
 
-
-
     @Override
     public void init() {
         pathState = PathState.DRIVE_STARTPOSE_SHOOTPOSE; //Whats the difference between DRIVE_STARTPOSE_SHOOTPOSE and driveStartPosShootPos
@@ -558,9 +291,9 @@ public class BlueAutoClose9Lever extends OpMode {
         opModeTimer = new Timer();
         timeoutTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
-        //TODO ADD ANY OTHER INIT STUFF (FLYWHEEL, LIMELIGHT, ETC.)
-        shooter.init(hardwareMap);
 
+        shooter.init(hardwareMap);
+        shooter.TARGET_FLYWHEEL_RPM = shooter.CLOSE_FLYWHEEL_RPM;
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -575,12 +308,9 @@ public class BlueAutoClose9Lever extends OpMode {
 
         door = hardwareMap.get(Servo.class, "d");
 
-
         buildPaths();
         follower.setPose(startPose);
     }
-
-
 
 
     public void start() {
@@ -589,33 +319,24 @@ public class BlueAutoClose9Lever extends OpMode {
     }
 
 
-
-
     @Override
     public void loop(){
         follower.update();
         shooter.update();
         StatePathUpdate();
 
-
-
-
         telemetry.addData("Path State:", pathState.toString());
+        telemetry.addData("flywheel target rpm", shooter.TARGET_FLYWHEEL_RPM);
         //telemetry.addData("x:", follower.getPose().getX());
         //telemetry.addData("y:", follower.getPose().getY());
         //telemetry.addData("Heading:", follower.getPose().getHeading());
         telemetry.addData("Path time:", pathTimer.getElapsedTimeSeconds());
-
         telemetry.addData("Left flywheel velocity", outtakeLeft.getVelocity());
         telemetry.addData("Right flywheel velocity", outtakeRight.getVelocity());
         telemetry.addData("Shooting state", shooter.flywheelState);
         telemetry.addData("Shots triggered",shotsTriggered);
-
-
-
     }
 }
-
 
 
 

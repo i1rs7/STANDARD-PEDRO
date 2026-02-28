@@ -1,37 +1,16 @@
-package org.firstinspires.ftc.teamcode.SuperQualAuto;
+package org.firstinspires.ftc.teamcode.OldSuperQualAuto;
 
 
 //import static java.lang.Thread.sleep;
 
 
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.PathChain;
-import com.pedropathing.follower.Follower;
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-
-
-
-
-
-
-import com.pedropathing.util.Timer;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.Servo;
-
-import org.firstinspires.ftc.teamcode.Archive.auto.RedAutoClose12;
-import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
-import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
-
-import java.nio.file.Paths;
 
 
 @Disabled
-public class RedClose12LEVER extends OpMode {
+public class RedClose12LEVER {
+/*extends OpMode {
 
 
     private Follower follower;
@@ -110,7 +89,7 @@ public class RedClose12LEVER extends OpMode {
 
     PathState pathState;
 
-    org.firstinspires.ftc.teamcode.Archive.auto.RedAutoClose12.PathState pathState;
+    RedAutoClose12.PathState pathState;
 
     //all points
     private final Pose startPose = new Pose(145-33.4555712270804, 136.1579689703808, Math.toRadians(90));
@@ -266,7 +245,7 @@ public class RedClose12LEVER extends OpMode {
             case STOPINTAKE1:
                 if(!follower.isBusy()) {
                     telemetry.addLine("Stopped intake after intaked first 3");
-                    setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
+                    setPathState(RedCloseAuto.PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
                 }
                 break;
 
@@ -387,7 +366,7 @@ public class RedClose12LEVER extends OpMode {
                     intakeMotor.setPower(0.95);
                     shootMotor.setPower(0.95);
                     telemetry.addLine("Started intake to intake third 3");
-                    setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSE);
+                    setPathState(RedCloseAuto.PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSE);
                 }
                 break;
 
@@ -402,7 +381,7 @@ public class RedClose12LEVER extends OpMode {
             case STOPINTAKE3:
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2.5) {
                     telemetry.addLine("Stopped intake after intaked third 3");
-                    setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE4);
+                    setPathState(RedCloseAuto.PathState.DRIVE_INTAKE2POSE_SHOOTPOSE4);
                 }
                 break;
 
@@ -541,4 +520,5 @@ public class RedClose12LEVER extends OpMode {
 
 
     }
+   */
 }
