@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.NewSuperQualAuto;
 
-
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -17,72 +15,53 @@ import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
-
-
 @Autonomous
-public class BlueFar3 extends OpMode {
-
-
-
+public class BlueFar6 extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opModeTimer, timeoutTimer;
-
-
     private DcMotor intakeMotor = null;
     private DcMotor shootMotor = null;
-
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
     private Servo door = null;
-    private double GATE_DOWN_ANGLE = 0.45;
-    private double GATE_UP_ANGLE = 0.15; //
-
+    private double GATE_DOWN_ANGLE = 0.15;
+    private double GATE_UP_ANGLE = 0.45; //
 
     // state machine stuff
     private FlywheelLogic shooter = new FlywheelLogic();
     private boolean shotsTriggered = false;
 
 
-
-
-
     public enum PathState {
-        //MOVE BACK & ROTATE 5 DEGREES TO FACE GOAL
-        DRIVE_STARTPOSE_SHOOTPOSE,
-
+        DRIVE_STARTPOSE_SHOOTPOSE, //MOVE BACK & ROTATE 5 DEGREES TO FACE GOAL
         SHOOTPRELOAD,
-        DRIVE_SHOOTPOSE_LEAVEPOSE,
-
-        DONE
-        //stop
-
+        DRIVE_SHOOTPOSE_LINEINTAKE1POSE, //LINE UP TO INTAKE FIRST SET OF BALLS
+        STARTINTAKE1,
+        DRIVE_LINEINTAKE1POSE_INTAKE1POSE,//Move back and intake first 3 balls + move balls down + start flywheels
+        STOPINTAKE1,
+        DRIVE_INTAKE1POSE_SHOOTPOSE2,//Return to shooting position, shoot
+        SHOOT1,
+        DRIVE_SHOOTPOSE_LEAVEPOSE,  //Leave
+        DONE //stop
 
     }
-
-
-
-
-
-
-
-
-
 
     PathState pathState;
 
 
     //all points
-    private final Pose startPose = new Pose(56, 8, Math.toRadians(90));
-    private final Pose shootPose = new Pose(56, 12, Math.toRadians(110));
-    private final Pose leavePose = new Pose(56, 36, Math.toRadians(0));
-
+    private final Pose startPose = new Pose(56, 8, Math.toRadians(180-90));
+    private final Pose shootPose = new Pose(56, 12, Math.toRadians(180-70));
+    private final Pose lineIntake1Pose = new Pose(42, 36, Math.toRadians(180-180));
+    private final Pose intake1Pose = new Pose(10.08416494712284, 36, Math.toRadians(180-180));
+    final Pose leavePose = new Pose(38, 15, Math.toRadians(180-90));
 
 
 
     //All the movement paths (no intake/outtake)
-    private PathChain driveStartPosShootPos, driveShootPosLeavePos;
-
+    private PathChain driveStartPosShootPos, driveShootPosLineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos2,
+            driveShootPos2LeavePos;
 
 
     public void buildPaths(){
@@ -91,13 +70,23 @@ public class BlueFar3 extends OpMode {
                 .addPath(new BezierLine(startPose, shootPose))
                 .setLinearHeadingInterpolation(startPose.getHeading(), shootPose.getHeading())
                 .build();
-        driveShootPosLeavePos = follower.pathBuilder()
+        driveShootPosLineIntake1Pos = follower.pathBuilder()
+                .addPath(new BezierLine(shootPose, lineIntake1Pose))
+                .setLinearHeadingInterpolation(shootPose.getHeading(), lineIntake1Pose.getHeading())
+                .build();
+        driveLineIntake1PosIntake1Pos = follower.pathBuilder()
+                .addPath(new BezierLine(lineIntake1Pose, intake1Pose))
+                .setLinearHeadingInterpolation(lineIntake1Pose.getHeading(), intake1Pose.getHeading())
+                .build();
+        driveIntake1PosShootPos2 = follower.pathBuilder()
+                .addPath(new BezierLine(intake1Pose, shootPose))
+                .setLinearHeadingInterpolation(intake1Pose.getHeading(), shootPose.getHeading())
+                .build();
+        driveShootPos2LeavePos = follower.pathBuilder()
                 .addPath(new BezierLine(shootPose, leavePose))
                 .setLinearHeadingInterpolation(shootPose.getHeading(), leavePose.getHeading())
                 .build();
     }
-
-
 
     public void StatePathUpdate () {
         //update cases quickly
@@ -105,13 +94,10 @@ public class BlueFar3 extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
-                outtakeLeft.setVelocity(950);
-                outtakeRight.setVelocity(950);
                 follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
                 setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
                 break;
-
 
             case SHOOTPRELOAD:
                 if(!follower.isBusy()){
@@ -123,6 +109,65 @@ public class BlueFar3 extends OpMode {
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
                         //shots are done, free to transition
                         telemetry.addLine("Shot preload");
+                        setPathState(PathState.DRIVE_SHOOTPOSE_LINEINTAKE1POSE);
+                    }
+                } break;
+
+            case DRIVE_SHOOTPOSE_LINEINTAKE1POSE:
+                if(!follower.isBusy()){
+                    door.setPosition(GATE_UP_ANGLE);
+                    telemetry.addLine("Lined up to intake first set of balls");
+                    follower.followPath(driveShootPosLineIntake1Pos, 0.95, true);
+                    setPathState(PathState.STARTINTAKE1);
+                }
+                break;
+
+            case STARTINTAKE1:
+                if(!follower.isBusy()) {
+                    intakeMotor.setPower(0.95);
+                    shootMotor.setPower(0.75);
+                    telemetry.addLine("Started intake to intake first 3");
+                    setPathState(PathState.DRIVE_LINEINTAKE1POSE_INTAKE1POSE);
+                }
+                break;
+
+            case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
+                if(!follower.isBusy()){
+                    telemetry.addLine("Intook 3 balls");
+                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.6,true);
+                    setPathState(PathState.STOPINTAKE1);
+                }
+                break;
+
+            case STOPINTAKE1:
+                if(!follower.isBusy()) {
+                    shootMotor.setPower(0);
+                    telemetry.addLine("Stopped intake after intaked first 3");
+                    setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
+                }
+                break;
+
+            case DRIVE_INTAKE1POSE_SHOOTPOSE2:
+                if(!follower.isBusy()){
+                    telemetry.addLine("Moved to shooting position and shot next 3 balls");
+                    follower.followPath(driveIntake1PosShootPos2, 0.7,true);
+                    setPathState(PathState.SHOOT1);
+                }
+                break;
+
+            case SHOOT1:
+                if(!follower.isBusy()){
+                    intakeMotor.setPower(0);
+
+
+                    door.setPosition(GATE_DOWN_ANGLE);
+                    if (!shotsTriggered){
+                        shooter.fireShots(5);
+                        shotsTriggered = true;
+                    }
+                    else if (shotsTriggered && !shooter.flywheelsAreBusy()){
+                        //shots are done, free to transition
+                        telemetry.addLine("Shot first 3");
                         setPathState(PathState.DRIVE_SHOOTPOSE_LEAVEPOSE);
                     }
                 } break;
@@ -130,7 +175,7 @@ public class BlueFar3 extends OpMode {
             case DRIVE_SHOOTPOSE_LEAVEPOSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Leave the zone");
-                    follower.followPath(driveShootPosLeavePos, true);
+                    follower.followPath(driveShootPos2LeavePos, true);
                     setPathState(PathState.DONE);
                 }
                 break;
@@ -143,7 +188,6 @@ public class BlueFar3 extends OpMode {
                 }
                 break;
 
-
             default:
                 telemetry.addLine("No state");
                 break;
@@ -151,63 +195,11 @@ public class BlueFar3 extends OpMode {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void setPathState (PathState newState) {
         pathState = newState;
         pathTimer.resetTimer();
         shotsTriggered = false;
     }
-
-
 
 
     @Override
@@ -220,7 +212,6 @@ public class BlueFar3 extends OpMode {
 
         shooter.init(hardwareMap);
         shooter.TARGET_FLYWHEEL_RPM = shooter.FAR_FLYWHEEL_RPM;
-
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -235,12 +226,9 @@ public class BlueFar3 extends OpMode {
 
         door = hardwareMap.get(Servo.class, "d");
 
-
         buildPaths();
         follower.setPose(startPose);
     }
-
-
 
 
     public void start() {
@@ -249,33 +237,24 @@ public class BlueFar3 extends OpMode {
     }
 
 
-
-
     @Override
     public void loop(){
         follower.update();
         shooter.update();
         StatePathUpdate();
 
-
-
-
         telemetry.addData("Path State:", pathState.toString());
+        telemetry.addData("flywheel target rpm", shooter.TARGET_FLYWHEEL_RPM);
         //telemetry.addData("x:", follower.getPose().getX());
         //telemetry.addData("y:", follower.getPose().getY());
         //telemetry.addData("Heading:", follower.getPose().getHeading());
         telemetry.addData("Path time:", pathTimer.getElapsedTimeSeconds());
-
         telemetry.addData("Left flywheel velocity", outtakeLeft.getVelocity());
         telemetry.addData("Right flywheel velocity", outtakeRight.getVelocity());
         telemetry.addData("Shooting state", shooter.flywheelState);
         telemetry.addData("Shots triggered",shotsTriggered);
-
-
-
     }
 }
-
 
 
 
