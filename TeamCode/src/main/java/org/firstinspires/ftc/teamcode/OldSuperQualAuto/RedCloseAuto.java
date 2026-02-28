@@ -1,9 +1,5 @@
 package org.firstinspires.ftc.teamcode.OldSuperQualAuto;
 
-
-//import static java.lang.Thread.sleep;
-
-
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -26,7 +22,6 @@ import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
-//import org.firstinspires.ftc.teamcode.pedroPathing.FlywheelLogic;
 
 
 
