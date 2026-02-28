@@ -1,4 +1,6 @@
 package org.firstinspires.ftc.teamcode.limelight;
+import android.media.MediaDrm;
+
 import com.pedropathing.geometry.Pose;
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -13,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 
-@TeleOp
+@Disabled
 public class AprilTagReadingTest extends OpMode {
 
     private Limelight3A limelight;

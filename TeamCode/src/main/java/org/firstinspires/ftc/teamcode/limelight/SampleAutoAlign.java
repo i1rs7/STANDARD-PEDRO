@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.limelight;//package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -13,7 +14,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 // Import the official goBILDA Pinpoint driver
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-@TeleOp(name = "SampleAutoAlign", group = "Linear Opmode")
+@Disabled //(name = "SampleAutoAlign", group = "Linear Opmode")
 public class SampleAutoAlign extends LinearOpMode {
 
     // --- Hardware Definitions ---

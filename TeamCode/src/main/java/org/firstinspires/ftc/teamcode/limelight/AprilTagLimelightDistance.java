@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 
-@TeleOp
+@Disabled
 public class AprilTagLimelightDistance extends OpMode {
 
     private Limelight3A limelight;
