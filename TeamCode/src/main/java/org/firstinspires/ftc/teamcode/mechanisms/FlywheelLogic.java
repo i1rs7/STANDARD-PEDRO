@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class FlywheelLogic {
 
     public ElapsedTime stateTimer = new ElapsedTime();
+    public ElapsedTime intakeTimer = new ElapsedTime();
 
     private Servo door;
     private DcMotor intakeMotor;
@@ -30,8 +31,8 @@ public class FlywheelLogic {
     // gate constants
     private double GATE_UP_ANGLE = 0.45;
     private double GATE_DOWN_ANGLE = 0.15; //
-    private double GATE_OPEN_TIME = 0.25; // todo find this value
-    private double GATE_CLOSE_TIME = 0.4; // todo find this value
+    private double GATE_OPEN_TIME = 2; // todo find this value
+    private double GATE_CLOSE_TIME = 0.5; // todo find this value
 
     // ------ SHOOTER CONSTANTS --------
     // this servo does not exist yet on robot v1, may exist in v2 so pre-coded
@@ -45,7 +46,7 @@ public class FlywheelLogic {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    public double CLOSE_FLYWHEEL_RPM = 680;
+    public double CLOSE_FLYWHEEL_RPM = 700;
     public double FAR_FLYWHEEL_RPM = 950;
     private double target_range = 40;
     public double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
@@ -86,6 +87,11 @@ public class FlywheelLogic {
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
+                    intakeTimer.reset();
+                    while(intakeTimer.seconds() > 0.6) {
+                        shootMotor.setPower(-0.95);
+                        intakeMotor.setPower(-0.95);
+                    }
                     outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
                     outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
 

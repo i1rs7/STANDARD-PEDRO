@@ -85,7 +85,7 @@ public class Standard_Drive extends LinearOpMode {
     private Servo door = null;
 
 
-    static final double target_RPM_close = 750;
+    static final double target_RPM_close = 720;
     static final double target_RPM_far = 1100;
     static final double target_range = 40;
     private double TARGET_FLYWHEEL_RPM;
@@ -219,10 +219,10 @@ public class Standard_Drive extends LinearOpMode {
 
             if (gamepad2.x) {
                 // door up
-                door.setPosition(0.45);
+                door.setPosition(0.60);
             } else if (gamepad2.a) {
                 //door down
-                door.setPosition(0.15);
+                door.setPosition(0.30);
             }
 
             if ((outtakeRight.getVelocity() >= TARGET_FLYWHEEL_RPM-target_range &&

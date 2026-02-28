@@ -25,8 +25,8 @@ public class RedFar6 extends OpMode {
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
     private Servo door = null;
-    private double GATE_DOWN_ANGLE = 0.15;
-    private double GATE_UP_ANGLE = 0.45; //
+    private double GATE_DOWN_ANGLE = 0.30;
+    private double GATE_UP_ANGLE = 0.60; //
 
     // state machine stuff
     private FlywheelLogic shooter = new FlywheelLogic();
@@ -100,10 +100,10 @@ public class RedFar6 extends OpMode {
                 break;
 
             case SHOOTPRELOAD:
-                if(!follower.isBusy()){
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.7){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -156,13 +156,13 @@ public class RedFar6 extends OpMode {
                 break;
 
             case SHOOT1:
-                if(!follower.isBusy()){
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.7){
                     intakeMotor.setPower(0);
 
 
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){

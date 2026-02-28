@@ -1,12 +1,19 @@
 package org.firstinspires.ftc.teamcode.NewSuperQualAuto;
-
-import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
-import com.pedropathing.util.Timer;
+import com.pedropathing.follower.Follower;
+//import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
+
+
+
+
+
+import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -23,8 +30,8 @@ public class BlueClose12Lever extends OpMode {
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
     private Servo door = null;
-    private double GATE_DOWN_ANGLE = 0.15;
-    private double GATE_UP_ANGLE = 0.45; //
+    private double GATE_DOWN_ANGLE = 0.30;
+    private double GATE_UP_ANGLE = 0.60; //
 
     // state machine stuff
     private FlywheelLogic shooter = new FlywheelLogic();
@@ -57,10 +64,10 @@ public class BlueClose12Lever extends OpMode {
 
     private final Pose lineIntake1Pose = new Pose(56.85680170543313, 66.524682651622, Math.toRadians(180-180));
     private final Pose intake1Pose = new Pose(12.08416494712284, 66.524682651622, Math.toRadians(180-180));
-    private final Pose controlLever1 = new Pose (35.917366981341605, 68.60157710801516, Math.toRadians(180-220));
-    private final Pose leverPose1 = new Pose(13.54823695345557, 89.60157710801516, Math.toRadians(180-220));
-    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 87.07533215512152, Math.toRadians(180-180));
-    private final Pose intake2Pose = new Pose(21.197060671580733, 87.07533215512152, Math.toRadians(180-180));
+    private final Pose controlLever1 = new Pose (35.917366981341605, 65.60157710801516, Math.toRadians(180-220));
+    private final Pose leverPose1 = new Pose(13.54823695345557, 65.60157710801516, Math.toRadians(180-220));
+    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 89.07533215512152, Math.toRadians(180-180));
+    private final Pose intake2Pose = new Pose(1.197060671580733, 89.07533215512152, Math.toRadians(180-180));
 
     //All the movement paths
     private PathChain driveStartPosShootPos, driveShootPos1LineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos2,
@@ -128,7 +135,7 @@ public class BlueClose12Lever extends OpMode {
                 if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -186,7 +193,7 @@ public class BlueClose12Lever extends OpMode {
                     intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -224,7 +231,7 @@ public class BlueClose12Lever extends OpMode {
                 break;
 
             case STOPINTAKE2:
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 4) {
                     shootMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_LEVERPOSE1_SHOOTPOSE3);
@@ -244,7 +251,7 @@ public class BlueClose12Lever extends OpMode {
                     intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -302,7 +309,7 @@ public class BlueClose12Lever extends OpMode {
                     intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){

@@ -25,8 +25,8 @@ public class BlueClose12 extends OpMode {
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
     private Servo door = null;
-    private double GATE_DOWN_ANGLE = 0.45;
-    private double GATE_UP_ANGLE = 0.15; //
+    private double GATE_DOWN_ANGLE = 0.30;
+    private double GATE_UP_ANGLE = 0.60; //
 
     // state machine stuff
     private FlywheelLogic shooter = new FlywheelLogic();
@@ -53,11 +53,12 @@ public class BlueClose12 extends OpMode {
     //all points
     private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(180-90));
     private final Pose shootPose = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(180-45));
+    // shoot pose 2 in zone to get leave
     private final Pose shootPose2 = new Pose(59.6558533145275, 101.79266572637518, Math.toRadians(180-36));
     private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152+4, Math.toRadians(180-180));
-    private final Pose intake1Pose = new Pose(16.08416494712284-5, 87.07533215512152+4, Math.toRadians(180-180));
+    private final Pose intake1Pose = new Pose(16.08416494712284+5, 87.07533215512152+4, Math.toRadians(180-180));
     private final Pose lineIntake2Pose = new Pose(56.97981157469717, 63.524682651622+4, Math.toRadians(180-180));
-    private final Pose intake2Pose = new Pose(10.197060671580733-5, 63.524682651622+4, Math.toRadians(180-180));
+    private final Pose intake2Pose = new Pose(10.197060671580733+5, 63.524682651622+4, Math.toRadians(180-180));
     private final Pose lineIntake3Pose = new Pose(60.13540197461213, 34.54301833568405, Math.toRadians(180-180));
     private final Pose intake3Pose = new Pose(9.545839210155147, 38.54301833568405, Math.toRadians(180-180));
     final Pose leavePose = new Pose(23.919605077574047, 93.42736248236953, Math.toRadians(180-90));
@@ -131,7 +132,7 @@ public class BlueClose12 extends OpMode {
                 if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -189,7 +190,7 @@ public class BlueClose12 extends OpMode {
                     intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -251,7 +252,7 @@ public class BlueClose12 extends OpMode {
                     intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -308,7 +309,7 @@ public class BlueClose12 extends OpMode {
                     intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){

@@ -24,8 +24,8 @@ public class BlueClose9 extends OpMode {
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
     private Servo door = null;
-    private double GATE_DOWN_ANGLE = 0.15;
-    private double GATE_UP_ANGLE = 0.45; //
+    private double GATE_DOWN_ANGLE = 0.30;
+    private double GATE_UP_ANGLE = 0.60; //
 
     // state machine stuff
     private FlywheelLogic shooter = new FlywheelLogic();
@@ -126,7 +126,7 @@ public class BlueClose9 extends OpMode {
                 if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -180,12 +180,9 @@ public class BlueClose9 extends OpMode {
 
             case SHOOT1:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
-
-
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -239,10 +236,9 @@ public class BlueClose9 extends OpMode {
 
             case SHOOT2:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){

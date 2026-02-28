@@ -24,8 +24,8 @@ public class RedClose9Lever extends OpMode {
     private DcMotorEx outtakeLeft = null;
     private DcMotorEx outtakeRight = null;
     private Servo door = null;
-    private double GATE_DOWN_ANGLE = 0.15;
-    private double GATE_UP_ANGLE = 0.45; //
+    private double GATE_DOWN_ANGLE = 0.30;
+    private double GATE_UP_ANGLE = 0.60; //
 
     // state machine stuff
     private FlywheelLogic shooter = new FlywheelLogic();
@@ -63,7 +63,7 @@ public class RedClose9Lever extends OpMode {
     private final Pose shootPose2 = new Pose(145-53.856801705433135, 89.34008052590521, Math.toRadians(45));
     private final Pose shootPose3 = new Pose(145-50.856801705433135, 90.34008052590521, Math.toRadians(45));
     private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 87.07533215512152+2, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(145-16.08416494712284+5, 87.07533215512152+2, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-16.08416494712284+5, 87.07533215512152-1, Math.toRadians(180));
     private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 63.524682651622+4, Math.toRadians(180));
     private final Pose intake2Pose = new Pose(145-10.197060671580733+5, 63.524682651622+4, Math.toRadians(180));
     final Pose leavePose = new Pose(145-20.919605077574047, 93.42736248236953, Math.toRadians(90));
@@ -126,7 +126,7 @@ public class RedClose9Lever extends OpMode {
                 if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -180,12 +180,9 @@ public class RedClose9Lever extends OpMode {
 
             case SHOOT1:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
-
-
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -239,10 +236,9 @@ public class RedClose9Lever extends OpMode {
 
             case SHOOT2:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
