@@ -12,11 +12,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.Archive.FlywheelLogicFar;
+import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
-//import org.firstinspires.ftc.teamcode.pedroPathing.FlywheelLogic;
 
 
 @Disabled
@@ -40,7 +39,7 @@ public class BlueFar3 extends OpMode {
 
 
     // state machine stuff
-    private FlywheelLogicFar shooter = new FlywheelLogicFar();
+    private FlywheelLogic shooter = new FlywheelLogic();
     private boolean shotsTriggered = false;
 
 
@@ -117,7 +116,7 @@ public class BlueFar3 extends OpMode {
                 if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(5);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -217,7 +216,9 @@ public class BlueFar3 extends OpMode {
         opModeTimer = new Timer();
         timeoutTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
+
         shooter.init(hardwareMap);
+        shooter.TARGET_FLYWHEEL_RPM = shooter.FAR_FLYWHEEL_RPM;
 
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");

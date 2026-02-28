@@ -351,7 +351,9 @@ public class RedClose12 extends OpMode {
         opModeTimer = new Timer();
         timeoutTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
+
         shooter.init(hardwareMap);
+        shooter.TARGET_FLYWHEEL_RPM = shooter.CLOSE_FLYWHEEL_RPM;
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
