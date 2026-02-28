@@ -3,11 +3,9 @@ package org.firstinspires.ftc.teamcode.NewSuperQualAuto;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.Path;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.util.Timer;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -17,7 +15,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Autonomous
-public class BlueAutoClose9Lever extends OpMode {
+public class BlueClose9 extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opModeTimer, timeoutTimer;
@@ -64,8 +62,8 @@ public class BlueAutoClose9Lever extends OpMode {
     private final Pose shootPose = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(180-45));
     private final Pose shootPose2 = new Pose(53.856801705433135, 89.34008052590521, Math.toRadians(180-45));
     private final Pose shootPose3 = new Pose(50.856801705433135, 90.34008052590521, Math.toRadians(180-45));
-    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152+2, Math.toRadians(180-180));
-    private final Pose intake1Pose = new Pose(16.08416494712284+5, 87.07533215512152+2, Math.toRadians(180-180));
+    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152+4, Math.toRadians(180-180));
+    private final Pose intake1Pose = new Pose(16.08416494712284+5, 87.07533215512152+4, Math.toRadians(180-180));
     private final Pose lineIntake2Pose = new Pose(56.97981157469717, 63.524682651622+4, Math.toRadians(180-180));
     private final Pose intake2Pose = new Pose(10.197060671580733+5, 63.524682651622+4, Math.toRadians(180-180));
     final Pose leavePose = new Pose(20.919605077574047, 93.42736248236953, Math.toRadians(180-90));

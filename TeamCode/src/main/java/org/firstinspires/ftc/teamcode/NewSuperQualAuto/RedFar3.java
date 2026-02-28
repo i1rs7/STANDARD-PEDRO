@@ -20,7 +20,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Disabled
-public class RedAutoFar3 extends OpMode {
+public class RedFar3 extends OpMode {
 
 
 
