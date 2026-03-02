@@ -30,8 +30,8 @@ public class FlywheelLogicFar {
     // gate constants
     private double GATE_DOWN_ANGLE = 0.30;
     private double GATE_UP_ANGLE = 0.60;
-    private double GATE_OPEN_TIME = 0.25;
-    private double GATE_CLOSE_TIME = 0.4;
+    private double GATE_OPEN_TIME = 8;
+    private double GATE_CLOSE_TIME = 0.5;
 
     // ------ SHOOTER CONSTANTS --------
     // this servo does not exist yet on robot v1, may exist in v2 so pre-coded
@@ -45,11 +45,11 @@ public class FlywheelLogicFar {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    private double CLOSE_FLYWHEEL_RPM = 770;
-    private double FAR_FLYWHEEL_RPM = 950;
-    private double target_range = 60;
+  //  private double CLOSE_FLYWHEEL_RPM = 770;
+    private double FAR_FLYWHEEL_RPM = 920;
+    private double target_range = 40;
     private double TARGET_FLYWHEEL_RPM = FAR_FLYWHEEL_RPM;
-    private double FLYWHEEL_MAX_SPINUP_TIME = 5; //safety check in case flywheel takes forever
+    private double FLYWHEEL_MAX_SPINUP_TIME = 4.0; //safety check in case flywheel takes forever
 
 
     public void init(HardwareMap hardwareMap){
@@ -66,7 +66,7 @@ public class FlywheelLogicFar {
         outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(15,0,0,13);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(27,0,0,14);
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
@@ -97,8 +97,8 @@ public class FlywheelLogicFar {
             case SPIN_UP:
                 if (FlywheelsAtSpeed() || stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
                     door.setPosition(GATE_DOWN_ANGLE);
-                    intakeMotor.setPower(0.95);
-                    shootMotor.setPower(0.95);
+                    intakeMotor.setPower(0.35);
+                    shootMotor.setPower(0.35);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.LAUNCH;

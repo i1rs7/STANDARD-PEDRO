@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-@Disabled
+@TeleOp
 public class FlywheelTunerPIDF extends OpMode {
     public DcMotorEx outtakeLeft;
     public DcMotorEx outtakeRight;

@@ -65,7 +65,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@TeleOp(name="Standard Drive", group="Linear OpMode")
+@TeleOp(name="Solo Standard Drive", group="Linear OpMode")
 
 public class Solo_Standard_Drive extends LinearOpMode {
 

@@ -74,8 +74,8 @@ public class RedFar3 extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(145-56, 8, Math.toRadians(90));
-    private final Pose shootPose = new Pose(145-56, 12, Math.toRadians(70));
-    private final Pose leavePose = new Pose(145-56, 36, Math.toRadians(0));
+    private final Pose shootPose = new Pose(145-56, 12, Math.toRadians(180-113));
+    private final Pose leavePose = new Pose(145-25, 12, Math.toRadians(180));
 
 
 
@@ -106,8 +106,6 @@ public class RedFar3 extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
-                outtakeLeft.setVelocity(950);
-                outtakeRight.setVelocity(950);
                 follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
                 setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
@@ -118,7 +116,7 @@ public class RedFar3 extends OpMode {
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.7){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
