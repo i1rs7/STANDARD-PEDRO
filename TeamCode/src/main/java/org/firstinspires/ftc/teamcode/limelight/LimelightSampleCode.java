@@ -13,7 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 
-@Disabled //(name = "Sensor: Limelight3A", group = "Sensor")
+@TeleOp //(name = "Sensor: Limelight3A", group = "Sensor")
 public class LimelightSampleCode extends LinearOpMode {
 
     private Limelight3A limelight;

@@ -8,23 +8,60 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.Range;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
-@Disabled//(name = "AprilTagAutoAlign", group = "Iterative OpMode")
+@TeleOp//(name = "AprilTagAutoAlign", group = "Iterative OpMode")
 public class AprilTagAutoAlign extends OpMode {
 
     // --- Hardware ---
     private DcMotor frontLeft, frontRight, backLeft, backRight;
-    private GoBildaPinpointDriver pinpoint;
-    private Limelight3A limelight;
+    private Limelight3A limelight = null;
+    public double getHeading () {
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+    private IMU imu;
+    GoBildaPinpointDriver pinpoint;
 
     // --- Constants ---
     private static final double TURN_P = 0.075;
     private static final double TURN_MAX = 0.5;
+    double kP = 0.0002;
+    double error = 0;
+    double lastError = 0;
+    double goalX = 0; //or add offset here
+    double angleTolerance = 0.2;
+
+    double kD = 0.00001;
+    double curTime = 0;
+    double lastTime = 0;
+
+    // ----- driving setup----------
+    double forward, strafe, rotate;
+
+    // ------- controller based pd tuning -------
+
+    double[] stepSizes = {0.1,0.001,0.0001};
+
+    int stepIndex = 1;
 
 
     @Override
@@ -66,6 +103,7 @@ public class AprilTagAutoAlign extends OpMode {
 
     @Override
     public void loop() {
+        double yaw = gamepad1.right_stick_x;
         // MUST update every loop
         pinpoint.update();
 
@@ -81,25 +119,37 @@ public class AprilTagAutoAlign extends OpMode {
         // 5. Auto-Align
 
         if (gamepad1.a) {
+            if (Math.abs(error) < angleTolerance) {
+                rotate = 0;
+            } else {
+                // PID calculation
+                double pTerm = error * kP;
+                curTime = getRuntime();
+                double dT = curTime - lastTime;
+                double dTerm = ((error - lastError) / dT) * kD;
 
-            LLResult result = limelight.getLatestResult();
+                rotate = Range.clip(pTerm + dTerm, -0.4, 0.4);
 
-            if (result != null && result.isValid()) {
-
-                double tagYawDegrees = result.getTx();
-                // Tx = horizontal offset in degrees
-
-                double error = -Math.toRadians(tagYawDegrees);
-
-                if (Math.abs(tagYawDegrees) > 3.0) { // TODO figure out how many degrees off is ok
-                    rx = Range.clip(error * TURN_P, -TURN_MAX, TURN_MAX);
-                } else {
-                    rx = 0;
-                }
-
-                telemetry.addData("Target X", tagYawDegrees);
+                lastError = error;
+                lastTime = curTime;
             }
+        } else {
+            // Reset PID if button not pressed
+            lastError = 0;
+            lastTime = getRuntime();
         }
+//            LLResult result = limelight.getLatestResult();
+//            if (result != null && result.isValid()) {
+//                double tagYawDegrees = result.getTx();
+//                double error = -Math.toRadians(tagYawDegrees);
+//                if (Math.abs(tagYawDegrees) > 3.0) { // deadband
+//                    yaw = Range.clip(error * TURN_P, -TURN_MAX, TURN_MAX);
+//                } else {
+//                    yaw = 0;
+//                }
+//                telemetry.addData("Target X", tagYawDegrees);
+//            }
+
 
         // 6. Field-Centric Math
         double rotX = x * Math.cos(-currentHeading) - y * Math.sin(-currentHeading);
