@@ -62,10 +62,10 @@ public class BlueClose9 extends OpMode {
     private final Pose shootPose = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(180-45));
     private final Pose shootPose2 = new Pose(53.856801705433135, 89.34008052590521, Math.toRadians(180-45));
     private final Pose shootPose3 = new Pose(50.856801705433135, 90.34008052590521, Math.toRadians(180-45));
-    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152+4, Math.toRadians(180-180));
-    private final Pose intake1Pose = new Pose(16.08416494712284-5, 87.07533215512152+4, Math.toRadians(180-180));
-    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 63.524682651622+4, Math.toRadians(180-180));
-    private final Pose intake2Pose = new Pose(10.197060671580733-5, 63.524682651622+4, Math.toRadians(180-180));
+    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152-1, Math.toRadians(180-180));
+    private final Pose intake1Pose = new Pose(13.08416494712284-5, 87.07533215512152-1, Math.toRadians(180-180));
+    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 63.524682651622-2, Math.toRadians(180-180));
+    private final Pose intake2Pose = new Pose(10.197060671580733-5, 63.524682651622-2, Math.toRadians(180-180));
     final Pose leavePose = new Pose(20.919605077574047, 93.42736248236953, Math.toRadians(180-90));
 
 
@@ -117,7 +117,7 @@ public class BlueClose9 extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
-                follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
+                follower.followPath(driveStartPosShootPos, 0.95, true); //Follow the path
                 setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
                 break;
@@ -157,7 +157,7 @@ public class BlueClose9 extends OpMode {
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook 3 balls");
-                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.6,true);
+                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.7,true);
                     setPathState(PathState.STOPINTAKE1);
                 }
                 break;
@@ -173,7 +173,7 @@ public class BlueClose9 extends OpMode {
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveIntake1PosShootPos2, 0.7,true);
+                    follower.followPath(driveIntake1PosShootPos2, 0.9,true);
                     setPathState(PathState.SHOOT1);
                 }
                 break;
@@ -213,7 +213,7 @@ public class BlueClose9 extends OpMode {
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook second set of balls");
-                    follower.followPath(driveLineIntake2PosIntake2Pos, 0.6, true);
+                    follower.followPath(driveLineIntake2PosIntake2Pos, 0.7, true);
                     setPathState(PathState.STOPINTAKE2);
                 }
                 break;
@@ -229,7 +229,7 @@ public class BlueClose9 extends OpMode {
             case DRIVE_INTAKE2POSE_SHOOTPOSE3:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveIntake2PosShootPos3, 0.8, true);
+                    follower.followPath(driveIntake2PosShootPos3, 0.9, true);
                     setPathState(PathState.SHOOT2);
                 }
                 break;

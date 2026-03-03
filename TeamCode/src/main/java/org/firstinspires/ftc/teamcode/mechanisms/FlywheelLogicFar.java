@@ -30,7 +30,7 @@ public class FlywheelLogicFar {
     // gate constants
     private double GATE_DOWN_ANGLE = 0.30;
     private double GATE_UP_ANGLE = 0.60;
-    private double GATE_OPEN_TIME = 8;
+    private double GATE_OPEN_TIME = 4; // how long we are shooting for
     private double GATE_CLOSE_TIME = 0.5;
 
     // ------ SHOOTER CONSTANTS --------
@@ -46,10 +46,10 @@ public class FlywheelLogicFar {
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
   //  private double CLOSE_FLYWHEEL_RPM = 770;
-    private double FAR_FLYWHEEL_RPM = 920;
-    private double target_range = 40;
+  public double FAR_FLYWHEEL_RPM = 930;
+    private double target_range = 30;
     private double TARGET_FLYWHEEL_RPM = FAR_FLYWHEEL_RPM;
-    private double FLYWHEEL_MAX_SPINUP_TIME = 4.0; //safety check in case flywheel takes forever
+    private double FLYWHEEL_MAX_SPINUP_TIME = 1.0; //how long we wait before taking the fist shot
 
 
     public void init(HardwareMap hardwareMap){
@@ -66,7 +66,7 @@ public class FlywheelLogicFar {
         outtakeLeft.setDirection(DcMotor.Direction.REVERSE);
         outtakeRight.setDirection(DcMotor.Direction.FORWARD);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(27,0,0,14);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(19,0,0,15);
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
@@ -86,9 +86,9 @@ public class FlywheelLogicFar {
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
-                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
-                    outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
-
+                    //outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
+                    //outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
+                    //we set velcoity in the actual path to start the outtake when it starts
                     stateTimer.reset();
                     flywheelState = FlywheelState.SPIN_UP;
                 }
