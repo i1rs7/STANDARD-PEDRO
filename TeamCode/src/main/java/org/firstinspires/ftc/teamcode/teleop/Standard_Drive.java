@@ -128,7 +128,7 @@ public class Standard_Drive extends LinearOpMode {
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(19,0,0,15);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(19,0,0,16);
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 

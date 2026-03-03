@@ -13,12 +13,12 @@ public class FlywheelTunerPIDF extends OpMode {
     public DcMotorEx outtakeRight;
 
     public double highVelocity = 950;
-    public double lowVelocity = 800;
+    public double lowVelocity = 750;
 
     double curTargetVelocity = highVelocity;
 
-    double F = 19;
-    double P = 36;
+    double F = 16;
+    double P = 19;
 
     double[] stepSizes = {10.0,1.0,0.1,0.001,0.0001};
 
