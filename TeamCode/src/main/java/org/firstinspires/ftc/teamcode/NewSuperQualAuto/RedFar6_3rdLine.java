@@ -16,7 +16,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Autonomous
-public class RedFar6 extends OpMode {
+public class RedFar6_3rdLine extends OpMode {
 
     private Follower follower;
     private Timer pathTimer, opModeTimer, timeoutTimer;
@@ -51,11 +51,12 @@ public class RedFar6 extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(145-56, 8, Math.toRadians(90));
-    private final Pose shootPose = new Pose(145-56, 12, Math.toRadians(70));
-    private final Pose lineIntake1Pose = new Pose(145-42, 36, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(145-10.08416494712284, 36, Math.toRadians(180));
-    final Pose leavePose = new Pose(145-38, 15, Math.toRadians(90));
+    private final Pose startPose = new Pose(145-56, 8, Math.toRadians(180));
+    private final Pose shootPose1 = new Pose(145-56, 12, Math.toRadians(180));
+    private final Pose shootPose2 = new Pose(145-56, 12, Math.toRadians(180));
+    private final Pose lineIntake1Pose = new Pose(145-44, 35, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-7.08416494712284, 34, Math.toRadians(180));
+    final Pose leavePose = new Pose(145-38, 15, Math.toRadians(180));
 
 
 
@@ -67,24 +68,24 @@ public class RedFar6 extends OpMode {
     public void buildPaths(){
         //use coordinates of the points (above) for the starting position and the ending position to construct a path
         driveStartPosShootPos = follower.pathBuilder()
-                .addPath(new BezierLine(startPose, shootPose))
-                .setLinearHeadingInterpolation(startPose.getHeading(), shootPose.getHeading())
+                .addPath(new BezierLine(startPose, shootPose1))
+                .setLinearHeadingInterpolation(startPose.getHeading(), shootPose1.getHeading())
                 .build();
         driveShootPosLineIntake1Pos = follower.pathBuilder()
-                .addPath(new BezierLine(shootPose, lineIntake1Pose))
-                .setLinearHeadingInterpolation(shootPose.getHeading(), lineIntake1Pose.getHeading())
+                .addPath(new BezierLine(shootPose1, lineIntake1Pose))
+                .setLinearHeadingInterpolation(shootPose1.getHeading(), lineIntake1Pose.getHeading())
                 .build();
         driveLineIntake1PosIntake1Pos = follower.pathBuilder()
                 .addPath(new BezierLine(lineIntake1Pose, intake1Pose))
                 .setLinearHeadingInterpolation(lineIntake1Pose.getHeading(), intake1Pose.getHeading())
                 .build();
         driveIntake1PosShootPos2 = follower.pathBuilder()
-                .addPath(new BezierLine(intake1Pose, shootPose))
-                .setLinearHeadingInterpolation(intake1Pose.getHeading(), shootPose.getHeading())
+                .addPath(new BezierLine(intake1Pose, shootPose2))
+                .setLinearHeadingInterpolation(intake1Pose.getHeading(), shootPose2.getHeading())
                 .build();
         driveShootPos2LeavePos = follower.pathBuilder()
-                .addPath(new BezierLine(shootPose, leavePose))
-                .setLinearHeadingInterpolation(shootPose.getHeading(), leavePose.getHeading())
+                .addPath(new BezierLine(shootPose2, leavePose))
+                .setLinearHeadingInterpolation(shootPose2.getHeading(), leavePose.getHeading())
                 .build();
     }
 
@@ -94,16 +95,16 @@ public class RedFar6 extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE:
-                follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
+                follower.followPath(driveStartPosShootPos, 0.95, true); //Follow the path
                 setPathState(PathState.SHOOTPRELOAD); //RESET TIMER & SET TO NEXT PATH STATE
                 telemetry.addLine("Moved back");
                 break;
 
             case SHOOTPRELOAD:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.7){
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -134,14 +135,15 @@ public class RedFar6 extends OpMode {
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook 3 balls");
-                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.6,true);
+                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.7,true);
                     setPathState(PathState.STOPINTAKE1);
                 }
                 break;
 
             case STOPINTAKE1:
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
                     shootMotor.setPower(0);
+                    intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
                 }
@@ -150,19 +152,17 @@ public class RedFar6 extends OpMode {
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
-                    follower.followPath(driveIntake1PosShootPos2, 0.7,true);
+                    follower.followPath(driveIntake1PosShootPos2, 0.95,true);
                     setPathState(PathState.SHOOT1);
                 }
                 break;
 
             case SHOOT1:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 0.7){
-                    intakeMotor.setPower(0);
-
+                if(!follower.isBusy()&& pathTimer.getElapsedTimeSeconds() > 1){
 
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(5);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -203,7 +203,7 @@ public class RedFar6 extends OpMode {
 
 
     @Override
-    public void init() {
+    public void init(){
         pathState = PathState.DRIVE_STARTPOSE_SHOOTPOSE; //Whats the difference between DRIVE_STARTPOSE_SHOOTPOSE and driveStartPosShootPos
         pathTimer = new Timer();
         opModeTimer = new Timer();
@@ -211,12 +211,14 @@ public class RedFar6 extends OpMode {
         follower = Constants.createFollower(hardwareMap);
 
         shooter.init(hardwareMap);
+        //shooter.TARGET_FLYWHEEL_RPM = shooter.FAR_FLYWHEEL_RPM;
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
 
         shootMotor = hardwareMap.get(DcMotor.class, "shoot");
         shootMotor.setDirection(DcMotor.Direction.FORWARD);
+        //  shooter.TARGET_FLYWHEEL_RPM = shooter.FA;
 
         outtakeLeft = hardwareMap.get(DcMotorEx.class, "oL");
         outtakeRight = hardwareMap.get(DcMotorEx.class, "oR");
@@ -241,6 +243,8 @@ public class RedFar6 extends OpMode {
         follower.update();
         shooter.update();
         StatePathUpdate();
+        outtakeLeft.setVelocity(shooter.FAR_FLYWHEEL_RPM);
+        outtakeRight.setVelocity(shooter.FAR_FLYWHEEL_RPM);
 
         telemetry.addData("Path State:", pathState.toString());
         //telemetry.addData("x:", follower.getPose().getX());
