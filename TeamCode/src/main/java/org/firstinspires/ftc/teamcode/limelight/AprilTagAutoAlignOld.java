@@ -10,27 +10,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.util.Range;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
-import com.qualcomm.hardware.limelightvision.Limelight3A;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.IMU;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
-@TeleOp//(name = "AprilTagAutoAlign", group = "Iterative OpMode")
-public class AprilTagAutoAlign extends OpMode {
+@Disabled//(name = "AprilTagAutoAlign", group = "Iterative OpMode")
+public class AprilTagAutoAlignO extends OpMode {
 
     // --- Hardware ---
     private DcMotor frontLeft, frontRight, backLeft, backRight;
@@ -119,6 +106,13 @@ public class AprilTagAutoAlign extends OpMode {
         // 5. Auto-Align
 
         if (gamepad1.a) {
+            LLResult result = limelight.getLatestResult();
+            if (result != null && result.isValid()) {
+                double tagYawDegrees = result.getTx();
+                double error = -Math.toRadians(tagYawDegrees);
+                telemetry.addData("Target X", tagYawDegrees);
+            }
+            
             if (Math.abs(error) < angleTolerance) {
                 rotate = 0;
             } else {
@@ -137,18 +131,8 @@ public class AprilTagAutoAlign extends OpMode {
             // Reset PID if button not pressed
             lastError = 0;
             lastTime = getRuntime();
-        }
-//            LLResult result = limelight.getLatestResult();
-//            if (result != null && result.isValid()) {
-//                double tagYawDegrees = result.getTx();
-//                double error = -Math.toRadians(tagYawDegrees);
-//                if (Math.abs(tagYawDegrees) > 3.0) { // deadband
-//                    yaw = Range.clip(error * TURN_P, -TURN_MAX, TURN_MAX);
-//                } else {
-//                    yaw = 0;
-//                }
-//                telemetry.addData("Target X", tagYawDegrees);
-//            }
+        
+//            
 
 
         // 6. Field-Centric Math
