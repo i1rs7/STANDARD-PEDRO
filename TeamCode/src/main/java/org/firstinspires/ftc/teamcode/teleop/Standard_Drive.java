@@ -86,7 +86,7 @@ public class Standard_Drive extends LinearOpMode {
 
 
     static final double target_RPM_close = 720;
-    static final double target_RPM_far = 1100;
+    static final double target_RPM_far = 950;
     static final double target_range = 40;
     private double TARGET_FLYWHEEL_RPM;
 
@@ -128,7 +128,7 @@ public class Standard_Drive extends LinearOpMode {
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(19,0,0,16);
+        PIDFCoefficients pidfCoefficients = new PIDFCoefficients(36,0,0,19);
         outtakeLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
         outtakeRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER,pidfCoefficients);
 
