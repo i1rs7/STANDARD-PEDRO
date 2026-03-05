@@ -97,8 +97,8 @@ public class FlywheelLogicFar {
             case SPIN_UP:
                 if (FlywheelsAtSpeed() || stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
                     door.setPosition(GATE_DOWN_ANGLE);
-                    intakeMotor.setPower(0.35);
-                    shootMotor.setPower(0.35);
+                    intakeMotor.setPower(0.55);
+                    shootMotor.setPower(0.55);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.LAUNCH;

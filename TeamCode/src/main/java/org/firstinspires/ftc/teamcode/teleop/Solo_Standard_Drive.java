@@ -84,8 +84,8 @@ public class Solo_Standard_Drive extends LinearOpMode {
     private Servo door = null;
 
 
-    static final double target_RPM_close = 800;
-    static final double target_RPM_far = 950;
+    static final double target_RPM_close = 720;
+    static final double target_RPM_far = 920;
     static final double target_range = 40;
     private double TARGET_FLYWHEEL_RPM;
 
@@ -202,11 +202,11 @@ public class Solo_Standard_Drive extends LinearOpMode {
 
             //outtake code
             if (gamepad1.right_trigger > 0.5) {
-                outtakeLeft.setVelocity(target_RPM_close);
+                outtakeLeft.setVelocity(target_RPM_close+100);
                 outtakeRight.setVelocity(target_RPM_close);
                 TARGET_FLYWHEEL_RPM=target_RPM_close;
             } else if (gamepad1.left_trigger > 0.5) {
-                outtakeLeft.setVelocity(target_RPM_far);
+                outtakeLeft.setVelocity(target_RPM_far+100);
                 outtakeRight.setVelocity(target_RPM_far);
                 TARGET_FLYWHEEL_RPM=target_RPM_far;
             }
@@ -232,9 +232,8 @@ public class Solo_Standard_Drive extends LinearOpMode {
             }*/
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Velocity: ", outtakeLeft.getVelocity());
-            telemetry.addData("intake motor power", intakeMotor.getPower());
-            telemetry.addData("shoot motor power", shootMotor.getPower());
+            telemetry.addData("Velocity Left: ", outtakeLeft.getVelocity());
+            telemetry.addData("Velocity Right: ", outtakeRight.getVelocity());
             telemetry.addData("door position",door.getPosition());
             telemetry.update();
 

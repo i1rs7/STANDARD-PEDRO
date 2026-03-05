@@ -111,6 +111,7 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
     private static final double TURN_P = 0.075;
     private static final double TURN_MAX = 0.5;
     double kP = 0.0002;
+    double Tx;
     double error = 0;
     double lastError = 0;
     double goalX = 0; //or add offset here
@@ -252,11 +253,11 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
 
             //outtake code
             if (gamepad2.right_trigger > 0.5) {
-                outtakeLeft.setVelocity(target_RPM_close);
+                outtakeLeft.setVelocity(target_RPM_close+100);
                 outtakeRight.setVelocity(target_RPM_close);
                 TARGET_FLYWHEEL_RPM=target_RPM_close;
             } else if (gamepad2.left_trigger > 0.5) {
-                outtakeLeft.setVelocity(target_RPM_far);
+                outtakeLeft.setVelocity(target_RPM_far+100);
                 outtakeRight.setVelocity(target_RPM_far);
                 TARGET_FLYWHEEL_RPM=target_RPM_far;
             }
@@ -282,9 +283,8 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
         if (gamepad1.a) {
             LLResult result = limelight.getLatestResult();
             if (result != null && result.isValid()) {
-                double Tx = result.getTx();
-                double error = -Math.toRadians(Tx);
-                telemetry.addData("Target X", Tx);
+                Tx = result.getTx();
+                error = -Math.toRadians(Tx);
             }
             
             if (Math.abs(error) < angleTolerance) {
@@ -313,6 +313,7 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
             telemetry.addData("Auto Align", gamepad1.a);
             telemetry.addData("Yaw", yaw);
             telemetry.addData("Error", error);
+            telemetry.addData("Target X", Tx);
             telemetry.addData("Door Position", door.getPosition());
             telemetry.update();
 

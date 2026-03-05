@@ -18,7 +18,17 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 @Disabled//(name = "AprilTagAutoAlign", group = "Iterative OpMode")
 public class AprilTagAutoAlignOld extends OpMode {
+    @Override
+    public void init() {
 
+    }
+
+    @Override
+    public void loop() {
+
+    }
+
+    /*
     // --- Hardware ---
     private DcMotor frontLeft, frontRight, backLeft, backRight;
     private Limelight3A limelight = null;
@@ -169,4 +179,6 @@ public class AprilTagAutoAlignOld extends OpMode {
         backLeft.setPower(0);
         backRight.setPower(0);
     }
+
+     */
 }
