@@ -25,7 +25,7 @@ public class AprilTagLimelightDistance extends OpMode {
     public void init(){
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.pipelineSwitch(  1); //obelisk = 0, limelight = 1
-        imu = hardwareMap.get(IMU.class,"pinpoint");
+        imu = hardwareMap.get(IMU.class,"imu");
 
     }
     @Override
