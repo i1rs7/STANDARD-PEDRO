@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 
 @Disabled//(name = "AprilTagAutoAlign", group = "Iterative OpMode")
-public class AprilTagAutoAlignO extends OpMode {
+public class AprilTagAutoAlignOld extends OpMode {
 
     // --- Hardware ---
     private DcMotor frontLeft, frontRight, backLeft, backRight;
