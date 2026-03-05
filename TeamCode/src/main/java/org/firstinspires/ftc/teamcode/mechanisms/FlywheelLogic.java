@@ -31,7 +31,7 @@ public class FlywheelLogic {
     // gate constants
     private double GATE_DOWN_ANGLE = 0.30;
     private double GATE_UP_ANGLE = 0.60; //
-    private double GATE_OPEN_TIME = 2; // todo find this value
+    private double GATE_OPEN_TIME = 1.5; // amount of time it shoots for
     private double GATE_CLOSE_TIME = 0.5; // todo find this value
 
     // ------ SHOOTER CONSTANTS --------
@@ -39,14 +39,14 @@ public class FlywheelLogic {
     //private double shooterResetAngle = 0; //placeholder values (0, 90, 0.5)
     //private double shooterShootAngle = 90;
     private double timeToLower = 1.0;
-    private double timeToShoot = 0.5; //amount of time the shooting takes
+    private double timeToShoot = 0.5;
 
 
     // ------ FLYWHEEL CONSTANTS -------
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    public double CLOSE_FLYWHEEL_RPM = 700;
+    public double CLOSE_FLYWHEEL_RPM = 740;
     public double FAR_FLYWHEEL_RPM = 950;
     private double target_range = 40;
     public double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
@@ -92,7 +92,7 @@ public class FlywheelLogic {
                         shootMotor.setPower(-0.95);
                         intakeMotor.setPower(-0.95);
                     }*/
-                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
+                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM+80);
                     outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
 
                     stateTimer.reset();

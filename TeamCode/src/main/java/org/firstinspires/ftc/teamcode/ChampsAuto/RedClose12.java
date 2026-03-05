@@ -56,9 +56,9 @@ public class RedClose12 extends OpMode {
     // shoot pose 2 in zone to get leave
     private final Pose shootPose2 = new Pose(145-59.6558533145275, 101.79266572637518, Math.toRadians(36));
     private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 87.07533215512152+4, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(145-16.08416494712284+5, 87.07533215512152+4, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-16.08416494712284+5-3, 87.07533215512152+4, Math.toRadians(180));
     private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 63.524682651622+4, Math.toRadians(180));
-    private final Pose intake2Pose = new Pose(145-10.197060671580733+5, 63.524682651622+4, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(145-10.197060671580733+5-3, 63.524682651622+4, Math.toRadians(180));
     private final Pose lineIntake3Pose = new Pose(145-60.13540197461213, 34.54301833568405+3, Math.toRadians(180));
     private final Pose intake3Pose = new Pose(145-9.545839210155147, 38.54301833568405+3, Math.toRadians(180));
     final Pose leavePose = new Pose(145-23.919605077574047, 93.42736248236953, Math.toRadians(90));
@@ -164,7 +164,7 @@ public class RedClose12 extends OpMode {
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook 3 balls");
-                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.6, true);
+                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.9, true);
                     setPathState(PathState.STOPINTAKE1);
                 }
                 break;
@@ -223,7 +223,7 @@ public class RedClose12 extends OpMode {
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook second set of balls");
-                    follower.followPath(driveLineIntake2PosIntake2Pos, 0.6, true);
+                    follower.followPath(driveLineIntake2PosIntake2Pos, 0.9, true);
                     setPathState(PathState.STOPINTAKE2);
                 }
                 break;
@@ -282,7 +282,7 @@ public class RedClose12 extends OpMode {
             case DRIVE_LINEINTAKE3POSE_INTAKE3POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook third set of balls");
-                    follower.followPath(driveLineIntake3PosIntake3Pos, 0.6, true);
+                    follower.followPath(driveLineIntake3PosIntake3Pos, 0.9, true);
                     setPathState(PathState.STOPINTAKE3);
                 }
                 break;
