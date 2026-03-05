@@ -51,9 +51,9 @@ public class RedFar6_3rdLine extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(145-56, 8, Math.toRadians(180));
-    private final Pose shootPose1 = new Pose(145-56, 12, Math.toRadians(180));
-    private final Pose shootPose2 = new Pose(145-56, 12, Math.toRadians(180));
+    private final Pose startPose = new Pose(145-56, 8, Math.toRadians(90));
+    private final Pose shootPose1 = new Pose(145-56, 12, Math.toRadians(180-113));
+    private final Pose shootPose2 = new Pose(145-56, 12, Math.toRadians(180-113));
     private final Pose lineIntake1Pose = new Pose(145-44, 35, Math.toRadians(180));
     private final Pose intake1Pose = new Pose(145-7.08416494712284, 34, Math.toRadians(180));
     final Pose leavePose = new Pose(145-38, 15, Math.toRadians(180));

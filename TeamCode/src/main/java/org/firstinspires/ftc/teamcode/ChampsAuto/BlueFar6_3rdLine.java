@@ -52,8 +52,8 @@ public class BlueFar6_3rdLine extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(56, 8, Math.toRadians(180-90));
-    private final Pose shootPose1 = new Pose(56, 12, Math.toRadians(180-70+3));
-    private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(180-70+5));
+    private final Pose shootPose1 = new Pose(56, 12, Math.toRadians(113));
+    private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(115));
     private final Pose lineIntake1Pose = new Pose(44, 35, Math.toRadians(180-180));
     private final Pose intake1Pose = new Pose(7.08416494712284, 34, Math.toRadians(180-180));
     final Pose leavePose = new Pose(38, 15, Math.toRadians(180-180));

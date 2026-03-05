@@ -31,7 +31,7 @@ public class FlywheelLogic {
     // gate constants
     private double GATE_DOWN_ANGLE = 0.30;
     private double GATE_UP_ANGLE = 0.60; //
-    private double GATE_OPEN_TIME = 1.5; // amount of time it shoots for
+    private double GATE_OPEN_TIME = 1; // amount of time it shoots for
     private double GATE_CLOSE_TIME = 0.5; // todo find this value
 
     // ------ SHOOTER CONSTANTS --------
@@ -46,7 +46,7 @@ public class FlywheelLogic {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    public double CLOSE_FLYWHEEL_RPM = 740;
+    public double CLOSE_FLYWHEEL_RPM = 720;
     public double FAR_FLYWHEEL_RPM = 950;
     private double target_range = 40;
     public double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
