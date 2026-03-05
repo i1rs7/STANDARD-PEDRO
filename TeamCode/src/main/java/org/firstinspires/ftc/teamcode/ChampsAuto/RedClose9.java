@@ -163,7 +163,7 @@ public class RedClose9 extends OpMode {
                 break;
 
             case STOPINTAKE1:
-                if(!follower.isBusy()) {
+                if(!follower.isBusy() && pathTimer.getElapsedTime()>1) {
                     shootMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);

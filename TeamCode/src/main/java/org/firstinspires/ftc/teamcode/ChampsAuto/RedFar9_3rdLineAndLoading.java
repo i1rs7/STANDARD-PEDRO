@@ -171,7 +171,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
                 break;
 
             case STOPINTAKE1:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
+                if(!follower.isBusy()) {
                     shootMotor.setPower(0);
                     intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
@@ -255,7 +255,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
                 break;
 
             case STOPINTAKE2:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
+                if(!follower.isBusy()) {
                     shootMotor.setPower(0);
                     intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked second 3");
