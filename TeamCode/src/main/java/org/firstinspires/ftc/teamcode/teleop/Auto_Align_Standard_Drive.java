@@ -90,6 +90,29 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
     static final double target_range = 40;
     private double TARGET_FLYWHEEL_RPM;
 
+    //auto align init
+    private Limelight3A limelight = null;
+    public double getHeading () {
+        return imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.DEGREES);
+    }
+    private IMU imu;
+    GoBildaPinpointDriver pinpoint;
+
+    // --- auto align constants ---
+    private static final double TURN_P = 0.075;
+    private static final double TURN_MAX = 0.5;
+    double kP = 0.0002;
+    double error = 0;
+    double lastError = 0;
+    double goalX = 0; //or add offset here
+    double angleTolerance = 0.2;
+
+    double kD = 0.00001;
+    double curTime = 0;
+    double lastTime = 0;
+
+
+
     @Override
     public void runOpMode() {
 
@@ -124,7 +147,23 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
         outtakeRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         shootMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        //auto align setup
+        pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
+        pinpoint.setOffsets(0.5, 2.25, DistanceUnit.INCH);
+        pinpoint.setEncoderResolution(
+                GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD
+        );
+        pinpoint.setEncoderDirections(
+                GoBildaPinpointDriver.EncoderDirection.FORWARD,
+                GoBildaPinpointDriver.EncoderDirection.REVERSED
+        );
+        pinpoint.resetPosAndIMU();
 
+        limelight = hardwareMap.get(Limelight3A.class, "limelight");
+        limelight.pipelineSwitch(1); // Your AprilTag pipeline
+        limelight.start();
+
+        //outtake setup
         outtakeLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         outtakeRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -142,6 +181,7 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
             double max;
 
             // POV Mode uses left joystick to go forward & strafe, and right joystick to rotate.
@@ -216,7 +256,7 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
                 outtakeRight.setPower(0);
             }
 
-
+            //gate code
             if (gamepad2.x) {
                 // door up
                 door.setPosition(0.60);
@@ -225,18 +265,46 @@ public class Auto_Align_Standard_Drive extends LinearOpMode {
                 door.setPosition(0.30);
             }
 
-            /*if ((outtakeRight.getVelocity() >= TARGET_FLYWHEEL_RPM-target_range &&
-                    outtakeRight.getVelocity() <=  TARGET_FLYWHEEL_RPM+target_range) &&
-                    (outtakeLeft.getVelocity() >= TARGET_FLYWHEEL_RPM-target_range &&
-                            outtakeLeft.getVelocity() <= TARGET_FLYWHEEL_RPM+target_range)) {
-                gamepad2.rumble(5);
-            }*/
+        // auto align code
+        pinpoint.update();
+        Pose2D pose = pinpoint.getPosition();
+        double currentHeading = pose.getHeading(AngleUnit.RADIANS);
+
+        if (gamepad1.a) {
+            LLResult result = limelight.getLatestResult();
+            if (result != null && result.isValid()) {
+                double Tx = result.getTx();
+                double error = -Math.toRadians(Tx);
+                telemetry.addData("Target X", Tx);
+            }
+            
+            if (Math.abs(error) < angleTolerance) {
+                yaw = 0;
+            } else {
+                // PID calculation
+                double pTerm = error * kP;
+                curTime = getRuntime();
+                double dT = curTime - lastTime;
+                double dTerm = ((error - lastError) / dT) * kD;
+
+                yaw = Range.clip(pTerm + dTerm, -0.4, 0.4);
+
+                lastError = error;
+                lastTime = curTime;
+            }
+        } else {
+            // Reset PID if button not pressed
+            lastError = 0;
+            lastTime = getRuntime();
+        }
 
             // Show the elapsed game time and wheel power.
-            telemetry.addData("Velocity: ", outtakeLeft.getVelocity());
-            telemetry.addData("intake motor power", intakeMotor.getPower());
-            telemetry.addData("shoot motor power", shootMotor.getPower());
-            telemetry.addData("door position",door.getPosition());
+            telemetry.addData("Velocity Left: ", outtakeLeft.getVelocity());
+            telemetry.addData("Velocity Right: ", outtakeRight.getVelocity());
+            telemetry.addData("Auto Align", gamepad1.a);
+            telemetry.addData("Yaw", yaw);
+            telemetry.addData("Error", error);
+            telemetry.addData("Door Position", door.getPosition());
             telemetry.update();
 
         }

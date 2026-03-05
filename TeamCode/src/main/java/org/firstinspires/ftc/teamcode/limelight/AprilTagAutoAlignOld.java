@@ -108,9 +108,9 @@ public class AprilTagAutoAlignOld extends OpMode {
         if (gamepad1.a) {
             LLResult result = limelight.getLatestResult();
             if (result != null && result.isValid()) {
-                double tagYawDegrees = result.getTx();
-                double error = -Math.toRadians(tagYawDegrees);
-                telemetry.addData("Target X", tagYawDegrees);
+                double Tx = result.getTx();
+                double error = -Math.toRadians(Tx);
+                telemetry.addData("Target X", Tx);
             }
             
             if (Math.abs(error) < angleTolerance) {
