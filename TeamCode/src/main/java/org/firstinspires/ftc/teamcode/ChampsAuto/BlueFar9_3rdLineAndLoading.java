@@ -68,8 +68,8 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
     private final Pose lineIntake1Pose = new Pose(44, 35, Math.toRadians(180-180));
     private final Pose intake1Pose = new Pose(7.08416494712284, 34, Math.toRadians(180-180));
 
-    private final Pose lineIntake2Pose = new Pose(29.448183041722736, 8.77523553162853, Math.toRadians(90));
-    private final Pose intake2Pose = new Pose(9, 8.77523553162853, Math.toRadians(90));
+    private final Pose lineIntake2Pose = new Pose(29.448183041722736, 8.77523553162853, Math.toRadians(0));
+    private final Pose intake2Pose = new Pose(9, 8.77523553162853, Math.toRadians(0));
     final Pose leavePose = new Pose(38, 15, Math.toRadians(180-180));
 
 

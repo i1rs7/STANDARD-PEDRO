@@ -62,14 +62,14 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(56, 8, Math.toRadians(90));
-    private final Pose shootPose1 = new Pose(56, 12, Math.toRadians(70+3));
-    private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(70+5));
-    private final Pose shootPose3 = new Pose(56, 12, Math.toRadians(70+7));
+    private final Pose shootPose1 = new Pose(56, 12, Math.toRadians(70));
+    private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(70+1));
+    private final Pose shootPose3 = new Pose(56, 12, Math.toRadians(70+2));
     private final Pose lineIntake1Pose = new Pose(44, 35, Math.toRadians(180));
     private final Pose intake1Pose = new Pose(7.08416494712284, 34, Math.toRadians(180));
 
-    private final Pose lineIntake2Pose = new Pose(29.448183041722736, 8.77523553162853, Math.toRadians(90));
-    private final Pose intake2Pose = new Pose(9, 8.77523553162853, Math.toRadians(90));
+    private final Pose lineIntake2Pose = new Pose(29.448183041722736, 8.77523553162853, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(9, 8.77523553162853, Math.toRadians(180));
     final Pose leavePose = new Pose(38, 15, Math.toRadians(180));
 
 
