@@ -243,8 +243,8 @@ public class BlueFar6_3rdLine extends OpMode {
         follower.update();
         shooter.update();
         StatePathUpdate();
-        outtakeLeft.setVelocity(shooter.FAR_FLYWHEEL_RPM);
-        outtakeRight.setVelocity(shooter.FAR_FLYWHEEL_RPM);
+        //outtakeLeft.setVelocity(shooter.FAR_FLYWHEEL_RPM);
+        //outtakeRight.setVelocity(shooter.FAR_FLYWHEEL_RPM);
 
         telemetry.addData("Path State:", pathState.toString());
         //telemetry.addData("x:", follower.getPose().getX());

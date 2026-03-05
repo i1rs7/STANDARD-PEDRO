@@ -86,8 +86,8 @@ public class FlywheelLogicFar {
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
-                    //outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
-                    //outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
+                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM+80);
+                    outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
                     //we set velcoity in the actual path to start the outtake when it starts
                     stateTimer.reset();
                     flywheelState = FlywheelState.SPIN_UP;

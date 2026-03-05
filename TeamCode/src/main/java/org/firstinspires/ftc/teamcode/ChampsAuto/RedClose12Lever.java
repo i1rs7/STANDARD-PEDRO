@@ -59,15 +59,15 @@ public class RedClose12Lever extends OpMode {
     private final Pose shootPose3 = new Pose(145-50.856801705433135, 87.34008052590521, Math.toRadians(45));
 
     //make sure this on is inside the zone to get the leave points
-    private final Pose shootPose4 = new Pose(145-50.6558533145275, 101.79266572637518, Math.toRadians(33));
+    private final Pose shootPose4 = new Pose(145-60, 110, Math.toRadians(28));
 
     private final Pose lineIntake1Pose = new Pose(145-46.85680170543313, 66.524682651622, Math.toRadians(180));
     private final Pose intake1Pose = new Pose(145-12.08416494712284, 66.524682651622, Math.toRadians(180));
     private final Pose controlLever1 = new Pose (145-35.917366981341605, 68.60157710801516, Math.toRadians(220));
     private final Pose leverPose1 = new Pose(145-13.54823695345557-2, 68.60157710801516, Math.toRadians(220));
-    private final Pose hitLeverPose = new Pose(145-13.54823695345557-2, 63.60157710801516-1, Math.toRadians(220));
+    private final Pose hitLeverPose = new Pose(145-13.54823695345557-3, 65, Math.toRadians(220));
     private final Pose lineIntake2Pose = new Pose(145-46.97981157469717, 89.07533215512152, Math.toRadians(180));
-    private final Pose intake2Pose = new Pose(145-21.197060671580733, 89.07533215512152, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(145-16.197060671580733, 89.07533215512152, Math.toRadians(180));
 
     //All the movement paths
     private PathChain driveStartPosShootPos, driveShootPos1LineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos2,
@@ -245,7 +245,7 @@ public class RedClose12Lever extends OpMode {
                 }
 
             case STOPINTAKE2:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1.5) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2.0) {
                     shootMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_LEVERPOSE1_SHOOTPOSE3);
