@@ -1,11 +1,10 @@
-package org.firstinspires.ftc.teamcode.NewSuperQualAuto;
+package org.firstinspires.ftc.teamcode.ChampsAuto;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 import com.pedropathing.follower.Follower;
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 
@@ -22,7 +21,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 @Autonomous
-public class BlueClose12Lever extends OpMode {
+public class RedClose12Lever extends OpMode {
     private Follower follower;
     private Timer pathTimer, opModeTimer, timeoutTimer;
     private DcMotor intakeMotor = null;
@@ -54,20 +53,20 @@ public class BlueClose12Lever extends OpMode {
     PathState pathState;
 
     //all points
-    private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(180-90));
-    private final Pose shootPose1 = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(180-47));
-    private final Pose shootPose2 = new Pose(53.856801705433135, 87.34008052590521, Math.toRadians(180-48));
-    private final Pose shootPose3 = new Pose(50.856801705433135, 87.34008052590521, Math.toRadians(180-46));
+    private final Pose startPose = new Pose(145-33.4555712270804, 136.1579689703808, Math.toRadians(90));
+    private final Pose shootPose1 = new Pose(145-55.85680170543313, 92.07533215512152, Math.toRadians(47));
+    private final Pose shootPose2 = new Pose(145-53.856801705433135, 87.34008052590521, Math.toRadians(48));
+    private final Pose shootPose3 = new Pose(145-50.856801705433135, 87.34008052590521, Math.toRadians(46));
 
     //make sure this on is inside the zone to get the leave points
-    private final Pose shootPose4 = new Pose(59.6558533145275, 101.79266572637518, Math.toRadians(180-36));
+    private final Pose shootPose4 = new Pose(145-59.6558533145275, 101.79266572637518, Math.toRadians(36));
 
-    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 66.524682651622, Math.toRadians(180-180));
-    private final Pose intake1Pose = new Pose(12.08416494712284, 66.524682651622, Math.toRadians(180-180));
-    private final Pose controlLever1 = new Pose (35.917366981341605, 65.60157710801516, Math.toRadians(180-220));
-    private final Pose leverPose1 = new Pose(13.54823695345557, 65.60157710801516, Math.toRadians(180-220));
-    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 89.07533215512152, Math.toRadians(180-180));
-    private final Pose intake2Pose = new Pose(1.197060671580733, 89.07533215512152, Math.toRadians(180-180));
+    private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 66.524682651622, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-12.08416494712284, 66.524682651622, Math.toRadians(180));
+    private final Pose controlLever1 = new Pose (145-35.917366981341605, 68.60157710801516, Math.toRadians(220));
+    private final Pose leverPose1 = new Pose(145-13.54823695345557, 68.60157710801516, Math.toRadians(220));
+    private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 89.07533215512152, Math.toRadians(180));
+    private final Pose intake2Pose = new Pose(145-21.197060671580733, 89.07533215512152, Math.toRadians(180));
 
     //All the movement paths
     private PathChain driveStartPosShootPos, driveShootPos1LineIntake1Pos, driveLineIntake1PosIntake1Pos, driveIntake1PosShootPos2,
