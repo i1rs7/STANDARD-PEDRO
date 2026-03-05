@@ -38,7 +38,13 @@ public class BlueFar9LoadingX2 extends OpMode {
         SHOOTPRELOAD,
         DRIVE_SHOOTPOSE_LINEINTAKE1POSE, //LINE UP TO INTAKE FIRST SET OF BALLS
         STARTINTAKE1,
-        DRIVE_LINEINTAKE1POSE_INTAKE1POSE,//Move back and intake first 3 balls + move balls down + start flywheels
+        DRIVE_LINEINTAKE1POSE_INTAKE1POSEx1,
+        DRIVE_INTAKE1POSE_LINEINTAKE1POSEx1,
+        DRIVE_LINEINTAKE1POSE_INTAKE1POSEx2,
+        DRIVE_INTAKE1POSE_LINEINTAKE1POSEx2,
+        DRIVE_LINEINTAKE1POSE_INTAKE1POSEx3,//Move back and intake first 3 balls + move balls down + start flywheels
+
+
         STOPINTAKE1,
         DRIVE_INTAKE1POSE_SHOOTPOSE2,//Return to shooting position, shoot
         SHOOT2,
@@ -160,17 +166,40 @@ public class BlueFar9LoadingX2 extends OpMode {
                     intakeMotor.setPower(0.95);
                     shootMotor.setPower(0.75);
                     telemetry.addLine("Started intake to intake first 3");
-                    setPathState(PathState.DRIVE_LINEINTAKE1POSE_INTAKE1POSE);
+                    setPathState(PathState.DRIVE_LINEINTAKE1POSE_INTAKE1POSEx1);
                 }
                 break;
 
-            case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
+            case DRIVE_LINEINTAKE1POSE_INTAKE1POSEx1:
                 if(!follower.isBusy()){
-                    for(int i = 1; i<= 3; i++) {
-                        follower.followPath(driveLineIntake1PosIntake1Pos, true);
-                        follower.followPath(driveIntake1PosLineIntake1Pos, true);
-                    }
+                    follower.followPath(driveLineIntake1PosIntake1Pos, true);
+                    setPathState(PathState.DRIVE_INTAKE1POSE_LINEINTAKE1POSEx1);
+                }
+                break;
+
+            case DRIVE_INTAKE1POSE_LINEINTAKE1POSEx1:
+                if(!follower.isBusy()){
                     follower.followPath(driveIntake1PosLineIntake1Pos, true);
+                    setPathState(PathState.DRIVE_LINEINTAKE1POSE_INTAKE1POSEx2);
+                }
+                break;
+
+            case DRIVE_LINEINTAKE1POSE_INTAKE1POSEx2:
+                if(!follower.isBusy()){
+                    follower.followPath(driveLineIntake1PosIntake1Pos, true);
+                    setPathState(PathState.DRIVE_INTAKE1POSE_LINEINTAKE1POSEx2);
+                }
+                break;
+
+            case DRIVE_INTAKE1POSE_LINEINTAKE1POSEx2:
+                if(!follower.isBusy()){
+                    follower.followPath(driveIntake1PosLineIntake1Pos, true);
+                    setPathState(PathState.DRIVE_LINEINTAKE1POSE_INTAKE1POSEx3);
+                }
+                break;
+            case DRIVE_LINEINTAKE1POSE_INTAKE1POSEx3:
+                if(!follower.isBusy()){
+                    follower.followPath(driveLineIntake1PosIntake1Pos, true);
                     setPathState(PathState.STOPINTAKE1);
                 }
                 break;
@@ -221,18 +250,26 @@ public class BlueFar9LoadingX2 extends OpMode {
                     intakeMotor.setPower(0.95);
                     shootMotor.setPower(0.75);
                     telemetry.addLine("Started intake to intake first 3");
+                    setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSEx1);
+                }
+                break;
+
+
+            case DRIVE_LINEINTAKE2POSE_INTAKE2POSEx1:
+                if(!follower.isBusy()){
+                    follower.followPath(driveIntake2PosLineIntake2Pos, true);
                     setPathState(PathState.DRIVE_INTAKE2POSE_LINEINTAKE2POSEx1);
                 }
                 break;
 
             case DRIVE_INTAKE2POSE_LINEINTAKE2POSEx1:
                 if(!follower.isBusy()){
-                    follower.followPath(driveLineIntake2PosIntake2Pos, true);
-                    setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSEx1);
+                    follower.followPath(driveIntake2PosLineIntake2Pos, true);
+                    setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSEx2);
                 }
                 break;
 
-            case DRIVE_LINEINTAKE2POSE_INTAKE2POSEx1:
+            case DRIVE_LINEINTAKE2POSE_INTAKE2POSEx2:
                 if(!follower.isBusy()){
                     follower.followPath(driveIntake2PosLineIntake2Pos, true);
                     setPathState(PathState.DRIVE_INTAKE2POSE_LINEINTAKE2POSEx2);
@@ -241,17 +278,11 @@ public class BlueFar9LoadingX2 extends OpMode {
 
             case DRIVE_INTAKE2POSE_LINEINTAKE2POSEx2:
                 if(!follower.isBusy()){
-                    follower.followPath(driveLineIntake2PosIntake2Pos, true);
-                    setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSEx2);
-                }
-                break;
-
-            case DRIVE_LINEINTAKE2POSE_INTAKE2POSEx2:
-                if(!follower.isBusy()){
                     follower.followPath(driveIntake2PosLineIntake2Pos, true);
                     setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSEx3);
                 }
                 break;
+
 
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSEx3:
                 if(!follower.isBusy()){
