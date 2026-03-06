@@ -49,7 +49,7 @@ public class FlywheelLogicFar {
   public double FAR_FLYWHEEL_RPM = 930;
     private double target_range = 30;
     private double TARGET_FLYWHEEL_RPM = FAR_FLYWHEEL_RPM;
-    private double FLYWHEEL_MAX_SPINUP_TIME = 1.0; //how long we wait before taking the fist shot
+    private double FLYWHEEL_MAX_SPINUP_TIME = 3.0; //how long we wait before taking the fist shot
 
 
     public void init(HardwareMap hardwareMap){

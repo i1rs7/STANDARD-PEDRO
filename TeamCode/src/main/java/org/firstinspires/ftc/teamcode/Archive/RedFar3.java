@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.ChampsAuto;
+package org.firstinspires.ftc.teamcode.Archive;
 
 
 import com.pedropathing.follower.Follower;
@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
 @Autonomous
-public class BlueFar3 extends OpMode {
+public class RedFar3 extends OpMode {
 
 
 
@@ -72,9 +72,10 @@ public class BlueFar3 extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(56, 8, Math.toRadians(90));
-    private final Pose shootPose = new Pose(56, 12, Math.toRadians(113));
-    private final Pose leavePose = new Pose(25, 12, Math.toRadians(0));
+    private final Pose startPose = new Pose(145-56, 8, Math.toRadians(90));
+    private final Pose shootPose = new Pose(145-56, 12, Math.toRadians(180-113));
+    private final Pose leavePose = new Pose(145-25, 12, Math.toRadians(180));
+
 
 
 
@@ -216,6 +217,7 @@ public class BlueFar3 extends OpMode {
         follower = Constants.createFollower(hardwareMap);
 
         shooter.init(hardwareMap);
+
 
         intakeMotor = hardwareMap.get(DcMotor.class, "i");
         intakeMotor.setDirection(DcMotor.Direction.REVERSE);
