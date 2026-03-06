@@ -132,7 +132,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
                 if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -190,7 +190,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -249,7 +249,6 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case DRIVE_INTAKE2POSE_SHOOTPOSE3:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Leave the zone");
                     follower.followPath(driveIntake2PosShootPos3, true);
                     setPathState(PathState.SHOOT3);
@@ -258,10 +257,10 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case SHOOT3:
                 if(!follower.isBusy()&& pathTimer.getElapsedTimeSeconds() > 1){
-
+                    intakeMotor.setPower(0);
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){

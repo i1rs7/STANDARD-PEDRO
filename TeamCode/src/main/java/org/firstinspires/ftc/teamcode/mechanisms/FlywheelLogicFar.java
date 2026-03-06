@@ -30,7 +30,7 @@ public class FlywheelLogicFar {
     // gate constants
     private double GATE_DOWN_ANGLE = 0.30;
     private double GATE_UP_ANGLE = 0.60;
-    private double GATE_OPEN_TIME = 0.25; // how long we are shooting for
+    private double GATE_OPEN_TIME = 4.0; // how long we are shooting for
     private double GATE_CLOSE_TIME = 0.5;
 
     // ------ SHOOTER CONSTANTS --------
@@ -97,8 +97,8 @@ public class FlywheelLogicFar {
             case SPIN_UP:
                 if (FlywheelsAtSpeed() || stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
                     door.setPosition(GATE_DOWN_ANGLE);
-                    intakeMotor.setPower(0.95);
-                    shootMotor.setPower(0.95);
+                    intakeMotor.setPower(0.35);
+                    shootMotor.setPower(0.35);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.LAUNCH;
