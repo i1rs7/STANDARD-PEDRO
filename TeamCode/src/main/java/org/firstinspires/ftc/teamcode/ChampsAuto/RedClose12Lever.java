@@ -245,7 +245,7 @@ public class RedClose12Lever extends OpMode {
                 }
 
             case STOPINTAKE2:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2.0) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2.5) {
                     shootMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_LEVERPOSE1_SHOOTPOSE3);
@@ -296,7 +296,7 @@ public class RedClose12Lever extends OpMode {
             case DRIVE_LINEINTAKEPOSE2_INTAKEPOSE2:
                 if(!follower.isBusy()){
                     telemetry.addLine("Lever pose and rotated");
-                    follower.followPath(driveLineIntake2Intake2, 0.6, true);
+                    follower.followPath(driveLineIntake2Intake2, 0.5, true);
                     setPathState(PathState.STOPINTAKE4);
                 }
                 break;

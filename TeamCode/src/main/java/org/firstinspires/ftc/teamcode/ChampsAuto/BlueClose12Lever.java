@@ -64,8 +64,8 @@ public class BlueClose12Lever extends OpMode {
     private final Pose lineIntake1Pose = new Pose(46.85680170543313, 66.524682651622-5, Math.toRadians(180-180));
     private final Pose intake1Pose = new Pose(12.08416494712284-8, 66.524682651622-7, Math.toRadians(180-180));
     private final Pose controlLever1 = new Pose (35.917366981341605, 68.60157710801516-7, Math.toRadians(180-220));
-    private final Pose leverPose1 = new Pose(10.54823695345557-9, 68.60157710801516-5, Math.toRadians(180-220));
-    private final Pose hitLeverPose = new Pose(10.54823695345557-8, 63.60157710801516-5, Math.toRadians(180-220));
+    private final Pose leverPose1 = new Pose(10.54823695345557-12, 68.60157710801516-3, Math.toRadians(180-230));
+    private final Pose hitLeverPose = new Pose(10.54823695345557-12, 63.60157710801516-3, Math.toRadians(180-220));
     private final Pose lineIntake2Pose = new Pose(46.97981157469717, 89.07533215512152-3, Math.toRadians(180-180));
     private final Pose intake2Pose = new Pose(21.197060671580733-10, 89.07533215512152-3, Math.toRadians(180-180));
 
@@ -133,7 +133,7 @@ public class BlueClose12Lever extends OpMode {
         //any wait time in the multiconditional if statement takes place AFTER the path is run, and is the time that it takes for the entire path to run
         switch (pathState) {
             case DRIVE_STARTPOSE_SHOOTPOSE1:
-                follower.followPath(driveStartPosShootPos, 0.9, true); //Follow the path
+                follower.followPath(driveStartPosShootPos, true); //Follow the path
                 telemetry.addLine("Moved back");
                 setPathState(PathState.SHOOT1); //RESET TIMER & SET TO NEXT PATH STATE
                 break;
@@ -175,7 +175,7 @@ public class BlueClose12Lever extends OpMode {
             case DRIVE_LINEINTAKE1POSE_INTAKE1POSE:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook 3 balls");
-                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.5,true);
+                    follower.followPath(driveLineIntake1PosIntake1Pos, 0.65,true);
                     setPathState(PathState.STOPINTAKE1);
                 }
                 break;
@@ -232,20 +232,20 @@ public class BlueClose12Lever extends OpMode {
             case DRIVE_CONTROLLEVERPOSE1_LEVERPOSE1:
                 if(!follower.isBusy()){
                     telemetry.addLine("Intook second set of balls");
-                    follower.followPath(driveControlLeverPose1LeverPose1, 0.6, true);
+                    follower.followPath(driveControlLeverPose1LeverPose1, 0.7, true);
                     setPathState(PathState.DRIVE_LEVERPOSE1_HITLEVERPOSE1);
                 }
                 break;
 
             case DRIVE_LEVERPOSE1_HITLEVERPOSE1:
-                if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 1.5){
+                if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 0.75){
                     telemetry.addLine("Intook second set of balls");
                     follower.followPath(driveLeverPose1HitLeverPos, true);
                     setPathState(PathState.STOPINTAKE2);
                 }
 
             case STOPINTAKE2:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 3) {
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2.5) {
                     shootMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_LEVERPOSE1_SHOOTPOSE3);
@@ -296,7 +296,7 @@ public class BlueClose12Lever extends OpMode {
             case DRIVE_LINEINTAKEPOSE2_INTAKEPOSE2:
                 if(!follower.isBusy()){
                     telemetry.addLine("Lever pose and rotated");
-                    follower.followPath(driveLineIntake2Intake2, 0.6, true);
+                    follower.followPath(driveLineIntake2Intake2, 0.5, true);
                     setPathState(PathState.STOPINTAKE4);
                 }
                 break;

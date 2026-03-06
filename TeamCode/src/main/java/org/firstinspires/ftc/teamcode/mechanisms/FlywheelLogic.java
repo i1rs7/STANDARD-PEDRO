@@ -46,7 +46,7 @@ public class FlywheelLogic {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    public double CLOSE_FLYWHEEL_RPM = 720;
+    public double CLOSE_FLYWHEEL_RPM = 700;
     public double FAR_FLYWHEEL_RPM = 950;
     private double target_range = 40;
     public double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
