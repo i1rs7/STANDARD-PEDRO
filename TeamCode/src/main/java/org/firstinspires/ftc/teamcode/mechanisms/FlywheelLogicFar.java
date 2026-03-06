@@ -30,7 +30,7 @@ public class FlywheelLogicFar {
     // gate constants
     private double GATE_DOWN_ANGLE = 0.30;
     private double GATE_UP_ANGLE = 0.60;
-    private double GATE_OPEN_TIME = 4; // how long we are shooting for
+    private double GATE_OPEN_TIME = 0.5; // how long we are shooting for
     private double GATE_CLOSE_TIME = 0.5;
 
     // ------ SHOOTER CONSTANTS --------
@@ -38,7 +38,7 @@ public class FlywheelLogicFar {
     //private double shooterResetAngle = 0; //placeholder values (0, 90, 0.5)
     //private double shooterShootAngle = 90;
     private double timeToLower = 1.0;
-    private double timeToShoot = 0.5; //amount of time the shooting takes
+    private double timeToShoot = 0.5;
 
 
     // ------ FLYWHEEL CONSTANTS -------
@@ -46,10 +46,10 @@ public class FlywheelLogicFar {
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
   //  private double CLOSE_FLYWHEEL_RPM = 770;
-  public double FAR_FLYWHEEL_RPM = 930;
-    private double target_range = 30;
+  public double FAR_FLYWHEEL_RPM = 920;
+    private double target_range = 20;
     private double TARGET_FLYWHEEL_RPM = FAR_FLYWHEEL_RPM;
-    private double FLYWHEEL_MAX_SPINUP_TIME = 3.0; //how long we wait before taking the fist shot
+    private double FLYWHEEL_MAX_SPINUP_TIME = 4.0; //how long we wait before taking the fist shot
 
 
     public void init(HardwareMap hardwareMap){
@@ -86,7 +86,7 @@ public class FlywheelLogicFar {
         switch(flywheelState){
             case IDLE:
                 if (shotsRemaining > 0){
-                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM+80);
+                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
                     outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
                     //we set velcoity in the actual path to start the outtake when it starts
                     stateTimer.reset();
@@ -97,8 +97,8 @@ public class FlywheelLogicFar {
             case SPIN_UP:
                 if (FlywheelsAtSpeed() || stateTimer.seconds() > FLYWHEEL_MAX_SPINUP_TIME){
                     door.setPosition(GATE_DOWN_ANGLE);
-                    intakeMotor.setPower(0.55);
-                    shootMotor.setPower(0.55);
+                    intakeMotor.setPower(0.95);
+                    shootMotor.setPower(0.95);
 
                     stateTimer.reset();
                     flywheelState = FlywheelState.LAUNCH;

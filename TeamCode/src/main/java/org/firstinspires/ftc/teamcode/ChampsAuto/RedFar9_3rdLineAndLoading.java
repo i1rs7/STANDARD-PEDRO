@@ -47,8 +47,6 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
         DRIVE_LINEINTAKE2POSE_INTAKE2POSEv1,
         DRIVE_INTAKE2POSE_LINEINTAKE2POSEv1,
         DRIVE_LINEINTAKE2POSE_INTAKE2POSEv2,
-        DRIVE_INTAKE2POSE_LINEINTAKE2POSEv2,
-        DRIVE_LINEINTAKE2POSE_INTAKE2POSEv3,
         STOPINTAKE2,
         DRIVE_INTAKE2POSE_SHOOTPOSE3,
         SHOOT3,
@@ -61,16 +59,16 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
 
     //all points
-    private final Pose startPose = new Pose(56, 8, Math.toRadians(90));
-    private final Pose shootPose1 = new Pose(56, 12, Math.toRadians(70));
-    private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(70+1));
-    private final Pose shootPose3 = new Pose(56, 12, Math.toRadians(70+2));
-    private final Pose lineIntake1Pose = new Pose(44, 35, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(7.08416494712284, 34, Math.toRadians(180));
+    private final Pose startPose = new Pose(145-56, 8, Math.toRadians(90));
+    private final Pose shootPose1 = new Pose(145-56, 12, Math.toRadians(67));
+    private final Pose shootPose2 = new Pose(145-56, 12, Math.toRadians(67));
+    private final Pose shootPose3 = new Pose(145-56, 12, Math.toRadians(67));
+    private final Pose lineIntake1Pose = new Pose(145-50, 38, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-10.08416494712284, 38, Math.toRadians(180));
 
-    private final Pose lineIntake2Pose = new Pose(29.448183041722736, 8.77523553162853, Math.toRadians(180));
-    private final Pose intake2Pose = new Pose(9, 8.77523553162853, Math.toRadians(180));
-    final Pose leavePose = new Pose(38, 15, Math.toRadians(180));
+    private final Pose lineIntake2Pose = new Pose(145-13.448183041722736, 22.77523553162853, Math.toRadians(120));
+    private final Pose intake2Pose = new Pose(145-12, 15.77523553162853, Math.toRadians(180));
+    final Pose leavePose = new Pose(145-38, 15, Math.toRadians(180-180));
 
 
 
@@ -131,10 +129,10 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
                 break;
 
             case SHOOTPRELOAD:
-                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 1){
+                if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(1);
+                        shooter.fireShots(3);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -156,7 +154,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
             case STARTINTAKE1:
                 if(!follower.isBusy()) {
                     intakeMotor.setPower(0.95);
-                    shootMotor.setPower(0.75);
+                    shootMotor.setPower(0.95);
                     telemetry.addLine("Started intake to intake first 3");
                     setPathState(PathState.DRIVE_LINEINTAKE1POSE_INTAKE1POSE);
                 }
@@ -173,7 +171,6 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
             case STOPINTAKE1:
                 if(!follower.isBusy()) {
                     shootMotor.setPower(0);
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
                 }
@@ -181,6 +178,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
+                    intakeMotor.setPower(0);
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos2, 0.95,true);
                     setPathState(PathState.SHOOT2);
@@ -192,7 +190,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(1);
+                        shooter.fireShots(3);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -204,6 +202,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case DRIVE_SHOOTPOSE2_LINEINTAKE2POSE:
                 if(!follower.isBusy()){
+                    door.setPosition(GATE_UP_ANGLE);
                     telemetry.addLine("Leave the zone");
                     follower.followPath(driveShootPos2LineIntake2Pos, true);
                     setPathState(PathState.STARTINTAKE2);
@@ -236,20 +235,6 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
             case DRIVE_LINEINTAKE2POSE_INTAKE2POSEv2:
                 if(!follower.isBusy()) {
                     follower.followPath(driveLineIntake2PosIntake2Pos, true);
-                    setPathState(PathState.DRIVE_INTAKE2POSE_LINEINTAKE2POSEv2);
-                }
-                break;
-
-            case DRIVE_INTAKE2POSE_LINEINTAKE2POSEv2:
-                if(!follower.isBusy()) {
-                    follower.followPath(driveIntake2PosLineIntake2Pos, true);
-                    setPathState(PathState.DRIVE_LINEINTAKE2POSE_INTAKE2POSEv3);
-                }
-                break;
-
-            case DRIVE_LINEINTAKE2POSE_INTAKE2POSEv3:
-                if(!follower.isBusy()) {
-                    follower.followPath(driveLineIntake2PosIntake2Pos, true);
                     setPathState(PathState.STOPINTAKE2);
                 }
                 break;
@@ -257,7 +242,6 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
             case STOPINTAKE2:
                 if(!follower.isBusy()) {
                     shootMotor.setPower(0);
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE3);
                 }
@@ -265,6 +249,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case DRIVE_INTAKE2POSE_SHOOTPOSE3:
                 if(!follower.isBusy()){
+                    intakeMotor.setPower(0);
                     telemetry.addLine("Leave the zone");
                     follower.followPath(driveIntake2PosShootPos3, true);
                     setPathState(PathState.SHOOT3);
@@ -276,7 +261,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(1);
+                        shooter.fireShots(3);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -358,8 +343,6 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
         follower.update();
         shooter.update();
         StatePathUpdate();
-        outtakeLeft.setVelocity(shooter.FAR_FLYWHEEL_RPM);
-        outtakeRight.setVelocity(shooter.FAR_FLYWHEEL_RPM);
 
         telemetry.addData("Path State:", pathState.toString());
         //telemetry.addData("x:", follower.getPose().getX());

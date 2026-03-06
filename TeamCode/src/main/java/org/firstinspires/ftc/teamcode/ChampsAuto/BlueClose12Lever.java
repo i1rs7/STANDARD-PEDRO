@@ -54,18 +54,18 @@ public class BlueClose12Lever extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(180-90));
-    private final Pose shootPose1 = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(180-45));
-    private final Pose shootPose2 = new Pose(55.856801705433135, 87.34008052590521, Math.toRadians(180-45));
-    private final Pose shootPose3 = new Pose(54.856801705433135, 87.34008052590521, Math.toRadians(180-45));
+    private final Pose shootPose1 = new Pose(53.85680170543313, 92.07533215512152, Math.toRadians(180-45));
+    private final Pose shootPose2 = new Pose(53.856801705433135, 87.34008052590521, Math.toRadians(180-45));
+    private final Pose shootPose3 = new Pose(55.856801705433135, 85.34008052590521, Math.toRadians(180-44));
 
     //make sure this on is inside the zone to get the leave points
     private final Pose shootPose4 = new Pose(55.6558533145275, 110.79266572637518, Math.toRadians(180-33));
 
     private final Pose lineIntake1Pose = new Pose(46.85680170543313, 66.524682651622-5, Math.toRadians(180-180));
-    private final Pose intake1Pose = new Pose(12.08416494712284-8, 66.524682651622-7, Math.toRadians(180-180));
+    private final Pose intake1Pose = new Pose(12.08416494712284-10, 66.524682651622-7, Math.toRadians(180-180));
     private final Pose controlLever1 = new Pose (35.917366981341605, 68.60157710801516-7, Math.toRadians(180-220));
-    private final Pose leverPose1 = new Pose(10.54823695345557-12, 68.60157710801516-3, Math.toRadians(180-230));
-    private final Pose hitLeverPose = new Pose(10.54823695345557-12, 63.60157710801516-3, Math.toRadians(180-220));
+    private final Pose leverPose1 = new Pose(-2, 68.60157710801516-3, Math.toRadians(180-220));
+    private final Pose hitLeverPose = new Pose(10.54823695345557-10, 60.60157710801516-3, Math.toRadians(180-220));
     private final Pose lineIntake2Pose = new Pose(46.97981157469717, 89.07533215512152-3, Math.toRadians(180-180));
     private final Pose intake2Pose = new Pose(21.197060671580733-10, 89.07533215512152-3, Math.toRadians(180-180));
 
@@ -140,7 +140,7 @@ public class BlueClose12Lever extends OpMode {
 
             case SHOOT1:
                 telemetry.addLine("In SHOOT1");
-                if(!follower.isBusy()){
+                if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds()> 0.2){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
                         shooter.fireShots(1);
@@ -238,7 +238,7 @@ public class BlueClose12Lever extends OpMode {
                 break;
 
             case DRIVE_LEVERPOSE1_HITLEVERPOSE1:
-                if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 0.75){
+                if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 1){
                     telemetry.addLine("Intook second set of balls");
                     follower.followPath(driveLeverPose1HitLeverPos, true);
                     setPathState(PathState.STOPINTAKE2);
