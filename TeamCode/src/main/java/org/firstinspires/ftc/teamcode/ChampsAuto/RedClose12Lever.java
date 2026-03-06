@@ -55,7 +55,7 @@ public class RedClose12Lever extends OpMode {
     //all points
     private final Pose startPose = new Pose(145-33.4555712270804, 136.1579689703808, Math.toRadians(90));
     private final Pose shootPose1 = new Pose(145-55.85680170543313, 92.07533215512152, Math.toRadians(47));
-    private final Pose shootPose2 = new Pose(145-53.856801705433135, 87.34008052590521, Math.toRadians(45));
+    private final Pose shootPose2 = new Pose(145-57.856801705433135, 87.34008052590521, Math.toRadians(45));
     private final Pose shootPose3 = new Pose(145-50.856801705433135, 87.34008052590521, Math.toRadians(45));
 
     //make sure this on is inside the zone to get the leave points
@@ -65,7 +65,7 @@ public class RedClose12Lever extends OpMode {
     private final Pose intake1Pose = new Pose(145-12.08416494712284, 66.524682651622, Math.toRadians(180));
     private final Pose controlLever1 = new Pose (145-35.917366981341605, 68.60157710801516, Math.toRadians(220));
     private final Pose leverPose1 = new Pose(145-13.54823695345557-2, 68.60157710801516, Math.toRadians(220));
-    private final Pose hitLeverPose = new Pose(145-13.54823695345557-3, 65, Math.toRadians(220));
+    private final Pose hitLeverPose = new Pose(145-13.54823695345557-3, 64, Math.toRadians(220));
     private final Pose lineIntake2Pose = new Pose(145-46.97981157469717, 89.07533215512152, Math.toRadians(180));
     private final Pose intake2Pose = new Pose(145-16.197060671580733, 89.07533215512152, Math.toRadians(180));
 
@@ -238,7 +238,7 @@ public class RedClose12Lever extends OpMode {
                 break;
 
             case DRIVE_LEVERPOSE1_HITLEVERPOSE1:
-                if(!follower.isBusy()){
+                if(!follower.isBusy() || pathTimer.getElapsedTimeSeconds() > 0.75){
                     telemetry.addLine("Intook second set of balls");
                     follower.followPath(driveLeverPose1HitLeverPos, true);
                     setPathState(PathState.STOPINTAKE2);
