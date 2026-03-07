@@ -64,11 +64,11 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
     private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(180-67));
     private final Pose shootPose3 = new Pose(56, 12, Math.toRadians(180-67));
     private final Pose lineIntake1Pose = new Pose(50, 38, Math.toRadians(180-180));
-    private final Pose intake1Pose = new Pose(10.08416494712284, 38, Math.toRadians(180-180));
+    private final Pose intake1Pose = new Pose(10.08416494712284, 38-4, Math.toRadians(180-180));
 
-    private final Pose lineIntake2Pose = new Pose(13.448183041722736, 22.77523553162853, Math.toRadians(180-120));
-    private final Pose intake2Pose = new Pose(12, 15.77523553162853, Math.toRadians(180-180));
-    final Pose leavePose = new Pose(38, 15, Math.toRadians(180-0));
+    private final Pose lineIntake2Pose = new Pose(13.448183041722736, 22.77523553162853-4, Math.toRadians(180-120));
+    private final Pose intake2Pose = new Pose(12, 15.77523553162853-4, Math.toRadians(180-180));
+    final Pose leavePose = new Pose(38, 15-4, Math.toRadians(180-0));
 
 
 
@@ -132,7 +132,7 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
                 if(!follower.isBusy()){
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -190,7 +190,7 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
 
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){
@@ -261,7 +261,7 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
 
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
-                        shooter.fireShots(3);
+                        shooter.fireShots(1);
                         shotsTriggered = true;
                     }
                     else if (shotsTriggered && !shooter.flywheelsAreBusy()){

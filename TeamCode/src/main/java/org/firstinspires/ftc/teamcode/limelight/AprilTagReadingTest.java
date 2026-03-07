@@ -18,7 +18,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Pose3D;
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 
-@TeleOp
+@Disabled
 public class AprilTagReadingTest extends OpMode {
 
     private Limelight3A limelight;

@@ -54,9 +54,9 @@ public class BlueClose12Lever extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(180-90));
-    private final Pose shootPose1 = new Pose(53.85680170543313, 92.07533215512152, Math.toRadians(180-45));
+    private final Pose shootPose1 = new Pose(53.85680170543313, 92.07533215512152, Math.toRadians(180-47));
     private final Pose shootPose2 = new Pose(53.856801705433135, 87.34008052590521, Math.toRadians(180-45));
-    private final Pose shootPose3 = new Pose(55.856801705433135, 85.34008052590521, Math.toRadians(180-44));
+    private final Pose shootPose3 = new Pose(55.856801705433135, 85.34008052590521, Math.toRadians(180-45));
 
     //make sure this on is inside the zone to get the leave points
     private final Pose shootPose4 = new Pose(55.6558533145275, 110.79266572637518, Math.toRadians(180-33));

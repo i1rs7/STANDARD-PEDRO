@@ -84,7 +84,7 @@ public class Solo_Standard_Drive extends LinearOpMode {
     private Servo door = null;
 
 
-    static final double target_RPM_close = 720;
+    static final double target_RPM_close = 680;
     static final double target_RPM_far = 920;
     static final double target_range = 40;
     private double TARGET_FLYWHEEL_RPM;
@@ -202,11 +202,11 @@ public class Solo_Standard_Drive extends LinearOpMode {
 
             //outtake code
             if (gamepad1.right_trigger > 0.5) {
-                outtakeLeft.setVelocity(target_RPM_close+100);
+                outtakeLeft.setVelocity(target_RPM_close);
                 outtakeRight.setVelocity(target_RPM_close);
                 TARGET_FLYWHEEL_RPM=target_RPM_close;
             } else if (gamepad1.left_trigger > 0.5) {
-                outtakeLeft.setVelocity(target_RPM_far+100);
+                outtakeLeft.setVelocity(target_RPM_far);
                 outtakeRight.setVelocity(target_RPM_far);
                 TARGET_FLYWHEEL_RPM=target_RPM_far;
             }

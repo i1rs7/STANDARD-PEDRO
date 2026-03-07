@@ -68,14 +68,14 @@ public class BlueFar9LoadingX2 extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(56, 8, Math.toRadians(180-90));
-    private final Pose shootPose1 = new Pose(56, 12, Math.toRadians(180-70+3));
-    private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(180-70+5));
-    private final Pose shootPose3 = new Pose(56, 12, Math.toRadians(180-70+7));
-    private final Pose lineIntake1Pose = new Pose(145-13.448183041722736, 22.77523553162853, Math.toRadians(120));
-    private final Pose intake1Pose = new Pose(145-12, 15.77523553162853, Math.toRadians(180));;
-    private final Pose lineIntake2Pose = new Pose(145-13.448183041722736, 22.77523553162853, Math.toRadians(120));
-    private final Pose intake2Pose = new Pose(145-12, 15.77523553162853, Math.toRadians(180));;
-    final Pose leavePose = new Pose(38, 15, Math.toRadians(180-180));
+    private final Pose shootPose1 = new Pose(56, 12, Math.toRadians(180-67));
+    private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(180-67));
+    private final Pose shootPose3 = new Pose(56, 12, Math.toRadians(180-67));
+    private final Pose lineIntake1Pose = new Pose(13.448183041722736-4, 22.77523553162853, Math.toRadians(180-120));
+    private final Pose intake1Pose = new Pose(12, 15.77523553162853-4, Math.toRadians(180-180));;
+    private final Pose lineIntake2Pose = new Pose(13.448183041722736-4, 22.77523553162853, Math.toRadians(180-120));
+    private final Pose intake2Pose = new Pose(12, 15.77523553162853-4, Math.toRadians(180-180));;
+    final Pose leavePose = new Pose(38, 15, Math.toRadians(180));
 
 
 
@@ -393,8 +393,6 @@ public class BlueFar9LoadingX2 extends OpMode {
         follower.update();
         shooter.update();
         StatePathUpdate();
-        outtakeLeft.setVelocity(shooter.FAR_FLYWHEEL_RPM);
-        outtakeRight.setVelocity(shooter.FAR_FLYWHEEL_RPM);
 
         telemetry.addData("Path State:", pathState.toString());
         //telemetry.addData("x:", follower.getPose().getX());
