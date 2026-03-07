@@ -249,6 +249,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case DRIVE_INTAKE2POSE_SHOOTPOSE3:
                 if(!follower.isBusy()){
+                    intakeMotor.setPower(0);
                     telemetry.addLine("Leave the zone");
                     follower.followPath(driveIntake2PosShootPos3, true);
                     setPathState(PathState.SHOOT3);
@@ -257,7 +258,7 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case SHOOT3:
                 if(!follower.isBusy()&& pathTimer.getElapsedTimeSeconds() > 1){
-                    intakeMotor.setPower(0);
+
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
                         shooter.fireShots(1);

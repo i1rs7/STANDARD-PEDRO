@@ -194,7 +194,6 @@ public class RedFar9LoadingX2 extends OpMode {
             case STOPINTAKE1:
                 if(!follower.isBusy()) {
                     shootMotor.setPower(0);
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
                 }
@@ -202,6 +201,7 @@ public class RedFar9LoadingX2 extends OpMode {
 
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
+                    intakeMotor.setPower(0);
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos2, 0.95,true);
                     setPathState(PathState.SHOOT2);
@@ -266,7 +266,6 @@ public class RedFar9LoadingX2 extends OpMode {
             case STOPINTAKE2:
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
                     shootMotor.setPower(0);
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE3);
                 }
@@ -274,6 +273,7 @@ public class RedFar9LoadingX2 extends OpMode {
 
             case DRIVE_INTAKE2POSE_SHOOTPOSE3:
                 if(!follower.isBusy()){
+                    intakeMotor.setPower(0);
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake2PosShootPos3, 0.95,true);
                     setPathState(PathState.SHOOT3);
