@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
-@Disabled
+@Autonomous
 public class BlueClose9 extends OpMode {
 
     private Follower follower;
