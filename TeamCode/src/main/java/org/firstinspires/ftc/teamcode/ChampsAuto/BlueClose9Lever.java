@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
-@Disabled
+@Autonomous
 public class BlueClose9Lever extends OpMode {
 
     private Follower follower;
@@ -60,13 +60,13 @@ public class BlueClose9Lever extends OpMode {
 
     //all points
     private final Pose startPose = new Pose(33.4555712270804, 136.1579689703808, Math.toRadians(180-90));
-    private final Pose shootPose = new Pose(55.85680170543313, 92.07533215512152, Math.toRadians(180-45));
-    private final Pose shootPose2 = new Pose(53.856801705433135, 89.34008052590521, Math.toRadians(180-45));
-    private final Pose shootPose3 = new Pose(50.856801705433135, 90.34008052590521, Math.toRadians(180-45));
-    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152+2, Math.toRadians(180-180));
-    private final Pose intake1Pose = new Pose(16.08416494712284-5, 87.07533215512152-1, Math.toRadians(180-180));
-    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 63.524682651622+4, Math.toRadians(180-180));
-    private final Pose intake2Pose = new Pose(10.197060671580733-5, 63.524682651622+4, Math.toRadians(180-180));
+    private final Pose shootPose = new Pose(55.85680170543313, 92.07533215512152+6, Math.toRadians(180-45));
+    private final Pose shootPose2 = new Pose(53.856801705433135, 89.34008052590521+6, Math.toRadians(180-45));
+    private final Pose shootPose3 = new Pose(50.856801705433135, 90.34008052590521+6, Math.toRadians(180-45));
+    private final Pose lineIntake1Pose = new Pose(56.85680170543313, 87.07533215512152, Math.toRadians(180-180));
+    private final Pose intake1Pose = new Pose(16.08416494712284-5, 87.07533215512152-8, Math.toRadians(180-180));
+    private final Pose lineIntake2Pose = new Pose(56.97981157469717, 63.524682651622-4, Math.toRadians(180-180));
+    private final Pose intake2Pose = new Pose(10.197060671580733-5, 63.524682651622-4, Math.toRadians(180-180));
     final Pose leavePose = new Pose(20.919605077574047, 93.42736248236953, Math.toRadians(180-90));
 
 

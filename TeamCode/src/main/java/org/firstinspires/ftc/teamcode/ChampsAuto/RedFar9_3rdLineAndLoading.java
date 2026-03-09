@@ -178,7 +178,6 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos2, 0.95,true);
                     setPathState(PathState.SHOOT2);
@@ -249,7 +248,6 @@ public class RedFar9_3rdLineAndLoading extends OpMode {
 
             case DRIVE_INTAKE2POSE_SHOOTPOSE3:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Leave the zone");
                     follower.followPath(driveIntake2PosShootPos3, true);
                     setPathState(PathState.SHOOT3);

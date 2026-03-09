@@ -85,7 +85,7 @@ public class Standard_Drive extends LinearOpMode {
     private Servo door = null;
 
 
-    static final double target_RPM_close = 680;
+    static final double target_RPM_close = 700;
     static final double target_RPM_far = 900;
     static final double target_range = 40;
     private double TARGET_FLYWHEEL_RPM;

@@ -64,8 +64,8 @@ public class BlueClose12Lever extends OpMode {
     private final Pose lineIntake1Pose = new Pose(46.85680170543313, 66.524682651622-5, Math.toRadians(180-180));
     private final Pose intake1Pose = new Pose(12.08416494712284-10, 66.524682651622-7, Math.toRadians(180-180));
     private final Pose controlLever1 = new Pose (35.917366981341605, 68.60157710801516-7, Math.toRadians(180-220));
-    private final Pose leverPose1 = new Pose(-4, 68.60157710801516-3, Math.toRadians(180-220));
-    private final Pose hitLeverPose = new Pose(-4, 60.60157710801516-3, Math.toRadians(180-220));
+    private final Pose leverPose1 = new Pose(5, 68.60157710801516, Math.toRadians(180-220));
+    private final Pose hitLeverPose = new Pose(5, 60.60157710801516, Math.toRadians(180-220));
     private final Pose lineIntake2Pose = new Pose(46.97981157469717, 89.07533215512152-3, Math.toRadians(180-180));
     private final Pose intake2Pose = new Pose(21.197060671580733-10, 89.07533215512152-3, Math.toRadians(180-180));
 

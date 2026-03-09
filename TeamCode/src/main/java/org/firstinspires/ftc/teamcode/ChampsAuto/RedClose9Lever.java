@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.mechanisms.FlywheelLogic;
 import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 
 
-@Disabled
+@Autonomous
 public class RedClose9Lever extends OpMode {
 
     private Follower follower;
@@ -64,7 +64,7 @@ public class RedClose9Lever extends OpMode {
     private final Pose shootPose2 = new Pose(145-53.856801705433135, 89.34008052590521, Math.toRadians(45));
     private final Pose shootPose3 = new Pose(145-50.856801705433135, 90.34008052590521, Math.toRadians(45));
     private final Pose lineIntake1Pose = new Pose(145-56.85680170543313, 87.07533215512152+2, Math.toRadians(180));
-    private final Pose intake1Pose = new Pose(145-16.08416494712284+5, 87.07533215512152-1, Math.toRadians(180));
+    private final Pose intake1Pose = new Pose(145-16.08416494712284+5, 87.07533215512152-3, Math.toRadians(180));
     private final Pose lineIntake2Pose = new Pose(145-56.97981157469717, 63.524682651622+4, Math.toRadians(180));
     private final Pose intake2Pose = new Pose(145-10.197060671580733+5, 63.524682651622+4, Math.toRadians(180));
     final Pose leavePose = new Pose(145-20.919605077574047, 93.42736248236953, Math.toRadians(90));

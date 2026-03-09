@@ -46,7 +46,7 @@ public class FlywheelLogic {
 
     private int shotsRemaining = 0;
     private double flywheelVelocity = 0;
-    public double CLOSE_FLYWHEEL_RPM = 680;
+    public double CLOSE_FLYWHEEL_RPM = 720;
     public double FAR_FLYWHEEL_RPM = 950;
     private double target_range = 40;
     public double TARGET_FLYWHEEL_RPM = CLOSE_FLYWHEEL_RPM;
@@ -92,7 +92,7 @@ public class FlywheelLogic {
                         shootMotor.setPower(-0.95);
                         intakeMotor.setPower(-0.95);
                     }*/
-                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM+80);
+                    outtakeLeft.setVelocity(TARGET_FLYWHEEL_RPM);
                     outtakeRight.setVelocity(TARGET_FLYWHEEL_RPM);
 
                     stateTimer.reset();

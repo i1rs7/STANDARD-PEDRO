@@ -71,10 +71,10 @@ public class BlueFar9LoadingX2 extends OpMode {
     private final Pose shootPose1 = new Pose(56, 12, Math.toRadians(180-67));
     private final Pose shootPose2 = new Pose(56, 12, Math.toRadians(180-67));
     private final Pose shootPose3 = new Pose(56, 12, Math.toRadians(180-67));
-    private final Pose lineIntake1Pose = new Pose(13.448183041722736-4, 22.77523553162853, Math.toRadians(180-120));
-    private final Pose intake1Pose = new Pose(12, 15.77523553162853-4, Math.toRadians(180-180));;
-    private final Pose lineIntake2Pose = new Pose(13.448183041722736-4, 22.77523553162853, Math.toRadians(180-120));
-    private final Pose intake2Pose = new Pose(12, 15.77523553162853-4, Math.toRadians(180-180));;
+    private final Pose lineIntake1Pose = new Pose(12.448183041722736-4, 18.77523553162853, Math.toRadians(180-120));
+    private final Pose intake1Pose = new Pose(8, 15.77523553162853-4, Math.toRadians(180-180));;
+    private final Pose lineIntake2Pose = new Pose(8.448183041722736-4, 18.77523553162853, Math.toRadians(180-120));
+    private final Pose intake2Pose = new Pose(8, 15.77523553162853-4, Math.toRadians(180-180));;
     final Pose leavePose = new Pose(38, 15, Math.toRadians(180));
 
 
@@ -207,7 +207,6 @@ public class BlueFar9LoadingX2 extends OpMode {
             case STOPINTAKE1:
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
                     shootMotor.setPower(0);
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE1POSE_SHOOTPOSE2);
                 }
@@ -294,7 +293,6 @@ public class BlueFar9LoadingX2 extends OpMode {
             case STOPINTAKE2:
                 if(!follower.isBusy() && pathTimer.getElapsedTimeSeconds() > 2) {
                     shootMotor.setPower(0);
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked first 3");
                     setPathState(PathState.DRIVE_INTAKE2POSE_SHOOTPOSE3);
                 }

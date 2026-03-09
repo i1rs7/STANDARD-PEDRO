@@ -66,8 +66,8 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
     private final Pose lineIntake1Pose = new Pose(50, 38, Math.toRadians(180-180));
     private final Pose intake1Pose = new Pose(10.08416494712284, 38-4, Math.toRadians(180-180));
 
-    private final Pose lineIntake2Pose = new Pose(13.448183041722736, 22.77523553162853-4, Math.toRadians(180-120));
-    private final Pose intake2Pose = new Pose(12, 15.77523553162853-4, Math.toRadians(180-180));
+    private final Pose lineIntake2Pose = new Pose(8.448183041722736, 22.77523553162853-4, Math.toRadians(180-120));
+    private final Pose intake2Pose = new Pose(8, 15.77523553162853-4, Math.toRadians(180-180));
     final Pose leavePose = new Pose(38, 15-4, Math.toRadians(180-0));
 
 
@@ -178,7 +178,7 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
 
             case DRIVE_INTAKE1POSE_SHOOTPOSE2:
                 if(!follower.isBusy()){
-                    intakeMotor.setPower(0);
+
                     telemetry.addLine("Moved to shooting position and shot next 3 balls");
                     follower.followPath(driveIntake1PosShootPos2, 0.95,true);
                     setPathState(RedFar9_3rdLineAndLoading.PathState.SHOOT2);
@@ -187,7 +187,6 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
 
             case SHOOT2:
                 if(!follower.isBusy()&& pathTimer.getElapsedTimeSeconds() > 1){
-
                     door.setPosition(GATE_DOWN_ANGLE);
                     if (!shotsTriggered){
                         shooter.fireShots(1);
@@ -242,7 +241,6 @@ public class BlueFar9_3rdLineAndLoading extends OpMode {
             case STOPINTAKE2:
                 if(!follower.isBusy()) {
                     shootMotor.setPower(0);
-                    intakeMotor.setPower(0);
                     telemetry.addLine("Stopped intake after intaked second 3");
                     setPathState(RedFar9_3rdLineAndLoading.PathState.DRIVE_INTAKE2POSE_SHOOTPOSE3);
                 }
